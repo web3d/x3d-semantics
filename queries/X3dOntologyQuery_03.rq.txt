@@ -1,0 +1,66 @@
+Perform X3D Ontology metaquery X3dOntologyQuery_03.rq to produce output file X3dOntologyQuery_03.rq.txt:
+
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dOntologyQuery_03.rq	Metaquery to list all geometry nodes in X3D Ontology.
+
+# SPARQL 1.1 has arbitrary depth traversal
+# https://stackoverflow.com/questions/1458674/retrieving-all-the-ancestors-of-a-rdfclass
+
+# TODO index each row in the output table, showing total count
+
+###############################################
+
+SELECT distinct ?geometryNodes (str(?label) AS ?description)
+WHERE {
+    ?geometryNodes
+        rdf:type         owl:Class ;
+        rdfs:subClassOf+ x3do:X3DGeometryNode ;
+        rdfs:label       ?label .
+    FILTER ( !CONTAINS(str(?geometryNodes),"X3D") || STRENDS(str(?geometryNodes),"X3D") ) # no X3D node types
+}
+ORDER BY ASC(?geometryNodes) # alphabetize
+
+###############################################
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| geometryNodes                | description                                                                                                                                                                                                                                |
+=============================================================================================================================================================================================================================================================================
+| x3do:Arc2D                   | "Arc2D is a line-based geometry node that defines a linear circular arc with center (0,0) in X-Y plane, with angles measured starting at positive x-axis and sweeping towards positive y-axis."                                            |
+| x3do:ArcClose2D              | "ArcClose2D is a polygonal geometry node that defines a linear circular arc, closed by PIE or CHORD line segments, with center (0,0) in X-Y plane, with angles measured starting at positive x-axis and sweeping towards positive y-axis." |
+| x3do:Box                     | "Box is a geometry node specifying a rectangular cuboid."                                                                                                                                                                                  |
+| x3do:Circle2D                | "Circle2D is a geometry node that defines a linear X-Y circle with center (0,0) in X-Y plane."                                                                                                                                             |
+| x3do:Cone                    | "Cone is a geometry node."                                                                                                                                                                                                                 |
+| x3do:Cylinder                | "Cylinder is a geometry node."                                                                                                                                                                                                             |
+| x3do:Disk2D                  | "Disk2D is a geometry node that defines a filled (or partially filled) planar circle with center (0,0)."                                                                                                                                   |
+| x3do:ElevationGrid           | "ElevationGrid is a geometry node defining a rectangular height field, with default values for a 1m by 1m square at height 0."                                                                                                             |
+| x3do:Extrusion               | "Extrusion is a geometry node that sequentially stretches a 2D cross section along a 3D-spine path in the local coordinate system, creating an outer hull."                                                                                |
+| x3do:GeoElevationGrid        | "GeoElevationGrid is a geometry node defining a rectangular height field, with default values for a 1m by 1m square at height 0."                                                                                                          |
+| x3do:IndexedFaceSet          | "IndexedFaceSet defines polygons using index lists corresponding to vertex coordinates."                                                                                                                                                   |
+| x3do:IndexedLineSet          | "IndexedLineSet defines polyline segments using index lists corresponding to vertex coordinates."                                                                                                                                          |
+| x3do:IndexedQuadSet          | "IndexedQuadSet is a geometry node that defines quadrilaterals."                                                                                                                                                                           |
+| x3do:IndexedTriangleFanSet   | "IndexedTriangleFanSet is a geometry node containing a Coordinate|CoordinateDouble node, and can also contain Color|ColorRGBA, Normal and TextureCoordinate nodes."                                                                        |
+| x3do:IndexedTriangleSet      | "IndexedTriangleSet is a geometry node containing a Coordinate|CoordinateDouble node, and can also contain Color|ColorRGBA, Normal and TextureCoordinate nodes."                                                                           |
+| x3do:IndexedTriangleStripSet | "IndexedTriangleStripSet is a geometry node containing a Coordinate|CoordinateDouble node, and can also contain Color|ColorRGBA, Normal and TextureCoordinate nodes."                                                                      |
+| x3do:LineSet                 | "LineSet is a geometry node that can contain a Coordinate|CoordinateDouble node and optionally a Color|ColorRGBA node."                                                                                                                    |
+| x3do:NurbsCurve              | "NurbsCurve is a 3D curve analogous to NurbsPatchSurface."                                                                                                                                                                                 |
+| x3do:NurbsPatchSurface       | "NurbsPatchSurface defines a contiguous 3D Non-Uniform Rational B-Spline (NURBS) surface."                                                                                                                                                 |
+| x3do:NurbsSweptSurface       | "NurbsSweptSurface uses a trajectoryCurve path to describe a generalized surface that is swept by a crossSectionCurve."                                                                                                                    |
+| x3do:NurbsSwungSurface       | "NurbsSwungSurface contains a profileCurve and a trajectoryCurve [X3DNurbsControlCurveNode]."                                                                                                                                              |
+| x3do:NurbsTrimmedSurface     | "NurbsTrimmedSurface generates texture coordinates from a Non-Uniform Rational B-Spline (NURBS) surface."                                                                                                                                  |
+| x3do:PointSet                | "PointSet is a node that contains a set of colored 3D points, represented by contained Color|ColorRGBA and Coordinate|CoordinateDouble nodes."                                                                                             |
+| x3do:Polyline2D              | "Polyline2D is a geometry node that defines a connected set of vertices in a contiguous set of line segments in X-Y plane."                                                                                                                |
+| x3do:Polypoint2D             | "Polypoint2D is a geometry node that defines a set of 2D points in X-Y plane."                                                                                                                                                             |
+| x3do:QuadSet                 | "QuadSet is a geometry node that defines quadrilaterals."                                                                                                                                                                                  |
+| x3do:Rectangle2D             | "Rectangle2D is a geometry node that defines a 2D rectangle in X-Y plane."                                                                                                                                                                 |
+| x3do:Sphere                  | "Sphere is a geometry node, representing a perfectly round geometrical object that is the surface of a completely round ball."                                                                                                             |
+| x3do:Text                    | "Text is a 2D (flat) geometry node that can contain multiple lines of string values."                                                                                                                                                      |
+| x3do:TriangleFanSet          | "TriangleFanSet is a geometry node containing a Coordinate|CoordinateDouble node, and can also contain Color|ColorRGBA, Normal and TextureCoordinate nodes."                                                                               |
+| x3do:TriangleSet             | "TriangleSet is a geometry node containing a Coordinate|CoordinateDouble node, and can also contain Color|ColorRGBA, Normal and TextureCoordinate nodes."                                                                                  |
+| x3do:TriangleSet2D           | "TriangleSet2D is a geometry node that defines a set of filled 2D triangles in X-Y plane."                                                                                                                                                 |
+| x3do:TriangleStripSet        | "TriangleStripSet is a geometry node containing a Coordinate|CoordinateDouble node, and can also contain Color|ColorRGBA, Normal and TextureCoordinate nodes."                                                                             |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

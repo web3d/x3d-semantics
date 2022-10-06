@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright (c) 1995-2022 held by the author(s).  All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer
+      in the documentation and/or other materials provided with the
+      distribution.
+    * Neither the name of the Web3D Consortium (https://www.web3D.org)
+      nor the names of its contributors may be used to endorse or
+      promote products derived from this software without specific
+      prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<!--
+    Document   : build.xml
+    Created on : 13 June 2019
+    Author     : Don Brutzman and Jakub Flotynski
+    Description: Ant build.xml file for X3D Semantic Web Working Group
+-->
+<project name="X3D Semantic Web" default="" basedir=".">
+    <description>Repository for X3D Semantic Web Working Group</description>
+    
+    <property environment="env"/>
+
+    <!-- ANT Contrib archive at http://sourceforge.net/projects/ant-contrib/files    (v1.0b3) -->
+    <!-- must have ant-contrib-1.0b3.jar in ANT_HOME/lib (or else specify path)               -->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    
+    <property name="arq" location="${env.JENA_HOME}/bat/arq.bat" description="executable invocation, bat/arq.bat or bin/arq"/>
+    <property name="examples.dir"    location="../x3d/content/examples"/>
+    <property name="stylesheets.dir" location="../x3d/stylesheets"/>
+    <property name="ontologies.dir"     value="ontologies"/>
+    <property name="queries.dir"        value="queries"/>
+    <property name="X3dOntology"        value="X3dOntology4.0.ttl"/>
+    
+    <!-- https://stackoverflow.com/questions/919692/how-to-execute-xslt-2-0-with-ant -->
+    <!-- https://sourceforge.net/projects/saxon/files/Saxon-HE jar download handled in X3DJSAIL build -->
+    <!-- https://sourceforge.net/projects/saxon/files/Saxon-HE/11/Java/ -->
+    <!-- https://www.saxonica.com/documentation10/#!about/gettingstarted/gettingstartedjava -->
+    <!-- SaxonHE 11 (java.lang.NoClassDefFoundError: org/xmlresolver/Resolver) https://saxonica.plan.io/boards/3/topics/8478?r=8480 -->
+    <property name="saxon.dir"        location="lib" description="relative path from stylesheets directory"/>
+    <property name="saxon.jar"           value="saxon-he-11.3.jar"/><!-- previously saxon-he-11.2.jar saxon-he-10.6.jar saxon9he.jar -->
+    <property name="xmlresolver.jar"     value="xmlresolver-4.2.0.jar"/><!-- required with saxon-he-11+.jar -->
+    
+    <property name=   "node.exe" value="node.exe"/>    
+    <property name="javac.verbose"               value="false"/>
+    <property name="X3DJSAIL.relative.dir"       value="../x3d/stylesheets/java"/>
+    <property name="X3DJSAIL.classes.dir"     location="${X3DJSAIL.relative.dir}/classes"/>
+    <property name="X3DJSAIL.examples.dir"    location="${X3DJSAIL.relative.dir}/examples"/>
+    <property name="X3DJSAIL.jars.dir"        location="${X3DJSAIL.relative.dir}/jars"/>
+    <property name="X3DJSAIL.lib.dir"         location="${X3DJSAIL.relative.dir}/lib"/>
+    <property name="X3DJSAIL.src.dir"         location="${X3DJSAIL.relative.dir}/src"/>
+    
+    <property name="jsai.classes.archive.jar.name" value="X3DJSAIL.4.0.classes.jar"/>
+    <property name="jsail.full.archive.jar.name"   value="X3DJSAIL.4.0.full.jar"/>
+	
+    <!-- ensure backwards compatibility to specified version of Java -->
+    <property name="java.source"                 value="1.8"/>
+    <property name="java.target"                 value="1.8"/>
+    
+    <!-- https://robot.obolibrary.org and https://github.com/ontodev/robot-tutorial -->
+    <!-- US2TS session: https://us2ts.org/program-tool-ecosystem#session-program    -->
+    <property name="robot.jar"           value="robot.jar"    description="ROBOT is an ontology tool."/>
+    <property name="robot" location="lib/robot.bat" description="executable invocation, lib/robot.bat"/>
+    
+    <macrodef name="runQueryArq" description="Invoke arq sparql engine on passed sparql query, report results">
+        <attribute name="ontology"  default="${X3dOntology}" description="X3D Ontology of interest"/>
+        <attribute name="query"     default="" description="SPARQL query file to apply"/>
+        <attribute name="query.ext" default="rq" description="SPARQL query file extension, default .rq"/>
+        <attribute name="graph"     default="" description="X3D scene triples to query"/>
+        <attribute name="graph.ext" default="ttl" description="RDF/OWL graph model extension, default .ttl"/>
+        
+        <sequential>
+            <if>
+                <not>
+                    <equals arg1="@{graph}" arg2="" trim="true"/>
+                </not>
+                <then>
+                    <!-- graph file included -->
+                    <echo message="==========================="/>
+                    <echo message="Perform X3D Ontology query @{query}.@{query.ext} using @{graph}.@{graph.ext} to produce output file @{query}.@{query.ext}.txt:"/>
+                    <echo message="==========================="/>
+                    <concat destfile="${queries.dir}/@{query}.@{query.ext}.txt" append="false"
+                                  >Perform X3D Ontology query @{query}.@{query.ext} using @{graph}.@{graph.ext} to produce output file @{query}.@{query.ext}.txt:
+===========================
+</concat>
+                    <loadfile property=  "@{query}.result.txt" srcFile="${queries.dir}/@{query}.@{query.ext}"/>
+                    <echo      message="${@{query}.result.txt}"/><!-- contents of file, note stored as unique property -->
+                    <concat destfile="${queries.dir}/@{query}.@{query.ext}.txt" append="true">${@{query}.result.txt}</concat>
+
+                    <echo message="Query results:"/>
+                    <echo message="arq --data=${ontologies.dir}/@{ontology} --query=${queries.dir}/@{query}.@{query.ext} --graph=@{graph}.@{graph.ext}"/>
+                    <exec executable="${arq}"  dir="." vmlauncher="false">
+                        <!-- https://jena.apache.org/documentation/query/cmds.html -->
+                        <arg value="--data"/>
+                        <arg value="${ontologies.dir}/@{ontology}"/>
+                        <arg value="--query"/>
+                        <arg value="${queries.dir}/@{query}.@{query.ext}"/>
+                        <arg value="--graph"/>
+                        <arg value="@{graph}.@{graph.ext}"/>
+                        <redirector output="${queries.dir}/@{query}.@{query.ext}.txt" alwayslog="true" append="true"/>
+                    </exec>
+                    <!-- Note that constructs like graph="HelloWorld.x3d" do not work, since ARQ (and indeed SPARQL) does not accept arbitrary XML such as .x3d -->
+                </then>
+                <else>
+                    <!-- graph file not included -->
+                    <echo message="==========================="/>
+                    <echo message="Perform X3D Ontology metaquery @{query}.@{query.ext} to produce output file @{query}.@{query.ext}.txt:"/>
+                    <concat destfile="${queries.dir}/@{query}.@{query.ext}.txt" append="false"
+                                  >Perform X3D Ontology metaquery @{query}.@{query.ext} to produce output file @{query}.@{query.ext}.txt:
+
+</concat>
+                    <echo message="==========================="/>
+                    <loadfile property=  "@{query}.result.txt" srcFile="${queries.dir}/@{query}.@{query.ext}"/>
+                    <echo      message="${@{query}.result.txt}"/><!-- contents of file, note stored as unique property -->
+                    <concat destfile="${queries.dir}/@{query}.@{query.ext}.txt" append="true">${@{query}.result.txt}</concat>
+
+                    <echo message="Metaquery results:"/>
+                    <echo message="arq --data=${ontologies.dir}/@{ontology} --query=${queries.dir}/@{query}.@{query.ext}"/>
+                    <exec executable="${arq}"  dir="." vmlauncher="false">
+                        <!-- https://jena.apache.org/documentation/query/cmds.html -->
+                        <arg value="--data"/>
+                        <arg value="${ontologies.dir}/@{ontology}"/>
+                        <arg value="--query"/>
+                        <arg value="${queries.dir}/@{query}.@{query.ext}"/>
+                        <!-- no graph -->
+                        <redirector output="${queries.dir}/@{query}.@{query.ext}.txt" alwayslog="true" append="true"/>
+                    </exec>
+                </else>
+            </if>
+        </sequential>
+    </macrodef>
+    
+    <macrodef name="convertX3dToTurtle" description="convert X3D file to Turtle">
+        <attribute name="exampleFileName"  default="X3dFileMissing" description="X3D model of interest, omit file extension"/>
+        <sequential>
+            <echo message="exampleFileName=@{exampleFileName}"/>
+            <echo message="==========================================="/>
+            <delete verbose="true" failonerror="false">
+                <fileset file="examples/@{exampleFileName}.ttl"/>
+            </delete>
+            <echo message="==========================================="/>
+            <!-- TODO Saxon XML Catalogs https://www.saxonica.com/html/documentation/sourcedocs/xml-catalogs.html 
+                 XML Entity and URI Resolvers http://xerces.apache.org/xml-commons/components/resolver/resolver-article.html
+                <xmlcatalog refid="X3dCatalog"/> -->
+
+            <java classname="net.sf.saxon.Transform" classpath="${saxon.dir}/${saxon.jar};${saxon.dir}/${xmlresolver.jar};." fork="${fork}">
+                <!-- <arg value="-t" description="timing information"/> -->
+                <arg value="-warnings:recover" description="recover after writing a warning message"/>
+                <arg value="-expand:on" description="force insertion of default attribute values found in DTD"/>
+                <arg value="-s:examples/@{exampleFileName}.x3d" description="source-doc"/>
+                <arg value="-o:examples/@{exampleFileName}.ttl" description="output-doc"/>
+                <arg value="-xsl:${stylesheets.dir}/X3dToTurtle.xslt" description="style-doc"/>
+                <arg value="insertPackagePrefix=false"/> <!-- parameter -->
+                <!-- <arg value="-catalog:needFileName" description="style-doc"/> -->
+                <!-- <arg value="className=CameraExamples"/> parameter -->
+            </java>
+            <echo message="convertX3dToTurtle macro conversion of @{exampleFileName}.x3d to @{exampleFileName}.ttl complete."/>
+            <echo />
+            <loadfile property="turtleFileContents@{exampleFileName}" srcFile="examples/@{exampleFileName}.ttl" />
+            <echo message="${turtleFileContents@{exampleFileName}}" /><!-- nested parameter OK, unique property name necessary -->
+            <echo message="==========================================="/>
+        </sequential>
+    </macrodef>
+
+    <!-- TODO copy indexSemantics.redirect.html to index.html when deploying -->
+
+    <target name="summary" description="simple summary for build log">
+        <echo message="X3D Ontology for Semantic Web provides terms of reference for semantic query of X3D models."/>
+    </target>
+
+    <target name="all" depends="summary,versions,clean,BuildX3dOntologyFromX3duom.saxon,build,SPARQL.runQuery.tests,zip">
+        <echo message="build all complete. can save output as build.all.log.txt, then ready to run upload.web3d"/>
+        <echo message="distribution available at X3D Ontology for Semantic Web,"/>
+        <echo message="https://www.web3d.org/x3d/content/semantics"/>
+    </target>
+    
+    <target name="build" depends="BuildX3dOntologyFromX3duom.saxon,build.SanCarlosCathedralAltar,build.HelloX3dAuthorsAnimationChain,build.MaterialModulator,build.MetadataNodeExamplesX3D4,build.HelloWorld"/>
+    
+    <target name="build.HelloWorld" depends="">
+        <echo message="Convert examples/HelloWorld.x3d to HelloWorld.html using X3dToXhtml.xslt stylesheet"/>
+        <!-- https://www.saxonica.com/documentation/#!using-xsl/commandline                           -->
+        <!-- java net.sf.saxon.Transform -s:source -o:output  -xsl:stylesheet -->
+        <!-- $(SAXON) -t -s:HelloWorld.x3d -o:HelloWorld.html -xsl:../X3dToXhtml.xslt -->
+        <!-- note reordering of parameters for source, output contrary to Saxon documentation! -->
+        <java classname="net.sf.saxon.Transform" classpath="${saxon.dir}/${saxon.jar};${saxon.dir}/${xmlresolver.jar};." fork="${fork}">
+            <arg value="-warnings:recover"/> <!-- recover after writing a warning message -->
+            <arg value="-t"/> <!-- saxon version and timing information -->
+            <arg value="-s:examples/HelloWorld.x3d"/>
+            <arg value="-o:examples/HelloWorld.html"/>
+            <arg value="-xsl:${stylesheets.dir}/X3dToXhtml.xslt"/>
+        </java>
+        <convertX3dToTurtle exampleFileName="HelloWorld"/> <!-- model in examples directory, no file extension, local macro -->
+        <!--
+        <echo   message="test converted result:"/>
+        <echo      message="X3dHelloWorldQuery_03.rq"/>
+        <runQueryArq query="X3dHelloWorldQuery_03" graph="examples/HelloWorld"/>
+        -->
+    </target>
+    
+    <target name="build.SanCarlosCathedralAltar" depends="">
+        <echo message="Convert examples/Altar.x3d to Altar.html using X3dToXhtml.xslt stylesheet"/>
+        <copy file="${examples.dir}/X3dForAdvancedModeling/SanCarlosCathedral/Altar.x3d" todir="examples"/>
+        <!-- https://www.saxonica.com/documentation/#!using-xsl/commandline                           -->
+        <!-- java net.sf.saxon.Transform -s:source -o:output  -xsl:stylesheet -->
+        <!-- $(SAXON) -t -s:Altar.x3d -o:Altar.html -xsl:../X3dToXhtml.xslt -->
+        <!-- note reordering of parameters for source, output contrary to Saxon documentation! -->
+        <java classname="net.sf.saxon.Transform" classpath="${saxon.dir}/${saxon.jar};${saxon.dir}/${xmlresolver.jar};." fork="${fork}">
+            <arg value="-warnings:recover"/> <!-- recover after writing a warning message -->
+            <arg value="-t"/> <!-- saxon version and timing information -->
+            <arg value="-s:examples/Altar.x3d"/>
+            <arg value="-o:examples/Altar.html"/>
+            <arg value="-xsl:${stylesheets.dir}/X3dToXhtml.xslt"/>
+        </java>
+        <convertX3dToTurtle exampleFileName="Altar"/> <!-- model in examples directory, no file extension, local macro -->
+        <!--
+        <echo   message="test converted result:"/>
+        <echo      message="X3dSanCarlosCathedralAltarQuery_01.rq"/>
+        <runQueryArq query="X3dSanCarlosCathedralAltarQuery_01" graph="examples/Altar"/>
+        <echo      message="X3dSanCarlosCathedralAltarQuery_02.rq"/>
+        <runQueryArq query="X3dSanCarlosCathedralAltarQuery_02" graph="examples/Altar"/>
+        -->
+        <echo      message="X3dSanCarlosCathedralAltarQuery_03.rq"/>
+        <runQueryArq query="X3dSanCarlosCathedralAltarQuery_03" graph="examples/Altar"/>
+    </target>
+    
+    <target name="build.MetadataNodeExamplesX3D4" depends="">
+        <echo message="Convert examples/MetadataNodeExamplesX3D4.x3d to MetadataNodeExamplesX3D4.html using X3dToXhtml.xslt stylesheet"/>
+        <copy file="${examples.dir}/X3dForWebAuthors/Chapter15Metadata/MetadataNodeExamplesX3D4.x3d" todir="examples"/>
+        <!-- https://www.saxonica.com/documentation/#!using-xsl/commandline                           -->
+        <!-- java net.sf.saxon.Transform -s:source -o:output  -xsl:stylesheet -->
+        <!-- $(SAXON) -t -s:MetadataNodeExamplesX3D4.x3d -o:MetadataNodeExamplesX3D4.html -xsl:../X3dToXhtml.xslt -->
+        <!-- note reordering of parameters for source, output contrary to Saxon documentation! -->
+        <java classname="net.sf.saxon.Transform" classpath="${saxon.dir}/${saxon.jar};${saxon.dir}/${xmlresolver.jar};." fork="${fork}">
+            <arg value="-warnings:recover"/> <!-- recover after writing a warning message -->
+            <arg value="-t"/> <!-- saxon version and timing information -->
+            <arg value="-s:examples/MetadataNodeExamplesX3D4.x3d"/>
+            <arg value="-o:examples/MetadataNodeExamplesX3D4.html"/>
+            <arg value="-xsl:${stylesheets.dir}/X3dToXhtml.xslt"/>
+        </java>
+        <convertX3dToTurtle exampleFileName="MetadataNodeExamplesX3D4"/> <!-- model in examples directory, no file extension, local macro -->
+        <!-- TODO independent validation of ttl? -->
+        <echo      message="MetadataNodeExamplesX3D4 "/>
+        <runQueryArq query="DocumentMetadataValues" graph="examples/MetadataNodeExamplesX3D4"/>
+    </target>
+    
+    <target name="build.MaterialModulator" depends="">
+        <echo message="Convert examples/MaterialModulator.x3d to MaterialModulator.html using X3dToXhtml.xslt stylesheet"/>
+        <copy file="${examples.dir}/X3dForWebAuthors/Chapter14Prototypes/MaterialModulator.x3d" todir="examples"/>
+        <!-- https://www.saxonica.com/documentation/#!using-xsl/commandline                           -->
+        <!-- java net.sf.saxon.Transform -s:source -o:output  -xsl:stylesheet -->
+        <!-- $(SAXON) -t -s:MaterialModulator.x3d -o:MaterialModulator.html -xsl:../X3dToXhtml.xslt -->
+        <!-- note reordering of parameters for source, output contrary to Saxon documentation! -->
+        <java classname="net.sf.saxon.Transform" classpath="${saxon.dir}/${saxon.jar};${saxon.dir}/${xmlresolver.jar};." fork="${fork}">
+            <arg value="-warnings:recover"/> <!-- recover after writing a warning message -->
+            <arg value="-t"/> <!-- saxon version and timing information -->
+            <arg value="-s:examples/MaterialModulator.x3d"/>
+            <arg value="-o:examples/MaterialModulator.html"/>
+            <arg value="-xsl:${stylesheets.dir}/X3dToXhtml.xslt"/>
+        </java>
+        <convertX3dToTurtle exampleFileName="MaterialModulator"/> <!-- model in examples directory, no file extension, local macro -->
+        <!-- TODO independent validation of ttl? -->
+        <echo      message="MaterialModulator "/>
+        <runQueryArq query="X3dMaterialModulatorQuery_03" graph="examples/MaterialModulator"/>
+        <runQueryArq query="X3dMaterialModulatorQuery_01" graph="examples/MaterialModulator"/>
+    </target>
+    
+    <target name="build.HelloX3dAuthorsAnimationChain" depends="">
+        <echo message="Convert examples/HelloX3dAuthorsAnimationChain.x3d to HelloX3dAuthorsAnimationChain.html using X3dToXhtml.xslt stylesheet"/>
+        <copy file="${examples.dir}/X3dForWebAuthors/Chapter07EventAnimationInterpolation/HelloX3dAuthorsAnimationChain.x3d" todir="examples"/>
+        <!-- https://www.saxonica.com/documentation/#!using-xsl/commandline                           -->
+        <!-- java net.sf.saxon.Transform -s:source -o:output  -xsl:stylesheet -->
+        <!-- $(SAXON) -t -s:HelloX3dAuthorsAnimationChain.x3d -o:HelloX3dAuthorsAnimationChain.html -xsl:../X3dToXhtml.xslt -->
+        <!-- note reordering of parameters for source, output contrary to Saxon documentation! -->
+        <java classname="net.sf.saxon.Transform" classpath="${saxon.dir}/${saxon.jar};${saxon.dir}/${xmlresolver.jar};." fork="${fork}">
+            <arg value="-warnings:recover"/> <!-- recover after writing a warning message -->
+            <arg value="-t"/> <!-- saxon version and timing information -->
+            <arg value="-s:examples/HelloX3dAuthorsAnimationChain.x3d"/>
+            <arg value="-o:examples/HelloX3dAuthorsAnimationChain.html"/>
+            <arg value="-xsl:${stylesheets.dir}/X3dToXhtml.xslt"/>
+        </java>
+        <convertX3dToTurtle exampleFileName="HelloX3dAuthorsAnimationChain"/> <!-- model in examples directory, no file extension, local macro -->
+        <echo      message="HelloX3dAuthorsAnimationChainQuery_01.rq"/>
+        <runQueryArq query="HelloX3dAuthorsAnimationChainQuery_01" graph="examples/HelloX3dAuthorsAnimationChain"/>
+    </target>
+
+    <target name="BuildX3dOntologyFromX3duom.saxon" depends="" description="Build X3D Ontology from X3D Unified Object Model (X3DUOM)">
+        <ant dir="${stylesheets.dir}" antfile="build.xml" target="BuildX3dOntologyFromX3duom.saxon" inheritAll="false"/>
+        <echo/>
+    </target>
+
+    <target name="SPARQL.runQuery.test.single" depends="" description="Test X3D Ontology using Apache Jena arq">
+        <!-- under development -->
+        <echo      message="DocumentMetadataValues for MetadataNodeExamplesX3D4.ttl"/>
+        <runQueryArq query="DocumentMetadataValues" graph="examples/MetadataNodeExamplesX3D4"/>
+        <!--
+        <echo      message="DocumentMetaTriples for HelloX3dAuthorsAnimationChain"/>
+        <runQueryArq query="DocumentMetaTriples" graph="examples/HelloX3dAuthorsAnimationChain"/>
+        <echo      message="X3dOntologyQuery_04.rq"/>
+        <runQueryArq query="X3dOntologyQuery_04"/>
+        <echo      message="rdfs labels X3dOntologyQuery_05.rq"/>
+        <runQueryArq query="X3dOntologyQuery_05"/>
+        <echo      message="X3dHelloWorldQuery_01.rq"/>
+        <runQueryArq query="X3dHelloWorldQuery_01" graph="examples/HelloWorld"/>
+        <echo      message="X3dHelloWorldQuery_02.rq"/>
+        <runQueryArq query="X3dHelloWorldQuery_02" graph="examples/HelloWorld"/>
+        <echo      message="X3dHelloWorldQuery_03.rq"/>
+        <runQueryArq query="X3dHelloWorldQuery_03" graph="examples/HelloWorld"/>
+        <echo      message="X3dHelloWorldQuery_04.rq"/>
+        <runQueryArq query="X3dHelloWorldQuery_04" graph="examples/HelloWorld"/>
+        <echo      message="X3dHelloWorldQuery_05.rq"/>
+        <runQueryArq query="X3dHelloWorldQuery_05" graph="examples/HelloWorld"/>
+        <echo      message="HelloX3dAuthorsAnimationChainQuery_01"/>
+        <runQueryArq query="HelloX3dAuthorsAnimationChainQuery_01" graph="examples/HelloX3dAuthorsAnimationChain"/>
+        <echo      message="AllDocumentMetaInformation"/>
+        <runQueryArq query="AllDocumentMetaInformation" graph="examples/HelloX3dAuthorsAnimationChain"/>
+        <echo      message="DocumentMetaProperties for HelloX3dAuthorsAnimationChain"/>
+        <runQueryArq query="DocumentMetaProperties" graph="examples/HelloX3dAuthorsAnimationChain"/>
+        <echo      message="additional properties available:"/>
+        <echo      message="?hasTitle ?hasCreator ?hasCreated ?hasModified ?license ?description ?identifier ?reference"/>
+        -->
+    </target>
+
+    <target name="tests" depends="SPARQL.runQuery.tests" description="Test X3D Ontology using Apache Jena arq"/>
+
+    <target name="SPARQL.runQuery.tests" depends="" description="Test X3D Ontology using Apache Jena arq">
+        <echo   message="==========================="/>
+        <echo   message="arq --version"/>
+        <echo />
+        <exec executable="${arq}"  dir="." vmlauncher="false">
+            <arg value="--version"/>
+        </exec>
+        <echo />
+        <echo   message="arq --help"/>
+        <echo />
+        <exec executable="${arq}"  dir="." vmlauncher="false">
+            <!-- https://jena.apache.org/documentation/query/cmds.html -->
+            <arg value="--help"/>
+        </exec>
+        <echo   message="==========================="/>
+        <echo   message="Metaqueries against the ontology itself:"/>
+        <echo   message="==========================="/>
+        <echo      message="X3dOntologyQuery_01.rq"/>
+        <runQueryArq query="X3dOntologyQuery_01"/><!-- default extension .rq -->
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="X3dOntologyQuery_02.rq"/>
+        <runQueryArq query="X3dOntologyQuery_02"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="X3dOntologyQuery_03.rq"/>
+        <runQueryArq query="X3dOntologyQuery_03"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="X3dOntologyQuery_04.rq"/>
+        <runQueryArq query="X3dOntologyQuery_04"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="X3dOntologyQuery_05.rq rdfs:label literals"/>
+        <runQueryArq query="X3dOntologyQuery_05"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo   message="Queries against graph versions of X3D models:"/>
+        <echo   message="==========================="/>
+        <echo      message="X3dHelloWorldQuery_01.rq"/>
+        <runQueryArq query="X3dHelloWorldQuery_01" graph="examples/HelloWorld"/><!-- default extensions .rq .ttl -->
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="X3dHelloWorldQuery_02.rq"/>
+        <runQueryArq query="X3dHelloWorldQuery_02" graph="examples/HelloWorld"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="X3dHelloWorldQuery_03.rq"/>
+        <runQueryArq query="X3dHelloWorldQuery_03" graph="examples/HelloWorld"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="X3dHelloWorldQuery_04.rq"/>
+        <runQueryArq query="X3dHelloWorldQuery_04" graph="examples/HelloWorld"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="X3dHelloWorldQuery_05.rq"/>
+        <runQueryArq query="X3dHelloWorldQuery_05" graph="examples/HelloWorld"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="X3dSanCarlosCathedralAltarQuery_01.rq"/>
+        <runQueryArq query="X3dSanCarlosCathedralAltarQuery_01" graph="examples/Altar"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="X3dSanCarlosCathedralAltarQuery_02.rq"/>
+        <runQueryArq query="X3dSanCarlosCathedralAltarQuery_02" graph="examples/Altar"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="X3dSanCarlosCathedralAltarQuery_03.rq"/>
+        <runQueryArq query="X3dSanCarlosCathedralAltarQuery_03" graph="examples/Altar"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="HelloX3dAuthorsAnimationChainQuery_01"/>
+        <runQueryArq query="HelloX3dAuthorsAnimationChainQuery_01" graph="examples/HelloX3dAuthorsAnimationChain"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="AllDocumentMetaInformation"/>
+        <runQueryArq query="AllDocumentMetaInformation" graph="examples/HelloX3dAuthorsAnimationChain"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="DocumentMetaProperties for HelloX3dAuthorsAnimationChain"/>
+        <runQueryArq query="DocumentMetaProperties" graph="examples/HelloX3dAuthorsAnimationChain"/>
+        <echo      message="additional properties available:"/>
+        <echo      message="?hasTitle ?hasCreator ?hasCreated ?hasModified ?license ?description ?identifier ?reference"/>
+        <echo />
+        <echo   message="==========================="/>
+        <echo      message="DocumentMetadataValues for MetadataNodeExamplesX3D4.ttl"/>
+        <runQueryArq query="DocumentMetadataValues" graph="examples/MetadataNodeExamplesX3D4"/>
+    </target>
+
+    <target name="SPARQL.query.arq.examplars" depends="" description="Test X3D Ontology using direct invocation of Apache Jena arq">
+        <echo message="Test X3D Ontology queries using direct invocation of Apache Jena arq"/>
+        <echo message="https://jena.apache.org/documentation/query"/>
+        <echo message="${arq} --version"/>
+        <exec executable="${arq}"  dir="ontologies" vmlauncher="false">
+            <arg value="--version"/>
+        </exec>
+        <echo/>
+        <echo message="==========================="/>
+        
+        <loadfile property="X3dOntologyQuery_01.rq.property" srcFile="queries/X3dOntologyQuery_01.rq"/>
+        <echo    message="${X3dOntologyQuery_01.rq.property}"/>
+        <echo/>
+        <echo message="${arq} --data ${X3dOntology} --query X3dOntologyQuery_01.rq"/>
+        <exec executable="${arq}"  dir="." vmlauncher="false">
+            <arg value="--data"/>
+            <arg value="ontologies/X3dOntology4.0.ttl"/>
+            <arg value="--query"/>
+            <arg value="queries/X3dOntologyQuery_01.rq"/>
+        </exec>
+        <echo message="==========================="/>
+        
+        <loadfile property="X3dHelloWorldQuery_01.rq.property" srcFile="queries/X3dHelloWorldQuery_01.rq"/>
+        <echo    message="${X3dHelloWorldQuery_01.rq.property}"/>
+        <echo/>
+        <echo message="${arq} --data ${X3dOntology} --query X3dHelloWorldQuery_01.rq --graph examples/HelloWorld.ttl"/>
+        <exec executable="${arq}"  dir="." vmlauncher="false">
+            <arg value="--data"/>
+            <arg value="ontologies/X3dOntology4.0.ttl"/>
+            <arg value="--query"/>
+            <arg value="queries/X3dHelloWorldQuery_01.rq"/>
+            <arg value="--graph"/>
+            <arg value="examples/HelloWorld.ttl"/>
+        </exec>
+    </target>
+
+    <target name="SPARQL.query.robot.examplars" depends="" description="Test X3D Ontology using direct invocation of ROBOT tool">
+        <echo message="Test X3D Ontology queries using direct invocation of ROBOT tool"/>
+        <echo message="https://robot.obolibrary.org"/>
+        <echo message="${robot} help"/>
+        <exec executable="${robot}"  dir="lib" vmlauncher="false">
+            <arg value="help"/>
+        </exec>
+        <echo/>
+        <echo message="==========================="/>
+    </target>
+    
+    <target name="upload.web3d" depends="zip"
+            description="upload semantic zip package using stylesheets build.xml target scp.upload.semantics.web3d">
+        <ant dir ="../x3d/stylesheets" antfile="build.xml" inheritAll="false" target="scp.upload.semantics.web3d"/>
+        <echo message="upload.web3d complete"/>
+    </target>
+    
+    <target name="upload.web3d.large"
+            description="upload semantic zip package using stylesheets build.xml target scp.upload.semantics.web3d.large">
+        <ant dir ="../x3d/stylesheets" antfile="build.xml" inheritAll="false" target="scp.upload.semantics.web3d.large"/>
+        <echo message="upload.web3d.large complete"/>
+    </target>
+
+    <target name="view.X3dOntologyPage.online" description="view online project page in web browser (Netbeans only)">
+        <echo message="https://www.web3d.org/x3d/content/semantics"/>
+        <nbbrowse url="https://www.web3d.org/x3d/content/semantics"/>
+    </target>
+
+    <target name="view.owldoc.local" description="view local owldoc page in web browser (Netbeans only)">
+        <property name="concretePath" location="documentation/owldoc/index.html"/>
+        <echo message="view owldoc"/>
+        <nbbrowse url="file:///${concretePath}" />
+    </target>
+
+    <target name="view.X3dOntologyPage.local" description="view local project page in web browser (Netbeans only)">
+        <property name="concretePath" location="./semantics.html"/>
+        <echo message="view semantics.html"/>
+        <nbbrowse url="file:///${concretePath}" />
+    </target>
+
+    <target name="view.SourceForge.archive" description="view online version control archive in web browser (Netbeans only)">
+        <echo message="https://sourceforge.net/p/x3d/code/HEAD/tree/www.web3d.org/semantics"/>
+        <nbbrowse url="https://sourceforge.net/p/x3d/code/HEAD/tree/www.web3d.org/semantics"/>
+    </target>
+
+    <target name="zip" depends="clean" description="create X3dSemanticWebDevelopmentArchive.zip to facilitate developent">
+        <zip destfile="X3dSemanticWebDevelopmentArchive.zip">
+            <zipfileset dir="../x3d/stylesheets/" prefix="www.web3d.org/x3d/stylesheets/">
+                <include name="build.xml"/>
+                <include name="X3dUnifiedObjectModel-4.0.xml"/>
+                <include name="X3duomToX3dPythonPackage.xslt"/>
+                <include name="X3dToTurtle.xslt"/>
+                <include name="license.*"/>
+                <exclude name="**/archive/*"/>
+            </zipfileset>
+            <zipfileset dir="../x3d/tooltips" prefix="www.web3d.org/x3d/tooltips/">
+                <include name="x3d-4.0.profile.xml"/>
+            </zipfileset>
+            <zipfileset dir="." prefix="www.web3d.org/semantics">
+                <include name="README.md"/>
+                <include name="build.xml"/>
+                <include name="build.*.txt"/>
+                <include name="index.html"/>
+                <include name="semantics.html"/>
+                <include name="license.*"/>
+                <exclude name="**/archive/*"/>
+            </zipfileset>
+            <zipfileset dir="documentation" prefix="www.web3d.org/semantics/documents">
+                <include name="**/*.pdf"/>
+                <include name="owldoc/**/*.*"/><!-- produced by Protege - big! -->
+                <exclude name="**/archive/*"/>
+            </zipfileset>
+            <zipfileset dir="examples" prefix="www.web3d.org/semantics/examples">
+                <include name="*.ttl"/>
+                <include name="*.x3d"/>
+                <exclude name="**/archive/*"/>
+            </zipfileset>
+            <zipfileset dir="images" prefix="www.web3d.org/semantics/images">
+                <include name="**/*.*"/>
+                <exclude name="**/archive/*"/>
+            </zipfileset>
+            <zipfileset dir="ontologies" prefix="www.web3d.org/semantics/ontologies">
+                <include name="**/*"/>
+                <exclude name="**/archive/*"/>
+            </zipfileset>
+            <zipfileset dir="queries" prefix="www.web3d.org/semantics/queries">
+                <include name="**/*"/>
+                <exclude name="**/archive/*"/>
+            </zipfileset>
+        </zip>
+    </target>
+
+    <target name="clean.documentation" depends="" description="clean Protege owldoc documentation">
+        <delete verbose="true">
+            <fileset dir=".">
+                <include name="documentation/owldoc/**/*"/>
+            </fileset>
+        </delete>
+        <echo message="be sure to regenerate X3D Ontology owldoc using Protege with reasoner turned on"/>
+    </target>
+
+    <target name="clean" depends="" description="clean odds and ends, also .zip archive">
+        <delete verbose="true">
+            <fileset dir=".">
+                <include name="X3dSemanticWebDevelopmentArchive.zip"/>
+                <include name="**/~*"/>
+                <include name="**/*.bak"/>
+                <include name="**/*.$$$$$$"/>
+            </fileset>
+        </delete>
+    </target>
+    
+    <target name="versions" description="show tool versions and environment values">
+        <!-- Ant environment variables https://ant.apache.org/manual/Tasks/property.html -->
+        <echo>  ANT_HOME=${env.ANT_HOME}</echo>
+        <echo> JAVA_HOME=${env.JAVA_HOME}</echo>
+        <echo> JENA_HOME=${env.JENA_HOME}</echo>
+        <echo>PYTHONHOME=${env.PYTHONHOME}</echo>
+        <echo>PYTHONPATH=${env.PYTHONPATH}</echo>
+        <echo>Check CLASSPATH for X3DJSAIL ${jsail.full.archive.jar.name} or ${jsai.classes.archive.jar.name}</echo>
+        <echo>CLASSPATH=${env.CLASSPATH}</echo>
+    <!--<echo>USER      =${env.USER}</echo> -->
+        <!-- https://stackoverflow.com/questions/949678/ant-is-using-wrong-java-version -->
+        <echo>javac source/target      $java.source=${java.source}</echo>
+        <echo>                         $java.target=${java.target}</echo>
+        <echo>Java/JVM version    $ant.java.version=${ant.java.version}</echo>
+        <echo>Java/JVM detail version $java.version=${java.version}</echo>
+        <echo>Saxon directory            $saxon.dir=${saxon.dir}</echo>
+        <echo>Saxon jar                  $saxon.jar=${saxon.jar}</echo>
+        <echo>Ant version              $ant.version=${ant.version}</echo>
+        <echo>ant -version</echo>
+        <echo></echo>
+        <exec executable="ant"  dir="." vmlauncher="false">
+            <arg value="-version"/>
+        </exec>
+        <echo>java -version</echo>
+        <exec executable="java"  dir="." vmlauncher="false">
+            <arg value="-version"/>
+        </exec>
+        <echo>python -version</echo>
+        <exec executable="python"  dir="." vmlauncher="false">
+            <arg value="--version"/>
+        </exec>
+        <!-- https://www.saxonica.com/documentation10/#!about/gettingstarted/gettingstartedjava -->
+        <echo>saxon -? help</echo>
+        <java classname="net.sf.saxon.Transform" classpath="${saxon.dir}/${saxon.jar};${saxon.dir}/${xmlresolver.jar};." failonerror="true">
+            <arg value="-?" description="help information"/>
+        </java>
+        <echo>Check for node.js installation from https://nodejs.org</echo>
+        <exec executable="${node.exe}">
+            <arg value="--version"/>
+        </exec>
+        <echo>${jsail.full.archive.jar.name} -version</echo>
+        <java jar="${X3DJSAIL.jars.dir}/${jsail.full.archive.jar.name}" fork="${fork}">
+            <arg value="-version" description="log report"/>
+        </java>
+        <echo>Configuration settings:  https://savage.nps.edu/Savage/developers.html</echo>
+        <!-- TODO Netbeans version -->
+        <!-- TODO Netbeans project version -->
+        <!-- DEBUG: to show all environment and local properties, add
+        <echoproperties/> -->
+        <echo message="==========================================="/>
+    </target>
+
+</project>

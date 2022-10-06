@@ -1,0 +1,35 @@
+Perform X3D Ontology query X3dMaterialModulatorQuery_01.rq using examples/MaterialModulator.ttl to produce output file X3dMaterialModulatorQuery_01.rq.txt:
+===========================
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dMaterialModulatorQuery_01.rq    Query MaterialModulator.ttl to show Script sourceCode.
+
+###############################################
+
+# TODO how to REPLACE resulting \n characters as actual line breaks
+
+SELECT ?ScriptNode ?DEFname replace(?sourceCodeText,"\n","\\\n")  # ?ScriptMatch  str(?DEFname) str(?sourceCode)
+WHERE
+{
+    ?ScriptMatch a            x3do:Script     .
+
+    OPTIONAL
+    {
+        ?ScriptMatch
+            x3do:sourceCode  ?sourceCodeText ;
+            x3do:DEF         ?DEFname    .
+    }
+    BIND (strafter(xsd:string(?ScriptMatch),"#") AS ?ScriptNode)
+}
+
+###############################################
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| ScriptNode                | DEFname                   | .0                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+======================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================================
+| "MaterialModulatorScript" | "MaterialModulatorScript" | "\necmascript:\nfunction initialize ()\n{\n    newColor = diffuseColor; // start with original color\n}\nfunction clockTrigger (timeValue)\n{\n    if (!enabled) return;\n    red   = newColor.r;\n    green = newColor.g;\n    blue  = newColor.b;\n    \n    // note different modulation rates for each color component, % is modulus operator\n    newColor = new SFColor ((red + 0.02) % 1, (green + 0.03) % 1, (blue + 0.04) % 1);\n\tif (enabled)\n\t{\n\t\tBrowser.print ('diffuseColor=(' + red +',' + green + ',' + blue + ') newColor=' + newColor.toString() + '\n');\n\t}\n}\nfunction set_enabled (newValue)\n{\n\tenabled = newValue;\n}\n" |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

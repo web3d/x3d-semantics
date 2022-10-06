@@ -1,0 +1,31 @@
+Perform X3D Ontology query X3dSanCarlosCathedralAltarQuery_01.rq using examples/Altar.ttl to produce output file X3dSanCarlosCathedralAltarQuery_01.rq.txt:
+===========================
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dSanCarlosCathedralAltarQuery_01.rq    Query Altar.ttl to count numberShapes
+
+###############################################
+
+# Every X3D knowledge base can be subject to semantic queries.
+
+# The following SPARQL query provides the number of shapes composing the altar.
+# The result of the query is: 14.
+
+SELECT (count(distinct ?shape) as ?numberShapes)
+
+WHERE
+{
+    ?shape rdf:type x3do:Shape .
+}
+
+###############################################
+----------------
+| numberShapes |
+================
+| 14           |
+----------------

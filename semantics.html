@@ -1,0 +1,986 @@
+<html>
+    <head>
+        <title>X3D Ontology for Semantic Web</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Open-source package supporting X3D Semantic Web Ontology" />
+        <meta name="author" content="Donald P. Brutzman" />
+        <meta name="created" content="22 September 2019" />
+        <meta name="identifier" content="https://www.web3d.org/x3d/content/semantics/semantics.html" />
+        <link rel="icon" href="images/X3DtextIcon16.png" title="X3D" type="image/png"/>
+        <!-- https://www.web3D.org/x3d/content/examples/images/X3DtextIcon16.png -->
+    </head>
+    <body>
+
+        <a id="top"></a>
+        <table style="border:0; padding:0px; margin-left:auto; margin-right:auto;">
+            <tr>
+                <td><a href="https://www.web3d.org/x3d/content/examples/X3dResources.html" target="_blank"><img src="images/x3d2-s.gif" width="154" height="97" style="border:0;" alt="to X3D Resources"/></a></td>
+                <td><pre> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pre></td>
+                <td><h1>X3D Ontology for Semantic Web</h1></td>
+                <td><pre> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </pre></td>
+                <td><a href="https://www.web3d.org" target="_blank"><img src="images/web3d_logo2.png" width="120" height="60" style="border:0" alt="to Web3D home page"/></a></td>
+            </tr>
+        </table>
+
+<p style="text-align:center;">
+    The X3D Ontology for Semantic Web provides terms of reference for semantic query of X3D models.
+</p>
+	
+        <blockquote>
+            <p style="text-align:center;"><small>
+                <a href="#Motivation">Motivation</a>&nbsp;|
+                <a href="#Download">Download</a>&nbsp;|
+                <a href="#Design">Design</a> and
+                <a href="#DesignPatterns">Design Patterns</a>&nbsp;|
+                <a href="documentation/owldoc/index.html" target="_blank">OWLDoc</a>&nbsp;|
+                <a href="#Queries">Queries</a>&nbsp;|
+                <a href="#References">References</a>&nbsp;|
+                <a href="#Tools">Tools</a>&nbsp;|
+                <a href="#TODO" title="Improvements">TODO</a>&nbsp;|
+                <a href="#Contact">Contact</a>
+            </small></p>
+        </blockquote>
+
+<!-- ======================================================== -->
+<hr />
+<h3> 
+    <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+    <a href="#Motivation">&#128278;</a>
+	<a id="Motivation">Motivation</a>
+	<a href="#"><!-- to top -->
+		<img src="images/x3d2-s.gif" width="50" height="32" title="to top" alt="to top" style="border:0; float:right"/>
+		<!-- https://stackoverflow.com/questions/11750862/create-a-link-to-the-top-of-a-web-page-without-using-anchors -->
+		<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-href -->
+		<!-- https://www.w3.org/TR/html5/single-page.html#scroll-to-fragid -->
+	</a>
+</h3>
+<p>
+    Extensible 3D (X3D) Graphics is the royalty-free open standard for publishing, viewing, printing and archiving interactive 3D models on the Web. 
+</p>
+<p>
+The
+<a href="https://www.web3d.org/working-groups/x3d-semantic-web" target="_blank">X3D Semantic Web Working Group</a>
+mission is to publish models to the Web using X3D in order to best gain Web interoperability and enable intelligent 3D applications,
+feature-based 3D model querying, and reasoning over 3D scenes.
+</p>
+
+<p>
+    Motivating insights:
+</p>
+<blockquote>
+"The answer to your question is the response to the query." Jim Hendler and Dean Allemang
+</blockquote>
+
+<blockquote>
+"Trying to use the Semantic Web without SPARQL is like trying to use a relational database without SQL." Tim Berners-Lee 
+</blockquote>
+
+<blockquote>
+    "<a href="https://en.wiktionary.org/wiki/the_proof_of_the_pudding_is_in_the_eating" target="_blank">The proof of the pudding is in the eating</a>." Wiktionary
+</blockquote>
+
+<p>
+    To learn more about publishing 3D graphics on the Web, please see
+    <a href="https://www.web3d.org/x3d/what-x3d" target="_blank">What is X3D?</a>
+    and
+    <a href="https://www.web3d.org/x3d4" target="_blank">X3D Version 4 Overview</a>.
+</p>
+
+<!-- ======================================================== -->
+<hr />
+<h3> 
+    <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+    <a href="#Download">&#128278;</a>
+	<a id="Download">Download</a>
+	<a href="#"><!-- to top -->
+		<img src="images/x3d2-s.gif" width="50" height="32" title="to top" alt="to top" style="border:0; float:right"/>
+		<!-- https://stackoverflow.com/questions/11750862/create-a-link-to-the-top-of-a-web-page-without-using-anchors -->
+		<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-href -->
+		<!-- https://www.w3.org/TR/html5/single-page.html#scroll-to-fragid -->
+	</a>
+</h3>
+    
+<h4><a id="Information">Information</a></h4>
+<ul>
+    <li>
+        <a href="documentation/papers/Web3D2020BrutzmanFlotynskiX3dOntology.pdf" target="_blank">X3D Ontology for Querying 3D Models on the Semantic Web</a>,
+        Don Brutzman and Jakub Flotyński,
+        <a href="https://web3d.siggraph.org" target="_blank">Web3D 2020 Conference</a>, Seoul Korea, 9-13 November 2020,
+        with accompanying
+        <a href="documentation/papers/Web3D2020BrutzmanFlotynskiX3dOntologyPresentation.pdf" target="_blank">presentation</a>.
+    </li>
+    <li>
+        <a href="documentation/presentations/X3dOntologyForSemanticWeb.pdf" target="_blank">X3D Ontology for Semantic Web</a>
+        is an overview presentation that describes this project.
+    </li>
+    <li>
+        <i>Part 1, Web3D Overview:</i>
+        <a href="documentation/presentations/20191203-Web3D-semanticweb-SWP2019.pdf" target="_blank">Semantic Web3D: Towards comprehensive representation of 3D content on the Semantic Web</a>
+        presented by Christophe Mouton, with co-authors Don Brutzman, John Carlson, Jakub Flotyński, Felix Hamza-Lup , Athanasios Malamos, 
+        Christophe Mouton, Marc Petit, Nicholas Polys, Leslie Sikos,  and Krzysztof Walczak, was presented at
+        <a href="https://semweb.pro/semwebpro-2019.html" target="_blank">Semantic Web Pro (SemWeb.Pro)</a>
+        in Paris&nbsp;France, 3&nbsp;December&nbsp;2019.
+        Also available:
+        <a href="https://www.web3d.org/event/semantic-web-pro-semwebpro" target="_blank">Web3D event announcement</a>.
+    </li>
+    <li>
+        <i>Part 2, Query Examples:</i>
+        <a href="documentation/presentations/IC3D-JakubFlotynski-Presentation57-2D-20191208.pdf" target="_blank">Semantic Web3D: Towards Comprehensive Representation of 3D Content on the Semantic Web</a>
+        (<a href="documentation/papers/2019_IC3D_Hamza-Lup.pdf" target="_blank">paper</a>)
+        by Jakub Flotyński, Don Brutzman, Felix G. Hamza-Lup, Athanasios Malamos, Nicholas Polys, Leslie F. Sikos, and Krzysztof Walczak
+        was presented at
+        <a href="https://www.stereopsia.com/international-conference-3d-immersion-ic3d" target="_blank">International Conference on 3D Immersion (IC3D)</a>
+        in Brussels Belgium, 11&nbsp;December&nbsp;2019.
+        Also available:
+        <a href="https://www.web3d.org/event/international-conference-3d-immersion-ic3d" target="_blank">Web3D event announcement</a>.
+    </li>
+    <li>
+        The
+        <a href="documentation/" target="_blank">documentation</a>
+        directory holds a variety of useful working-group products.
+    </li>
+</ul>
+        
+<h4><a id="Resources">Resources</a></h4>
+
+<ul>
+    <li>
+        X3D&nbsp;Ontology
+        <a href="ontologies/X3dOntology4.0.ttl" target="_blank">X3dOntology4.0.ttl</a>
+        is our primary product from X3DUOM.
+    </li>
+    <li>
+        Also producing matching versions in RDF and OWL
+        <a href="ontologies/X3dOntology4.0.rdf" target="_blank">X3dOntology4.0.rdf</a>
+        and
+        <a href="ontologies/X3dOntology4.0.owl" target="_blank">X3dOntology4.0.owl</a>
+        using Protege export.
+    </li>
+    <li>
+        Official URI namespace:
+        <br>
+        <code>PREFIX x3do: &lt;<a href="https://www.web3d.org/specifications/ontologies/X3dOntology4.0.ttl" target="_blank">https://www.web3d.org/specifications/X3dOntology4.0</a>#&gt;</code>
+    </li>
+    <li>
+        X3D&nbsp;Ontology
+        <a href="documentation/owldoc/index.html" target="_blank">OWLDoc</a> 
+        documentation is generated via 
+        <a href="https://protege.stanford.edu" target="_blank">Protégé</a>.
+    </li>
+    <li>
+        <a href="https://www.web3d.org/x3d/stylesheets/X3dToTurtle.xslt">X3dToTurtle.xslt</a> 
+        conversion stylesheet translates an <code>.x3d</code> model from XML into <code>.ttl</code> triples.
+    </li>
+    <li>
+        Build process:
+        <a href="build.xml" target="_blank">build.xml</a>
+        uses
+        <a href="https://ant.apache.org" target="_blank">Apache Ant</a>
+        with associated output logs:
+        <a href="build.all.log.txt" target="_blank">build.all.log.txt</a>
+        and
+        <a href="build.SPARQL.query.tests.log.txt" target="_blank">build.SPARQL.query.tests.log.txt</a>
+    </li>
+    <li>
+       An early-draft X3D Ontology by Leslie Sikos
+        <a href="ontologies/t3dmo.ttl" target="_blank">t3dmo.ttl</a>
+       (<a href="ontologies/t3dmo.README.md" target="_blank">README</a>)
+       includes example constructs for other 3D model formats.
+    </li>
+    <li>
+        <a href="X3dSemanticWebDevelopmentArchive.zip">X3dSemanticWebDevelopmentArchive.zip</a> 
+        collects all current assets for easier download and use.
+    </li>
+</ul>
+        
+        <h4><a id="VersionControl">Version Control</a></h4>
+        
+        All work is maintained using subversion at
+        <a href="https://sourceforge.net/p/x3d/code/HEAD/tree/www.web3d.org/semantics" target="_blank">Sourceforge version control</a>
+        under a non-viral Web3D Consortium 
+        <a href="license.html">open-source license</a>
+       (<a href="license.txt">text</a>).
+
+<!-- ======================================================== -->
+<hr />
+<h3> 
+    <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+    <a href="#Design">&#128278;</a>
+	<a id="Design">Design</a>
+	<a href="#"><!-- to top -->
+		<img src="images/x3d2-s.gif" width="50" height="32" title="to top" alt="to top" style="border:0; float:right"/>
+		<!-- https://stackoverflow.com/questions/11750862/create-a-link-to-the-top-of-a-web-page-without-using-anchors -->
+		<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-href -->
+		<!-- https://www.w3.org/TR/html5/single-page.html#scroll-to-fragid -->
+	</a>
+</h3>
+
+<p>
+    The current X3D Ontology is reasonably stable as we work to make X3D models queriable in interesting ways.
+    These representations fully match the functionality of
+    <a href="https://www.web3D.org/x3d4" target="_blank">X3D4</a>.
+</p>
+<p id="TODO">
+    <b>TODO</b>.
+    More work remains for the X3D Ontology.  Expected progression, with adjacent steps typically in tandem:
+</p>
+
+<ol type="a">
+    <li>
+        Continued review of <code>.ttl</code> representations generated from X3DUOM.
+    </li>
+    <li>
+        Establishing satisfactory URI matching website URL, e.g. <code>https://www.web3D.org/semantics</code>
+        (website request pending).
+    </li>
+    <li>
+         Building an extensive set of SPARQL queries.
+    </li>
+    <li>
+        Autogenerate and publish RDF-A for all X3D examples, following patterns in Leslie Sikos' book.
+    </li>
+    <li>
+         Defining use cases for queries and demonstrating examples.
+    </li>
+    <li>
+        Define similar/corresponding triple constructs for different 3D formats, building upon Leslie's 3dmo.ttl exemplars.
+    </li>
+    <li>
+        Investigate existing vocabularies and tools for 
+        <a href="https://en.wikipedia.org/wiki/Visual_search_engine" target="_blank">visual 3D shape search</a>
+        including potential analysis and annotation of models.
+    </li>
+    <li>
+        Use 
+        <a href="https://daffodil.apache.org" target="_blank">Apache Daffodil (DFDL)</a> to actually parse and subsequently query those other formats coherently.
+    </li>
+</ol>
+
+<h3>
+    <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+    <a href="#DesignPatterns">&#128278;</a>
+	<a id="DesignPatterns">Design Patterns</a>
+</h3>
+
+<ol>
+    <li>
+        <i>Triple names</i>.  Each triple must be uniquely named.  
+        Please note that these names are ID labels that can be matched and reported, 
+        but the text used for each name cannot be reasoned against.
+        <ul>
+            <li>
+                <code>DEF</code> names, if available, are prefixed by a colon. Example: <code>:MySpecialMaterial</code>.
+            </li>
+            <li>
+                <code>USE</code> names, if available, are adapted by prefixing with a colon and appending <code>-USE-</code> and the number of current occurrence.
+                Example: <code>:MySpecialMaterial-USE-4</code>.
+            </li>
+            <li>
+                <code>X3D</code>, <code>head</code> and <code>Scene</code> are always singletons and so are eponymous and always get the same name, e.g.
+                <code>:X3D</code>, <code>:head</code> and <code>:Scene</code>.
+            </li>
+            <li>
+                Unnamed X3D nodes and statements are identified with the following pattern:
+                node name, followed by tree hierarchy below the root <code>X3D</code> node.
+                Example labels:
+                <code>:meta_1_5</code> had 1 for <code>head</code> and 5 for fifth child;
+                <code>:Shape_2_3_2_1</code> has initial 2 for <code>Scene</code> followed by third/second/first children nodes, and so on.
+            </li>
+        </ul>
+    </li>
+    <li>
+        <code>FontStyle</code> and <code>ScreenFontStyle</code> nodes each have a <code>style</code> field.
+        This has been renamed as <code>styleSelection</code> to avoid query collisions when contained in a Web page.
+    </li>
+    <li>
+         More to follow.
+    </li>
+</ol>
+<!-- ======================================================== -->
+<hr />
+<h3> 
+    <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+    <a href="#Queries">&#128278;</a>
+	<a id="Queries">Queries</a>
+	<a href="#"><!-- to top -->
+		<img src="images/x3d2-s.gif" width="50" height="32" title="to top" alt="to top" style="border:0; float:right"/>
+		<!-- https://stackoverflow.com/questions/11750862/create-a-link-to-the-top-of-a-web-page-without-using-anchors -->
+		<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-href -->
+		<!-- https://www.w3.org/TR/html5/single-page.html#scroll-to-fragid -->
+	</a>
+</h3>
+        
+<p>
+    X3D Semantic Web Working Group efforts include defining use cases for queries and demonstrating examples, which will like follow three general patterns:
+</p>
+<ul>
+    <li>
+        Geometric properties of an X3D model, some of which are addable (e.g. bbox values for dimension).
+    </li>
+    <li>
+        Document meta information.
+    </li>
+    <li>
+        Typed Metadata* values in an X3D model, often for a given vocabulary.
+    </li>
+    <li>
+        Consider constructs used in 3D model search to determine applicability and possible addition.
+    </li>
+</ul>
+<p>
+    <a href="build.all.log.txt" target="_blank">build.all.log.txt</a>
+    and
+    <a href="build.SPARQL.query.tests.log.txt">build.SPARQL.query.tests.log.txt</a>
+    each provide a full set of queries and responses.
+    These build logs help practitioners compare results and track progress (or setbacks).
+</p>
+
+<table border="1">
+    <tr>
+        <th valign="top">
+            <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+            <a href="#TableOfQueries">&#128278;</a>
+            <a id="TableOfQueries"></a>
+        </th>
+        <th>
+            Graph (triple&nbsp;store)
+        </th>
+        <th style="text-align:right">
+            SPARQL Query &nbsp; &nbsp;
+        </th>
+        <th style="text-align:left">
+            &nbsp; &nbsp; SPARQL Response
+        </th>
+        <th style="text-align:left">
+            Description
+        </th>
+    </tr>
+    <tr>
+        <td rowspan="5" valign="top">
+            <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+            <a href="#X3dOntologyQueries">&#128278;</a>
+            <a id="X3dOntologyQueries"></a>
+        </td>
+        <td rowspan="5" style="text-align:center">
+            <p>
+                <a href="https://www.web3d.org/specifications/X3dOntology4.0.ttl" target="_blank">X3dOntology4.0.ttl</a>
+            </p>
+            <p>
+                (<a href="https://www.web3d.org/specifications/X3dOntology4.0.rdf" target="_blank">X3dOntology4.0.rdf</a>)
+            </p>
+        </td>
+        <td style="text-align:right">
+            <a href="queries/X3dOntologyQuery_01.rq">X3dOntologyQuery_01.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dOntologyQuery_01.rq.txt">X3dOntologyQuery_01.rq.txt</a>       
+        </td>
+        <td>
+            Metaquery (against X3D Ontology itself) to list all properties with corresponding domains and ranges.
+        </td>
+    </tr>
+    <tr>
+        <!-- X3D Ontology -->
+        <td style="text-align:right">
+            <a href="queries/X3dOntologyQuery_02.rq">X3dOntologyQuery_02.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dOntologyQuery_02.rq.txt">X3dOntologyQuery_02.rq.txt</a>
+        </td>
+        <td>
+            Metaquery (against X3D Ontology itself) to list nodes and statements (concrete owl:Class) with inherited node types and object types.
+        </td>
+    </tr>
+    <tr>
+        <!-- X3D Ontology -->
+        <td style="text-align:right">
+            <a href="queries/X3dOntologyQuery_03.rq">X3dOntologyQuery_03.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dOntologyQuery_03.rq.txt">X3dOntologyQuery_03.rq.txt</a>
+        </td>
+        <td>
+            Metaquery (against X3D Ontology itself) to list all geometry nodes.
+        </td>
+    </tr>
+    <tr>
+        <!-- X3D Ontology -->
+        <td style="text-align:right">
+            <a href="queries/X3dOntologyQuery_04.rq">X3dOntologyQuery_04.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dOntologyQuery_04.rq.txt">X3dOntologyQuery_04.rq.txt</a>
+        </td>
+        <td>
+            Metaquery (against X3D Ontology itself) to list all X3D default simple-type field values (ontology annotationProperties).
+        </td>
+    </tr>
+    <tr>
+        <!-- X3D Ontology -->
+        <td style="text-align:right">
+            <a href="queries/X3dOntologyQuery_05.rq">X3dOntologyQuery_05.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dOntologyQuery_05.rq.txt">X3dOntologyQuery_05.rq.txt</a>
+        </td>
+        <td>
+            Metaquery (against X3D Ontology itself) to list all X3D literals (enumeration constants).
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="5" valign="top">
+            <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+            <a href="#HelloWorldQueries">&#128278;</a>
+            <a id="HelloWorldQueries"></a>
+        </td>
+        <td style="text-align:center" rowspan="5">
+            <p>
+                <a href="examples/HelloWorld.ttl">HelloWorld.ttl</a>
+            </p>
+            <p>
+                from
+                <br />
+                <a href="examples/HelloWorld.x3d">HelloWorld.x3d</a>
+                <br />
+                <a href="examples/HelloWorld.html">HelloWorld.html</a>
+            </p>            
+        </td>
+        <td style="text-align:right">
+            <a href="queries/X3dHelloWorldQuery_01.rq">X3dHelloWorldQuery_01.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dHelloWorldQuery_01.rq.txt">X3dHelloWorldQuery_01.rq.txt</a>
+        </td>
+        <td>
+            Query HelloWorld.ttl to count number of Shape nodes, with expected result = 2 nodes.
+        </td>
+    </tr>
+    <tr>
+        <!-- HelloWorld.ttl -->
+        <td style="text-align:right">
+            <a href="queries/X3dHelloWorldQuery_02.rq">X3dHelloWorldQuery_02.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dHelloWorldQuery_02.rq.txt">X3dHelloWorldQuery_02.rq.txt</a>
+        </td>
+        <td>
+            Query HelloWorld.ttl to show url values within an ImageTexture node.
+        </td>
+    </tr>
+    <tr>
+        <!-- HelloWorld.ttl -->
+        <td style="text-align:right">
+            <a href="queries/X3dHelloWorldQuery_03.rq">X3dHelloWorldQuery_03.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dHelloWorldQuery_03.rq.txt">X3dHelloWorldQuery_03.rq.txt</a>
+        </td>
+        <td>
+            Query HelloWorld.ttl to show title given to model within a WorldInfo node.
+        </td>
+    </tr>
+    <tr>
+        <!-- HelloWorld.ttl -->
+        <td style="text-align:right">
+            <a href="queries/X3dHelloWorldQuery_04.rq">X3dHelloWorldQuery_04.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dHelloWorldQuery_04.rq.txt">X3dHelloWorldQuery_04.rq.txt</a>
+        </td>
+        <td>
+            Query HelloWorld.ttl to show contained geometry, appearance, material and texture field SFNode values within each Shape node.
+        </td>
+    </tr>
+    <tr>
+        <!-- HelloWorld.ttl -->
+        <td style="text-align:right">
+            <a href="queries/X3dHelloWorldQuery_05.rq">X3dHelloWorldQuery_05.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dHelloWorldQuery_05.rq.txt">X3dHelloWorldQuery_05.rq.txt</a>
+        </td>
+        <td>
+            Query HelloWorld.ttl to show all nodes in 'children' field contained within any Group node.
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="3" valign="top">
+            <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+            <a href="#SanCarlosCathedralQueries">&#128278;</a>
+            <a id="SanCarlosCathedralQueries"></a>
+        </td>
+        <td style="text-align:center" rowspan="3">
+            <p>
+                <a href="examples/Altar.ttl">Altar.ttl</a>
+            </p>
+            <p>
+                from
+                <br />
+                <a href="examples/Altar.x3d">Altar.x3d</a>
+                <br />
+                <a href="examples/Altar.html">Altar.html</a>
+            </p>
+        </td>
+        <td style="text-align:right">
+            <a href="queries/X3dSanCarlosCathedralAltarQuery_01.rq">X3dSanCarlosCathedralAltarQuery_01.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dSanCarlosCathedralAltarQuery_01.rq.txt">X3dSanCarlosCathedralAltarQuery_01.rq.txt</a>
+        </td>
+        <td>
+            Query SanCarlosCathedral Altar.ttl to show  the number of shapes composing the altar.
+        </td>
+    </tr>
+    <tr>
+        <!-- Altar.ttl -->
+        <td style="text-align:right">
+            <a href="queries/X3dSanCarlosCathedralAltarQuery_02.rq">X3dSanCarlosCathedralAltarQuery_02.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dSanCarlosCathedralAltarQuery_02.rq.txt">X3dSanCarlosCathedralAltarQuery_02.rq.txt</a>
+        </td>
+        <td>
+            Query SanCarlosCathedral Altar.ttl to show url addresses of all textures used within the scene.
+        </td>
+    </tr>
+    <tr>
+        <!-- Altar.ttl -->
+        <td style="text-align:right">
+            <a href="queries/X3dSanCarlosCathedralAltarQuery_03.rq">X3dSanCarlosCathedralAltarQuery_03.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dSanCarlosCathedralAltarQuery_03.rq.txt">X3dSanCarlosCathedralAltarQuery_03.rq.txt</a>
+        </td>
+        <td>
+            Query SanCarlosCathedral Altar.ttl to determine Background skyColor values.
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="3" valign="top">
+            <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+            <a href="#HelloX3dAuthorsAnimationChainQueries">&#128278;</a>
+            <a id="HelloX3dAuthorsAnimationChainQueries"></a>
+        </td>
+        <td style="text-align:center" rowspan="3">
+            <p>
+                <a href="examples/HelloX3dAuthorsAnimationChain.ttl">HelloX3dAuthorsAnimationChain.ttl</a>
+            </p>
+            <p>
+                from
+                <br />
+                <a href="examples/HelloX3dAuthorsAnimationChain.x3d">HelloX3dAuthorsAnimationChain.x3d</a>
+                <br />
+                <a href="examples/HelloX3dAuthorsAnimationChain.html">HelloX3dAuthorsAnimationChain.html</a>
+            </p>
+        </td>
+        <td style="text-align:right">
+            <a href="queries/HelloX3dAuthorsAnimationChainQuery_01.rq">HelloX3dAuthorsAnimationChainQuery_01.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/HelloX3dAuthorsAnimationChainQuery_01.rq.txt">HelloX3dAuthorsAnimationChainQuery_01.rq.txt</a>
+        </td>
+        <td>
+            Query HelloX3dAuthorsAnimationChain.ttl to determine ROUTE parameters of interest.
+        </td>
+    </tr>
+    <tr>
+        <!-- HelloX3dAuthorsAnimationChain.ttl -->
+        <td style="text-align:right">
+            <a href="queries/AllDocumentMetaInformation.rq">AllDocumentMetaInformation.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/AllDocumentMetaInformation.rq.txt">AllDocumentMetaInformation.rq.txt</a>
+        </td>
+        <td>
+            Query HelloX3dAuthorsAnimationChain.ttl to identify all document meta information.
+        </td>
+    </tr>
+    <tr>
+        <!-- HelloX3dAuthorsAnimationChain.ttl -->
+        <td style="text-align:right">
+            <a href="queries/DocumentMetaProperties.rq">DocumentMetaProperties.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/DocumentMetaProperties.rq.txt">DocumentMetaProperties.rq.txt</a>
+        </td>
+        <td>
+            Query HelloX3dAuthorsAnimationChain.ttl to identify specific document meta properties of interest.
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="1" valign="top">
+            <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+            <a href="#MetadataNodeExamplesX3D4Queries">&#128278;</a>
+            <a id="MetadataNodeExamplesX3D4Queries"></a>
+        </td>
+        <td style="text-align:center" rowspan="1">
+            <p>
+                <a href="examples/MetadataNodeExamplesX3D4.ttl">MetadataNodeExamplesX3D4.ttl</a>
+            </p>
+            <p>
+                from
+                <br />
+                <a href="examples/MetadataNodeExamplesX3D4.x3d">MetadataNodeExamplesX3D4.x3d</a>
+                <br />
+                <a href="examples/MetadataNodeExamplesX3D4.html">MetadataNodeExamplesX3D4.html</a>
+            </p>
+        </td>
+        <!-- MetadataNodeExamplesX3D4.ttl -->
+        <td style="text-align:right">
+            <a href="queries/DocumentMetadataValues.rq">DocumentMetadataValues.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/DocumentMetadataValues.rq.txt">DocumentMetadataValues.rq.txt</a>
+        </td>
+        <td>
+            Query MetadataNodeExamplesX3D4.ttl to list all values found in Metadata nodes.
+        </td>
+    </tr>
+    <tr>
+        <td rowspan="1" valign="top">
+            <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+            <a href="#MaterialModulatorQueries">&#128278;</a>
+            <a id="MaterialModulatorQueries"></a>
+        </td>
+        <td style="text-align:center" rowspan="1">
+            <p>
+                <a href="examples/MaterialModulator.ttl">MaterialModulator.ttl</a>
+            </p>
+            <p>
+                from
+                <br />
+                <a href="examples/MaterialModulator.x3d">MaterialModulator.x3d</a>
+                <br />
+                <a href="examples/MaterialModulator.html">MaterialModulator.html</a>
+            </p>
+        </td>
+        <!-- MaterialModulator.ttl -->
+        <td style="text-align:right">
+            <a href="queries/X3dMaterialModulatorQuery_03.rq">X3dMaterialModulatorQuery_03.rq</a>
+        </td>
+        <td style="text-align:left">
+            <a href="queries/X3dMaterialModulatorQuery_03.rq.txt">X3dMaterialModulatorQuery_03.rq.txt</a>
+        </td>
+        <td>
+            Query MaterialModulator.ttl to show title given to model within a WorldInfo node. .
+        </td>
+    </tr>
+</table>
+
+<br />
+
+<table style="border: 1px black solid;">
+    <tr>
+        <td valign="top">
+            <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+            <a href="#X3dExampleArchiveQueries">&#128278;</a>
+            <a id="X3dExampleArchiveQueries"></a>
+        </td>
+        <td><!-- 1340 x 649 -->
+            <a href="images/HelloWorldCatalogIncludesTurtleAndSparql.png"><img src="images/HelloWorldCatalogIncludesTurtleAndSparql.png" style="float:left" width="268" height="130" title="catalog entries"/></a>
+        </td>
+        <td>
+            <p>
+                Several thousand XML-based <code>.x3d</code> models in the 
+                <a href="https://www.web3d.org/x3d/content/examples/X3dResources.html#Examples" target="_blank">X3D Example Archives</a>
+                have been converted into <code>.ttl</code> Turtle triples, using the
+                <a href="https://www.web3d.org/x3d/stylesheets/X3dToTurtle.xslt">X3dToTurtle.xslt</a> 
+                conversion stylesheet.
+            </p>
+            <p>
+                Both <code>.ttl</code> and SPARQL query results are available for each model, as illustrated in the
+                <a href="images/HelloWorldCatalogIncludesTurtleAndSparql.png">screenshot</a>
+                for the
+                <a href="https://x3dgraphics.com/examples/X3dForWebAuthors/Chapter01TechnicalOverview/HelloWorldIndex.html" target="_blank">HelloWorld example</a> catalog entry.
+            </p>
+            <p>
+                Comprehensive conversion and test-query results for all models in
+                <a href="https://www.web3d.org/x3d/content/examples/X3dResources.html#Examples" target="_blank">X3D Resources, Examples: Scene Archives for X3D</a>
+                are listed in
+                <a href="https://www.web3d.org/x3d/content/examples/build.turtle.all.log.txt" target="_blank">build.turtle.all.log.txt</a>.
+                This is a comprehensive set of unit tests for X3D ontology, xslt model conversion into <code>.ttl</code>, and SPARQL query.
+            </p>
+        </td>
+    </tr>
+</table>
+
+<br />
+
+<!-- ======================================================== -->
+<hr />
+<h3> 
+    <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+    <a href="#References">&#128278;</a>
+	<a id="References">References: Books, Papers and Workshops, Specifications</a>
+	<a href="#"><!-- to top -->
+		<img src="images/x3d2-s.gif" width="50" height="32" title="to top" alt="to top" style="border:0; float:right"/>
+		<!-- https://stackoverflow.com/questions/11750862/create-a-link-to-the-top-of-a-web-page-without-using-anchors -->
+		<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-href -->
+		<!-- https://www.w3.org/TR/html5/single-page.html#scroll-to-fragid -->
+	</a>
+</h3>
+        
+<p>
+    
+</p>
+        
+<h3> <a id="Books"></a><a id="books">Books</a> </h3>
+        
+<ol type="1">
+            <li>
+                <a id="SemanticWebWorkingOntologistBook"></a>
+                Dean Allemang, James Hendler and Fabien Gandon,
+                <a href="http://workingontologist.org" target="_blank">Semantic Web for the Working Ontologist: Effective Modeling for Linked Data, RDFS and OWL</a>,
+                third edition, ACM Books, 2020.
+            </li>
+            <li>
+                <a id="FlotynskiBook"></a>
+                Jakub Flotyński,
+                <a href="https://www.springer.com/gp/book/9783030599645" target="_blank">Knowledge-Based Explorable Extended Reality Environments</a>,
+                Springer, 2020.
+            </li>
+            <li>
+                <a id="X3dForWebAuthors"></a>
+                Don&nbsp;Brutzman and Leonard&nbsp;Daly, 
+                <a href="https://x3dgraphics.com" target="_blank">X3D for Web Authors</a>
+                Morgan&nbsp;Kaufmann Publishers, Elsevier, April&nbsp;2007.
+            </li>
+            <li>
+                <a id="LearningSPARQL"></a>
+                Bob DuCharme,
+                <a href="http://www.learningsparql.com" target="_blank">Learning SPARQL</a>,
+                second edition, OReilly Media, Sebastopol, 2013.
+                <ul>
+                    <li>
+                        Bob DuCharme's weblog, 21 April 2014, 
+                        <a href="http://www.snee.com/bobdc.blog/2014/04/rdf-lists-and-sparql.html" target="_blank">RDF lists and SPARQL</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a id="MasteringStructuredDataBook"></a>
+                Leslie F. Sikos,
+                <a href="https://www.apress.com/gp/book/9781484210505" target="_blank">Mastering Structured Data on the Semantic Web: from HTML5 Microdata to Linked Open Data</a>,
+                Apress Springer Science+Business Media, New York, 2015.
+            </li>
+            <li>
+                <a href="https://en.wikibooks.org/wiki/SPARQL" target="_blank">SPARQL</a>
+                on Wikibooks covers both the language and a powerful Web-based GUI, the
+                <a href="https://query.wikidata.org" target="_blank">Wikidata Query Service</a>
+                SPARQL endpoint.
+            </li>
+            <li>
+                <a id="DataAndReality"></a>
+                William Kent and Steve Hoberman,
+                <a href="https://technicspub.com/data-and-reality" target="_blank">Data and Reality</a>,
+                Technics Publications, third edition, 2012.
+                &quot;A timeless perspective on perceiving and managing information in our imprecise world.&quot;
+               (<a href="http://www.bkent.net/Doc/darxrp.htm" target="_blank">excerpts</a>) 
+               (<a href="https://www.goodreads.com/book/show/1753248.Data_and_Reality" target="_blank">goodreads</a>) 
+               (<a href="http://ambur.net/datareality.pdf" target="_blank">Owen&nbsp;Ambur</a>) 
+            </li>
+            <li>
+                <a id="ValidatingRdfData"></a>
+                Jose E. Labra Gayo, Eric Prud’hommeaux, Iovka Boneva, and Dimitris Kontokostas,
+                <a href="https://book.validatingrdf.com">Validating RDF Data, Synthesis Lectures on the Semantic Web: Theory and Technology</a>, 
+                Vol. 7, No. 1, <a href="https://doi.org/10.2200/S00786ED1V01Y201707WBE016">DOI: 10.2200/S00786ED1V01Y201707WBE016</a>, 
+                Morgan & Claypool, 2018.
+            </li>
+        </ol>
+        
+        <h3> <a id="Papers"></a><a id="Workshops">Papers and Workshops</a> </h3>
+        
+        <ol type="1">
+
+            <li>
+                Pascal Hitzler, "<a href="https://doi.org/10.1145/3397512" target="_blank">A review of the semantic web field</a>,"
+                <i>Communications of the ACM</i>, Vol.&nbsp;64, No.&nbsp;2, January&nbsp;2021.
+                "Tracing the triumphs and challenges of two decades of Semantic Web research and applications."
+                Includes video overview.
+            </li>
+            <li>
+                <a href="documentation/workshops/SemanticWeb3DWorkshop.2019July27.pdf">Metadata and Semantics for Web3D Workshop</a>
+               (<a href="documentation/workshops/SemanticWeb3DWorkshop.2019July27.zip">tex.zip</a>)
+                 at
+                 <a href="http://web3D2019.web3D.org" target="_blank">Web3D&nbsp;2019</a>
+            </li>
+            <li>
+                <a href="documentation/workshops/WittenbergPreservationAccessReuseAdvancing3dVrStrategyInResearchLibrary.Web3d2019.pdf">Preservation, Access, and Reuse: Advancing 3D and VR Strategy in the Research Library</a>
+               (<a href="documentation/workshops/WittenbergPreservationAccessReuseAdvancing3dVrStrategyInResearchLibrary.Web3d2019.pptx">pptx</a>)
+                by Jamie Wittenberg, Indiana University
+                 at
+                 <a href="http://web3D2019.web3D.org" target="_blank">Web3D&nbsp;2019</a>
+            </li>
+            <li>
+                <a href="https://us2ts.org/lightning-talks#x3dontology" target="_blank">X3D Ontology for Semantic Web</a>
+                was presented as a "Lightning Talk" at
+                <a href="https://us2ts.org" target="_blank">US Semantic Technologies Symposium (US2TS)</a>.
+                Raleigh North Carolina, 9-11 March 2020.
+            </li>
+            <li>
+                R.C. Jackson, J.P. Balhoff, E. Douglass, N.L. Harris, C.J. Mungall, and J.A. Overton,
+                <a href="https://rdcu.be/bMnHT" target="_blank">ROBOT: A tool for automating ontology workflows</a>. 
+                BMC Bioinformatics, vol. 20, July 2019.
+            </li>
+        </ol>
+        
+        <h3> <a id="Specifications">Specifications</a> </h3>
+        
+        <ol type="1">
+            <li>
+                <a href="https://www.web3d.org/specifications" target="_blank">X3D Specifications: Schema and DOCTYPE Validation</a>
+                provides assets commonly used for XML validation of X3D scenes.
+            </li>
+            <li>
+                <a href="https://www.web3d.org/standards" target="_blank">X3D Recommended Standards</a>
+                provide a coordinated set of steadily evolving ISO standards which are
+                Royalty Free (RF) and publicly available for any use.
+            </li>
+            <li>
+                <a href="http://www.w3.org/TR/owl-overview" target="_blank">OWL 2 Web Ontology Language, Document Overview (Second Edition)</a>,
+                W3C Recommendation, 11 December 2012.
+                <blockquote>
+                    The OWL 2 Web Ontology Language, informally OWL 2, is an ontology language for the Semantic Web with formally defined meaning. OWL 2 ontologies provide classes, properties, individuals, and data values and are stored as Semantic Web documents. OWL 2 ontologies can be used along with information written in RDF, and OWL 2 ontologies themselves are primarily exchanged as RDF documents.
+                    This document serves as an introduction to OWL 2 and the various other OWL 2 documents. It describes the syntaxes for OWL 2, the different kinds of semantics, the available profiles (sub-languages), and the relationship between OWL 1 and OWL 2.
+                </blockquote>
+            </li>
+            <li>
+                <a href="https://www.w3.org/TR/rdf11-mt" target="_blank">RDF 1.1 Semantics</a>,
+                W3C Recommendation, 25 February 2014.
+                <blockquote>
+                    This document describes a precise semantics for the 
+                    Resource Description Framework 1.1 
+                    [<a href="https://www.w3.org/TR/rdf11-mt/#bib-RDF11-CONCEPTS" target="_blank">RDF11-CONCEPTS</a>] 
+                    and RDF Schema 
+                    [<a href="https://www.w3.org/TR/rdf11-mt/#bib-RDF11-SCHEMA" target="_blank">RDF11-SCHEMA</a>].
+                    It defines a number of distinct entailment regimes and corresponding patterns of entailment. It is part of a suite of documents which comprise the full specification of RDF 1.1.
+                </blockquote>
+            </li>
+            <li>
+                <a href="https://www.w3.org/TR/sparql11-query" target="_blank">SPARQL 1.1 Query Language</a>,
+                W3C Recommendation, 21 March 2013.
+                <blockquote>
+                    RDF is a directed, labeled graph data format for representing information in the Web. This specification defines the syntax and semantics of the SPARQL query language for RDF. SPARQL can be used to express queries across diverse data sources, whether the data is stored natively as RDF or viewed as RDF via middleware. SPARQL contains capabilities for querying required and optional graph patterns along with their conjunctions and disjunctions. SPARQL also supports aggregation, subqueries, negation, creating values by expressions, extensible value testing, and constraining queries by source RDF graph. The results of SPARQL queries can be result sets or RDF graphs. 
+                </blockquote>
+            </li>
+            <li>
+                <a href="https://www.w3.org/TR/turtle" target="_blank">RDF 1.1 Turtle: Terse RDF Triple Language</a>,
+                W3C Recommendation, 25 February 2014.
+                <blockquote>
+                    The Resource Description Framework (RDF) is a general-purpose language for representing information in the Web.
+                    This document defines a textual syntax for RDF called Turtle that allows an RDF graph to be completely written in a compact and natural text form, with abbreviations for common usage patterns and datatypes.
+                    Turtle provides levels of compatibility with the N-Triples format as well as the triple pattern syntax of the SPARQL W3C Recommendation. 
+                </blockquote>
+            </li>
+            <li>
+                <a href="https://www.w3.org/TR/owl-time" target="_blank">Time Ontology in OWL</a>,
+                W3C Candidate Recommendation, 25 March 2020.
+                <blockquote>
+                    OWL-Time is an OWL-2 DL ontology of temporal concepts, for describing the 
+                    temporal properties of resources in the world or described in Web pages. 
+                    The ontology provides a vocabulary for expressing facts about 
+                    topological (ordering) relations among instants and intervals, 
+                    together with information about durations, and about temporal position 
+                    including date-time information. Time positions and durations may be 
+                    expressed using either the conventional (Gregorian) calendar and clock, 
+                    or using another temporal reference system such as Unix-time, geologic time, 
+                    or different calendars.
+                </blockquote>
+            </li>
+        </ol>
+
+<!-- ======================================================== -->
+<hr />
+<h3> 
+    <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+    <a href="#Queries">&#128278;</a>
+	<a id="Tools">Tools</a>
+	<a href="#"><!-- to top -->
+		<img src="images/x3d2-s.gif" width="50" height="32" title="to top" alt="to top" style="border:0; float:right"/>
+		<!-- https://stackoverflow.com/questions/11750862/create-a-link-to-the-top-of-a-web-page-without-using-anchors -->
+		<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-href -->
+		<!-- https://www.w3.org/TR/html5/single-page.html#scroll-to-fragid -->
+	</a>
+</h3>
+        
+<p>
+    Many tools are available for Semantic Web development.  Here are the primary ones used for this work.
+</p>
+
+<ul>
+    <li>
+        <a id="Jena"></a><a href="https://jena.apache.org" target="_blank">Apache Jena</a>
+        is a free and open source Java framework for building Semantic Web and Linked Data applications.
+        <ul>
+            <li>
+                After installation, set 
+                <code>JENA_HOME=C:\languages\java\apache-jena-4.2.0</code> (or somesuch location)
+                to run build tasks and ARQ queries properly.
+            </li>
+            <li>
+                <a href="https://jena.apache.org/documentation/query" target="_blank">ARQ</a>
+                SPARQL Processor for Jena, a query engine that supports the SPARQL RDF Query language.
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a id="Protege"></a><a href="https://protege.stanford.edu" target="_blank">Protégé</a>
+        is a free, open-source ontology editor and framework for building intelligent systems.
+    </li>
+    <li>
+        <a href="http://mowl-power.cs.man.ac.uk:8080/validator" target="_blank">Manchester Owl Validator</a>
+        (use Profile OWL 2, Report syntax: Manchester Owl Syntax).
+        Provided by
+        <a href="http://owl.cs.manchester.ac.uk" target="_blank">Owl@Manchester</a>.
+        Reference:
+        <a href="https://www.w3.org/2001/sw/wiki/OWL_Validator" target="_blank">W3C listing: Owl Validator</a>.
+    </li>
+    <li>
+        <a href="http://visualdataweb.de" target="_blank">Visual Data Web</a>
+        supports a
+        <a href="http://visualdataweb.de/validator" target="_blank">VOWL copy of OWL Validator</a>
+    </li>
+    <li>
+        <a href="https://robot.obolibrary.org" target="_blank">ROBOT is an OBO Tool</a>
+        for automating ontology workflows.
+        (<a href="https://rdcu.be/bMnHT" target="_blank">paper</a>)
+        (<a href="https://github.com/ontodev/robot-tutorial" target="_blank">tutorial</a>, 
+        <a href="https://raw.githubusercontent.com/ontodev/robot-tutorial/master/tutorial-commands.pdf" target="_blank">commands</a>)
+    </li>
+</ul>
+
+<!-- ======================================================== -->
+<hr />
+<h3> 
+    <!-- Unicode Character 'BOOKMARK' (U+1F516) https://www.fileformat.info/info/unicode/char/1f516/index.htm -->
+    <a href="#Contact">&#128278;</a>
+	<a id="Contact">Contact</a>
+	<a href="#"><!-- to top -->
+		<img src="images/x3d2-s.gif" width="50" height="32" title="to top" alt="to top" style="border:0; float:right"/>
+		<!-- https://stackoverflow.com/questions/11750862/create-a-link-to-the-top-of-a-web-page-without-using-anchors -->
+		<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-href -->
+		<!-- https://www.w3.org/TR/html5/single-page.html#scroll-to-fragid -->
+	</a>
+</h3>
+        <blockquote>
+            Questions, suggestions, additions and comments about this X3D&nbsp;Ontology for Semantic&nbsp;Web page are welcome.
+            Please send them to
+            <a href="https://faculty.nps.edu/brutzman" target="_blank">Don&nbsp;Brutzman</a>
+            and
+            <a href="https://www.kti.ue.poznan.pl/en/jakub_flotynski.html" target="_blank">Jakub&nbsp;Flotyński</a>  
+            (email&nbsp;<a href="mailto:brutzman@__nps.edu%20(Don%20Brutzman),flotynski@kti.ue.poznan.pl%20(Jakub%20Flotyński),?subject=feedback:%20X3D%20Ontology%20for%20Semantic%20Web%20"><i>brutzman&nbsp;at&nbsp;nps.edu</i> and <i>flotynski&nbsp;at&nbsp;kti.ue.poznan.pl</i></a>).
+        </blockquote>
+
+        <blockquote>
+            Master version of this X3D Ontology for Semantic Web page is available online at
+            <br />
+            <a href="https://www.web3d.org/x3d/content/semantics/semantics.html">https://www.web3d.org/x3d/content/semantics/semantics.html</a>
+            and available in
+            <a href="https://sourceforge.net/p/x3d/code/HEAD/tree/www.web3d.org/semantics" target="_blank">Sourceforge version control</a>.
+        </blockquote>
+        
+        <blockquote>
+            Updated:  14 June 2022
+        </blockquote>
+    </body>
+</html>

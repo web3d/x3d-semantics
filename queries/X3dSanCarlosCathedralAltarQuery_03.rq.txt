@@ -1,0 +1,42 @@
+Perform X3D Ontology query X3dSanCarlosCathedralAltarQuery_03.rq using examples/Altar.ttl to produce output file X3dSanCarlosCathedralAltarQuery_03.rq.txt:
+===========================
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dSanCarlosCathedralAltarQuery_03.rq    Query Altar.ttl to determine Background skyColor values.
+
+###############################################
+
+# Every X3D knowledge base can be subject to semantic queries.
+
+# The following query retrieves the Background skyColor used in the scene.
+# The result is the following list of RGB values: (0.7216 0.8 0.9922) (cf. Listing 3, line 6).
+
+# Note special handling of RDF lists:
+# Bob DuCharme's weblog, 21 April 2014, "RDF lists and SPARQL"
+# http://www.snee.com/bobdc.blog/2014/04/rdf-lists-and-sparql.html
+
+SELECT ?backgroundNode ?skyColorListValues
+
+WHERE
+{
+    ?background rdf:type                          x3do:Background ;
+                x3do:skyColor/rdf:rest*/rdf:first ?skyColorListValues .
+
+    BIND (strafter(xsd:string(?background),"#") AS ?backgroundNode)
+
+    # TODO re-aggregate skyColor list values into list of tuples
+}
+
+###############################################
+-----------------------------------------
+| backgroundNode   | skyColorListValues |
+=========================================
+| "Background_2_2" | 0.7216             |
+| "Background_2_2" | 0.8                |
+| "Background_2_2" | 0.9922             |
+-----------------------------------------

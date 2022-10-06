@@ -1,0 +1,28 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dMaterialModulatorQuery_01.rq    Query MaterialModulator.ttl to show Script sourceCode.
+
+###############################################
+
+# TODO how to REPLACE resulting \n characters as actual line breaks
+
+SELECT ?ScriptNode ?DEFname replace(?sourceCodeText,"\n","\\\n")  # ?ScriptMatch  str(?DEFname) str(?sourceCode)
+WHERE
+{
+    ?ScriptMatch a            x3do:Script     .
+
+    OPTIONAL
+    {
+        ?ScriptMatch
+            x3do:sourceCode  ?sourceCodeText ;
+            x3do:DEF         ?DEFname    .
+    }
+    BIND (strafter(xsd:string(?ScriptMatch),"#") AS ?ScriptNode)
+}
+
+###############################################

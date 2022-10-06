@@ -1,0 +1,34 @@
+Perform X3D Ontology query X3dHelloWorldQuery_05.rq using examples/HelloWorld.ttl to produce output file X3dHelloWorldQuery_05.rq.txt:
+===========================
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dHelloWorldQuery_05.rq    Query HelloWorld.ttl to show all nodes in 'children' field contained within any Group node.
+
+# TODO modify to list all children nodes together as one field?
+# TODO modify to look at all X3DGrouping nodes?
+
+###############################################
+
+SELECT ?groupNode ?childrenNodes
+WHERE
+{
+    ?group rdf:type         x3do:Group ;
+           x3do:hasChildren ?children  .
+
+    BIND (strafter(xsd:string(?group),"#")    AS ?groupNode)
+    BIND (strafter(xsd:string(?children),"#") AS ?childrenNodes)
+}
+
+###############################################
+----------------------------------------
+| groupNode   | childrenNodes          |
+========================================
+| "Group_2_3" | "ViewUpClose"          |
+| "Group_2_3" | "TestWhitespaceCommas" |
+| "Group_2_3" | "Transform_2_3_3"      |
+----------------------------------------

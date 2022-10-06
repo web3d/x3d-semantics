@@ -1,0 +1,28 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dSanCarlosCathedralAltarQuery_02.rq    Query Altar.ttl for texture url values.
+
+###############################################
+
+# Every X3D knowledge base can be subject to semantic queries.
+
+# The following query provides the url addresses of all textures used within the scene.
+# The result is the wood texture: ../Wood.jpg (cf. Listing 3, line 18)
+
+SELECT ?appearanceNode ?textureUrl
+
+WHERE
+{
+    ?appearance x3do:hasTexture ?texture . 
+    ?texture    x3do:url        ?textureUrl .
+
+    BIND (strafter(xsd:string(?appearance),"#") AS ?appearanceNode)
+}
+ORDER BY ASC(?textureUrl)
+
+###############################################

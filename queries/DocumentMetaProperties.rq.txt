@@ -1,0 +1,119 @@
+Perform X3D Ontology query DocumentMetaProperties.rq using examples/HelloX3dAuthorsAnimationChain.ttl to produce output file DocumentMetaProperties.rq.txt:
+===========================
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:     <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do:    <https://www.web3d.org/specifications/X3dOntology4.0#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+###############################################
+
+# DocumentMetaProperties.rq    Query to identify specific document meta properties of interest.
+
+SELECT ?title ?creator ?created ?modified ?hasLicense ?hasDescription ?hasIdentifier ?hasReference
+
+# additional properties available:
+# ?hasTitle ?hasCreator ?hasCreated ?hasModified ?license ?description ?identifier ?reference ?MISSING
+
+# Dublin Core Metadata Initiative (DCMI)
+# PREFIX dcterms:  <http://purl.org/dc/terms/>
+# PREFIX dcterms2: <https://www.dublincore.org/specifications/dublin-core/dcmi-terms/dublin_core_terms.ttl
+# https://www.dublincore.org/schemas/rdfs/
+
+# TODO is it possible to create DCMI terms within X3D Ontology?
+# TODO consider XSLT creation of DCMI terms when converting .x3d models into Turtle .ttl?
+# TODO consider SPARQL creation of DCMI terms when querying?
+
+WHERE
+{
+    OPTIONAL
+    {
+        ?meta1 a x3do:meta ;     # Shorthand expression: a = rdf:type
+               x3do:name         ?name1 ;
+               x3do:content      ?content1 .
+        FILTER (CONTAINS ( str(?name1),     "title"))
+        BIND  (str(?content1)         AS    ?title)
+        BIND ((STRLEN(?content1) > 0) AS ?hasTitle)
+    }
+    OPTIONAL
+    {
+        ?meta2 a x3do:meta ;
+               x3do:name         ?name2 ;
+               x3do:content      ?content2 .
+        FILTER (CONTAINS ( str(?name2),     "creator"))
+        BIND  (str(?content2)         AS    ?creator)
+        BIND ((STRLEN(?content2) > 0) AS ?hasCreator)
+    }
+    OPTIONAL
+    {
+        ?meta3 a x3do:meta ;
+               x3do:name         ?name3 ;
+               x3do:content      ?content3 .
+        FILTER (CONTAINS ( str(?name3),     "created"))
+        BIND  (str(?content3)         AS    ?created)
+        BIND ((STRLEN(?content3) > 0) AS ?hasCreated)
+    }
+    OPTIONAL
+    {
+        ?meta4 a x3do:meta ;
+               x3do:name         ?name4 ;
+               x3do:content      ?content4 .
+        FILTER (CONTAINS ( str(?name4),     "modified"))
+        BIND  (str(?content4)         AS    ?modified)
+        BIND ((STRLEN(?content4) > 0) AS ?hasModified)
+    }
+    OPTIONAL
+    {
+         ?meta5 a x3do:meta ;
+               x3do:name         ?name5 ;
+               x3do:content      ?content5 .
+        FILTER (CONTAINS ( str(?name5),     "license"))
+        BIND  (str(?content5)         AS    ?license)
+        BIND ((STRLEN(?content5) > 0) AS ?hasLicense)
+    }
+    OPTIONAL
+    {
+        ?meta6 a x3do:meta ;
+               x3do:name         ?name6 ;
+               x3do:content      ?content6 .
+        FILTER (CONTAINS ( str(?name6),     "description"))
+        BIND  (str(?content6)         AS    ?description)
+        BIND ((STRLEN(?content6) > 0) AS ?hasDescription)
+    }
+    OPTIONAL
+    {
+        ?meta7 a x3do:meta ;
+               x3do:name         ?name7 ;
+               x3do:content      ?content7 .
+        FILTER (CONTAINS ( str(?name7),     "reference"))
+        BIND  (str(?content7)         AS    ?reference)
+        BIND ((STRLEN(?content7) > 0) AS ?hasReference)
+    }
+    OPTIONAL
+    {
+        ?meta8 a x3do:meta ;
+               x3do:name         ?name8 ;
+               x3do:content      ?content8 .
+        FILTER (CONTAINS ( str(?name8),     "identifier"))
+        BIND  (str(?content8)         AS    ?identifier)
+        BIND ((STRLEN(?content8) > 0) AS ?hasIdentifier)
+    }
+    OPTIONAL # allows missing data without blocking other properties
+    {
+        ?meta9 a x3do:meta ;
+               x3do:name         ?name8 ;
+               x3do:content      ?content8 .
+        FILTER (CONTAINS ( str(?name9),     "MISSING"))
+        BIND  (str(?content9)         AS    ?MISSING)
+        BIND ((STRLEN(?content9) > 0) AS ?hasMISSING)
+    }
+}
+
+###############################################
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+| title                               | creator        | created          | modified          | hasLicense | hasDescription | hasIdentifier | hasReference |
+============================================================================================================================================================
+| "HelloX3dAuthorsAnimationChain.x3d" | "Don Brutzman" | "5 October 2000" | "20 October 2019" | true       | true           | true          | true         |
+------------------------------------------------------------------------------------------------------------------------------------------------------------

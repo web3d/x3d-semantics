@@ -1,0 +1,68 @@
+Perform X3D Ontology query DocumentMetadataValues.rq using examples/MetadataNodeExamplesX3D4.ttl to produce output file DocumentMetadataValues.rq.txt:
+===========================
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:     <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do:    <https://www.web3d.org/specifications/X3dOntology4.0#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+###############################################
+
+# Note special handling of RDF lists:
+# Bob DuCharme's weblog, 21 April 2014, "RDF lists and SPARQL"
+# http://www.snee.com/bobdc.blog/2014/04/rdf-lists-and-sparql.html
+
+# DocumentMetadataValues.rq    Query to list all values found in Metadata nodes.
+
+SELECT ?ID ?nodeType ?name ((?value1) AS ?value) ?reference
+
+WHERE
+{
+    ?metadataNode a ?nodeType1 .
+
+    ?nodeType1    rdfs:subClassOf x3do:X3DMetadataObject .
+
+    OPTIONAL { ?metadataNode x3do:name                       ?name1      . }
+    OPTIONAL { ?metadataNode x3do:value/rdf:rest*/rdf:first  ?value1     . }
+    OPTIONAL { ?metadataNode x3do:reference                  ?reference1 . }
+
+    BIND (strafter(xsd:string(?metadataNode),"#") AS ?ID) # DEF if available, otherwise assigned identifier
+    BIND (strafter(xsd:string(?nodeType1),"#")    AS ?nodeType)
+    BIND (str(?name1)       AS    ?name)
+#   BIND (?value1           AS    ?value)     # evaluates value1, converts to string
+    BIND (str(?reference1)  AS    ?reference)
+}
+ORDER BY ASC(?ID) ?nodeType ?value1 # alphabetize and sort
+
+# TODO maybe filter out USE nodes
+# TODO non-string values
+
+###############################################
+----------------------------------------------------------------------------------------------------------------------------------------------------
+| ID                            | nodeType          | name                         | value       | reference                                       |
+====================================================================================================================================================
+| "MetadataFloat_2_2_1_6_4"     | "MetadataFloat"   | "coefficients"               | 0           |                                                 |
+| "MetadataFloat_2_2_1_6_4"     | "MetadataFloat"   | "coefficients"               | 1           |                                                 |
+| "MetadataFloat_2_2_1_6_4"     | "MetadataFloat"   | "coefficients"               | 2.7128      |                                                 |
+| "MetadataFloat_2_2_1_6_4"     | "MetadataFloat"   | "coefficients"               | 3.141592653 |                                                 |
+| "MetadataString_2_1"          | "MetadataString"  | "TestRootMetadataNode"       |             |                                                 |
+| "MyMetadataBooleanNode"       | "MetadataBoolean" | "Coin Flip"                  | false       | "MetadataBoolean allowed in X3D v3.3 and later" |
+| "MyMetadataBooleanNode"       | "MetadataBoolean" | "Coin Flip"                  | false       | "MetadataBoolean allowed in X3D v3.3 and later" |
+| "MyMetadataBooleanNode"       | "MetadataBoolean" | "Coin Flip"                  | true        | "MetadataBoolean allowed in X3D v3.3 and later" |
+| "MyMetadataBooleanNode"       | "MetadataBoolean" | "Coin Flip"                  | true        | "MetadataBoolean allowed in X3D v3.3 and later" |
+| "MyMetadataDoubleNode"        | "MetadataDouble"  | "Metadata_name"              | 2.71812181  | "SomeReferenceStandard 1.2.3c"                  |
+| "MyMetadataDoubleNode"        | "MetadataDouble"  | "Metadata_name"              | 3.141592658 | "SomeReferenceStandard 1.2.3c"                  |
+| "MyMetadataFloatNode"         | "MetadataFloat"   | "Metadata_name"              | 9.8         | "SomeReferenceStandard 1.2.3c"                  |
+| "MyMetadataFloatNode"         | "MetadataFloat"   | "Metadata_name"              | 6.023e+23   | "SomeReferenceStandard 1.2.3c"                  |
+| "MyMetadataFloatNode-USE-1"   | "MetadataFloat"   |                              |             |                                                 |
+| "MyMetadataIntegerNode"       | "MetadataInteger" | "Metadata_name"              | 6           | "SomeReferenceStandard 1.2.3c"                  |
+| "MyMetadataIntegerNode"       | "MetadataInteger" | "Metadata_name"              | 28          | "SomeReferenceStandard 1.2.3c"                  |
+| "MyMetadataIntegerNode"       | "MetadataInteger" | "Metadata_name"              | 496         | "SomeReferenceStandard 1.2.3c"                  |
+| "MyMetadataIntegerNode-USE-1" | "MetadataInteger" |                              |             |                                                 |
+| "MyMetadataSetNode"           | "MetadataSet"     | "Metadata_name"              |             | "SomeReferenceStandard 1.2.3c"                  |
+| "MyMetadataStringNode"        | "MetadataString"  | "Metadata_name"              |             | "SomeReferenceStandard 1.2.3c"                  |
+| "MyMetadataStringNode-USE-1"  | "MetadataString"  |                              |             |                                                 |
+| "NestedMetadataSetNode"       | "MetadataSet"     | "TestNestedMetadataSetNodes" |             |                                                 |
+----------------------------------------------------------------------------------------------------------------------------------------------------

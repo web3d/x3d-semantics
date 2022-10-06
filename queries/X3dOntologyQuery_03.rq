@@ -1,0 +1,27 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dOntologyQuery_03.rq	Metaquery to list all geometry nodes in X3D Ontology.
+
+# SPARQL 1.1 has arbitrary depth traversal
+# https://stackoverflow.com/questions/1458674/retrieving-all-the-ancestors-of-a-rdfclass
+
+# TODO index each row in the output table, showing total count
+
+###############################################
+
+SELECT distinct ?geometryNodes (str(?label) AS ?description)
+WHERE {
+    ?geometryNodes
+        rdf:type         owl:Class ;
+        rdfs:subClassOf+ x3do:X3DGeometryNode ;
+        rdfs:label       ?label .
+    FILTER ( !CONTAINS(str(?geometryNodes),"X3D") || STRENDS(str(?geometryNodes),"X3D") ) # no X3D node types
+}
+ORDER BY ASC(?geometryNodes) # alphabetize
+
+###############################################

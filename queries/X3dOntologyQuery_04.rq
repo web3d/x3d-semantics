@@ -1,0 +1,33 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dOntologyQuery_04.rq	Metaquery to list all X3D default simple-type field values (ontology annotationProperties).
+
+# SPARQL 1.1 has arbitrary depth traversal
+# https://stackoverflow.com/questions/1458674/retrieving-all-the-ancestors-of-a-rdfclass
+
+# TODO index each row in the output table, showing total count
+
+###############################################
+
+SELECT distinct ?fieldDefault
+                ?x3dNode
+                ?defaultValue
+                ?accessType
+WHERE {
+    ?fieldName
+        rdfs:domain          ?x3dNode ;
+        rdf:type             owl:DatatypeProperty ;
+        rdfs:subPropertyOf   ?accessType ;
+        ?fieldDefault        ?defaultValue .
+    FILTER ( STRENDS(str(?fieldDefault),"Default") ) # appropriate suffix
+    FILTER ( STRLEN(STR(?defaultValue)) > 0 )        # non-empty
+    # TODO what about tuple defaults?
+}
+ORDER BY ASC(?fieldName) ASC(?nodeName) # alphabetize
+
+###############################################

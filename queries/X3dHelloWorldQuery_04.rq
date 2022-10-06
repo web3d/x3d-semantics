@@ -1,0 +1,29 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dHelloWorldQuery_04.rq    Query HelloWorld.ttl to show contained geometry, appearance, material and texture field SFNode values within each Shape node.
+
+###############################################
+
+SELECT ?shapeNode ?geometryField ?appearanceField ?materialField ?textureField
+WHERE
+{
+    ?shape rdf:type x3do:Shape .
+    OPTIONAL { ?shape x3do:hasGeometry   ?geometry    . }
+    OPTIONAL { ?shape x3do:hasAppearance ?appearance  . }
+    OPTIONAL { ?appearance x3do:hasMaterial ?material . }
+    OPTIONAL { ?appearance x3do:hasTexture  ?texture  . }
+
+    BIND (strafter(xsd:string(?shape),   "#")   AS ?shapeNode)
+    BIND (strafter(xsd:string(?geometry),"#")   AS ?geometryField)
+    BIND (strafter(xsd:string(?appearance),"#") AS ?appearanceField)
+    BIND (strafter(xsd:string(?material),"#")   AS ?materialField)
+    BIND (strafter(xsd:string(?texture),"#")    AS ?textureField)
+}
+ORDER BY ASC(?shapeNode)
+
+###############################################

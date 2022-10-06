@@ -1,0 +1,31 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dHelloWorldQuery_01.rq    Query HelloWorld.ttl to count number of Shape nodes, with expected result = 2 nodes.
+
+# TODO how to count total and create a unit test for this model?
+# BIND (count(distinct ?shape) as ?shapeCount)
+# GROUP BY ?ShapeNodesFound
+
+###############################################
+
+SELECT ?ShapeNodesFound ?parentNode ?grandParentNode
+
+WHERE
+{ 
+    ?shape  a x3do:Shape ; # Shorthand expression: a = rdf:type
+            x3do:hasParent ?parent .
+    ?parent x3do:hasParent ?grandParent .
+
+    # https://stackoverflow.com/questions/11234371/sparql-query-results-without-namespace
+    BIND (strafter(xsd:string(?shape),"#")       AS ?ShapeNodesFound)
+    BIND (strafter(xsd:string(?parent),"#")      AS ?parentNode)
+    BIND (strafter(xsd:string(?grandParent),"#") AS ?grandParentNode)
+}
+ORDER BY (?ShapeNodesFound) # alphabetic order results in scene-graph order given by each name
+
+###############################################

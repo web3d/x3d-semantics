@@ -1,0 +1,40 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:     <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do:    <https://www.web3d.org/specifications/X3dOntology4.0#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+###############################################
+
+# Note special handling of RDF lists:
+# Bob DuCharme's weblog, 21 April 2014, "RDF lists and SPARQL"
+# http://www.snee.com/bobdc.blog/2014/04/rdf-lists-and-sparql.html
+
+# DocumentMetadataValues.rq    Query to list all values found in Metadata nodes.
+
+SELECT ?ID ?nodeType ?name ((?value1) AS ?value) ?reference
+
+WHERE
+{
+    ?metadataNode a ?nodeType1 .
+
+    ?nodeType1    rdfs:subClassOf x3do:X3DMetadataObject .
+
+    OPTIONAL { ?metadataNode x3do:name                       ?name1      . }
+    OPTIONAL { ?metadataNode x3do:value/rdf:rest*/rdf:first  ?value1     . }
+    OPTIONAL { ?metadataNode x3do:reference                  ?reference1 . }
+
+    BIND (strafter(xsd:string(?metadataNode),"#") AS ?ID) # DEF if available, otherwise assigned identifier
+    BIND (strafter(xsd:string(?nodeType1),"#")    AS ?nodeType)
+    BIND (str(?name1)       AS    ?name)
+#   BIND (?value1           AS    ?value)     # evaluates value1, converts to string
+    BIND (str(?reference1)  AS    ?reference)
+}
+ORDER BY ASC(?ID) ?nodeType ?value1 # alphabetize and sort
+
+# TODO maybe filter out USE nodes
+# TODO non-string values
+
+###############################################

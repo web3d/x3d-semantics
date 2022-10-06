@@ -1,0 +1,39 @@
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:     <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do:    <https://www.web3d.org/specifications/X3dOntology4.0#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+# X3dOntologyQuery_05.rq	Metaquery to list all X3D enumeration literals (constants).
+
+# SPARQL 1.1 has arbitrary depth traversal
+# https://stackoverflow.com/questions/1458674/retrieving-all-the-ancestors-of-a-rdfclass
+
+###############################################
+
+SELECT ?enumeration__literal ?enumerationValue ### also available: ?description ?reference
+WHERE
+{
+   ?iriEnumerationLiteral rdfs:label ?enumerationValue .
+
+   OPTIONAL
+   {
+      ?iriEnumerationLiteral dcterms:description ?description .
+   }
+   OPTIONAL
+   {
+      ?iriEnumerationLiteral dcterms:reference   ?reference   .
+   }
+
+   BIND (strafter(xsd:string(?iriEnumerationLiteral),"#") AS ?enumeration__literal)
+
+   # appropriate labels of interest here includes underscore within
+   # pattern enumerationType_SomeName, e.g. :fontStyle__PLAIN
+   # uniqueness pattern: includes double underscore "__"
+   FILTER ( CONTAINS(str(?enumeration__literal),"__") )
+}
+ORDER BY ASC(?enumeration__literal) # alphabetize
+
+###############################################

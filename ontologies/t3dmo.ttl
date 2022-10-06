@@ -1,0 +1,1325 @@
+@prefix : <http://purl.org/ontology/x3d/> .
+@prefix cc: <http://creativecommons.org/ns#> .
+@prefix cito: <http://purl.org/spar/cito/> .
+@prefix dbpedia: <http://dbpedia.org/resource/> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vidont: <http://vidont.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+#################
+### Provenance ###
+#################
+
+<http://purl.org/ontology/x3d/> a owl:Ontology ; foaf:maker dbpedia:Leslie_Sikos ; cito:isReviewedBy dbpedia:Web3D_Consortium ; dc:description "3D Modeling Ontology (3DMO) v1.1. A comprehensive 3D ontology with X3D 3.3 and X3DOM alignment."@en ; dc:title "The 3D Modeling Ontology"@en .
+
+#####################
+### Concepts/Classes ###
+#####################
+
+:X3DField a owl:Class .
+	:X3DArrayField a owl:Class ; rdfs:subClassOf :X3DField .
+	:Uniform a owl:Class ; rdfs:subClassOf :X3DField .
+
+:X3DNode a owl:Class ; dc:description "This abstract node type is the base type for all nodes in the X3D system." .
+	:GeoOrigin a owl:Class ; rdfs:subClassOf :X3DNode .
+	:Param a owl:Class ; rdfs:subClassOf :X3DNode .
+	:RigidBody a owl:Class ; rdfs:subClassOf :X3DNode .
+	:ShaderPart a owl:Class ; rdfs:subClassOf :X3DNode .
+	:TextureProperties a owl:Class ; rdfs:subClassOf :X3DNode .
+    :X3DAppearanceChildNode a owl:Class ; rdfs:subClassOf :X3DNode .
+		:BlendMode a owl:Class ; rdfs:subClassOf :X3DAppearanceChildNode .
+		:ColorMaskMode a owl:Class ; rdfs:subClassOf :X3DAppearanceChildNode .
+		:DepthMode a owl:Class ; rdfs:subClassOf :X3DAppearanceChildNode .
+		:LineProperties a owl:Class ; rdfs:subClassOf :X3DAppearanceChildNode .
+		:X3DMaterialNode a owl:Class ; rdfs:subClassOf :X3DAppearanceChildNode .
+			:Material a owl:Class ; rdfs:subClassOf :X3DMaterialNode .
+			:TwoSidedMaterial  a owl:Class ; rdfs:subClassOf :X3DMaterialNode .
+		:X3DShaderNode a owl:Class ; rdfs:subClassOf :X3DAppearanceChildNode .
+			:CommonSurfaceShader a owl:Class ; rdfs:subClassOf :X3DShaderNode .
+			:ComposedShader a owl:Class ; rdfs:subClassOf :X3DShaderNode .
+		:X3DTextureNode a owl:Class ; rdfs:subClassOf :X3DAppearanceChildNode .
+			:MultiTexture a owl:Class ; rdfs:subClassOf :X3DTextureNode .
+			:PixelTexture a owl:Class ; rdfs:subClassOf :X3DTextureNode .
+			:RenderedTexture a owl:Class ; rdfs:subClassOf :X3DTextureNode .
+				:RefinementTexture a owl:Class ; rdfs:subClassOf :RenderedTexture .
+			:SurfaceShaderTexture a owl:Class ; rdfs:subClassOf :X3DTextureNode .
+			:Texture a owl:Class ; rdfs:subClassOf :X3DTextureNode .
+				:ImageTexture a owl:Class ; rdfs:subClassOf :Texture .
+				:ImageTextureAtlas a owl:Class ; rdfs:subClassOf :Texture .
+				:MovieTexture a owl:Class ; rdfs:subClassOf :Texture .
+			:X3DEnvironmentTextureNode a owl:Class ; rdfs:subClassOf :X3DTextureNode .
+				:ComposedCubeMapTexture a owl:Class ; rdfs:subClassOf :X3DEnvironmentTextureNode .
+				:GeneratedCubeMapTexture a owl:Class ; rdfs:subClassOf :X3DEnvironmentTextureNode .
+			:X3DTexture3DNode a owl:Class ; rdfs:subClassOf :X3DTextureNode .
+		:X3DTextureTransformNode a owl:Class ; rdfs:subClassOf :X3DAppearanceChildNode .
+			:TextureTransform a owl:Class ; rdfs:subClassOf :X3DTextureTransformNode .
+			:TextureTransform3D a owl:Class ; rdfs:subClassOf :X3DTextureTransformNode .
+			:TextureTransformMatrix3D a owl:Class ; rdfs:subClassOf :X3DTextureTransformNode .
+    :X3DAppearanceNode a owl:Class ; rdfs:subClassOf :X3DNode .
+		:Appearance a owl:Class ; rdfs:subClassOf :X3DAppearanceNode .
+    :X3DChildNode a owl:Class ; rdfs:subClassOf :X3DNode .
+		:ClipPlane a owl:Class ; rdfs:subClassOf :X3DChildNode .
+		:CollisionCollection a owl:Class ; rdfs:subClassOf :X3DChildNode .
+		:RigidBodyCollection a owl:Class ; rdfs:subClassOf :X3DChildNode .
+		:X3DBindableNode a owl:Class ; rdfs:subClassOf :X3DChildNode .
+			:X3DBackgroundNode a owl:Class ; rdfs:subClassOf :X3DBindableNode .
+				:Background a owl:Class ; rdfs:subClassOf :X3DBackgroundNode .
+			:X3DEnvironmentNode a owl:Class ; rdfs:subClassOf :X3DBindableNode .
+			:X3DFogNode a owl:Class ; rdfs:subClassOf :X3DBindableNode .
+				:Fog a owl:Class ; rdfs:subClassOf :X3DFogNode .
+			:X3DNavigationInfoNode a owl:Class ; rdfs:subClassOf :X3DBindableNode .
+				:NavigationInfo a owl:Class ; rdfs:subClassOf :X3DNavigationInfoNode .
+			:X3DViewpointNode a owl:Class ; rdfs:subClassOf :X3DBindableNode .
+				:GeoViewpoint a owl:Class ; rdfs:subClassOf :X3DViewpointNode .
+				:OrthoViewpoint a owl:Class ; rdfs:subClassOf :X3DViewpointNode .
+				:Viewfrustum a owl:Class ; rdfs:subClassOf :X3DViewpointNode .
+				:Viewpoint  a owl:Class ; rdfs:subClassOf :X3DViewpointNode .
+		:X3DBoundedObject a owl:Class ; rdfs:subClassOf :X3DChildNode .
+			:X3DGroupingNode a owl:Class ; rdfs:subClassOf :X3DBoundedObject .
+				:Anchor a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:Billboard a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:Block a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:CADAssembly a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:CADFace a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:CADLayer a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:Collision a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:GeoTransform a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:Group a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:HAnimSegment a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:Inline a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+					:MultiPart a owl:Class ; rdfs:subClassOf :Inline .
+				:RemoteSelectionGroup a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:Scene a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:StaticGroup a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:Switch a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+				:X3DLODNode a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+					:DynamicLOD a owl:Class ; rdfs:subClassOf :X3DLODNode .
+					:GeoLOD a owl:Class ; rdfs:subClassOf :X3DLODNode .
+					:LOD a owl:Class ; rdfs:subClassOf :X3DLODNode .
+				:X3DTransformNode a owl:Class ; rdfs:subClassOf :X3DGroupingNode .
+					:GeoLocation a owl:Class ; rdfs:subClassOf :X3DTransformNode .
+					:MatrixTransform a owl:Class ; rdfs:subClassOf :X3DTransformNode .
+					:Transform a owl:Class ; rdfs:subClassOf :X3DTransformNode .
+						:CADPart a owl:Class ; rdfs:subClassOf :Transform .
+						:HAnimHumanoid a owl:Class ; rdfs:subClassOf :Transform .
+						:HAnimJoint a owl:Class ; rdfs:subClassOf :Transform .
+						:HAnimSite a owl:Class ; rdfs:subClassOf :Transform .
+			:X3DNBodyCollidableNode a owl:Class ; rdfs:subClassOf :X3DBoundedObject .
+				:CollidableShape a owl:Class ; rdfs:subClassOf :X3DNBodyCollidableNode .
+			:X3DShapeNode a owl:Class ; rdfs:subClassOf :X3DBoundedObject .
+				:Shape a owl:Class ; rdfs:subClassOf :X3DShapeNode .
+				:X3DVolumeDataNode a owl:Class ; rdfs:subClassOf :X3DShapeNode .
+					:IsoSurfaceVolumeData a owl:Class ; rdfs:subClassOf :X3DVolumeDataNode .
+					:SegmentedVolumeData a owl:Class ; rdfs:subClassOf :X3DVolumeDataNode .
+					:VolumeData a owl:Class ; rdfs:subClassOf :X3DVolumeDataNode . 
+		:X3DFollowerNode a owl:Class ; rdfs:subClassOf :X3DChildNode .
+			:X3DChaserNode a owl:Class ; rdfs:subClassOf :X3DFollowerNode .
+				:ColorChaser a owl:Class ; rdfs:subClassOf :X3DChaserNode .
+				:OrientationChaser a owl:Class ; rdfs:subClassOf :X3DChaserNode .
+				:PositionChaser a owl:Class ; rdfs:subClassOf :X3DChaserNode .
+				:PositionChaser2D a owl:Class ; rdfs:subClassOf :X3DChaserNode .
+				:ScalarChaser  a owl:Class ; rdfs:subClassOf :X3DChaserNode .
+			:X3DDamperNode a owl:Class ; rdfs:subClassOf :X3DFollowerNode .
+				:ColorDamper a owl:Class ; rdfs:subClassOf :X3DDamperNode .
+				:CoordinateDamper a owl:Class ; rdfs:subClassOf :X3DDamperNode .
+				:OrientationDamper a owl:Class ; rdfs:subClassOf :X3DDamperNode .
+				:PositionDamper a owl:Class ; rdfs:subClassOf :X3DDamperNode .
+				:PositionDamper2D a owl:Class ; rdfs:subClassOf :X3DDamperNode .
+				:ScalarDamper a owl:Class ; rdfs:subClassOf :X3DDamperNode .
+				:TexCoordDamper2D a owl:Class ; rdfs:subClassOf :X3DDamperNode .
+		:X3DInfoNode a owl:Class ; rdfs:subClassOf :X3DChildNode .
+			:GeoMetadata a owl:Class ; rdfs:subClassOf :X3DInfoNode .
+			:WorldInfo a owl:Class ; rdfs:subClassOf :X3DInfoNode .
+		:X3DInterpolatorNode a owl:Class ; rdfs:subClassOf :X3DChildNode .
+			:ColorInterpolator a owl:Class ; rdfs:subClassOf :X3DInterpolatorNode .
+			:CoordinateInterpolator a owl:Class ; rdfs:subClassOf :X3DInterpolatorNode .
+			:GeoPositionInterpolator a owl:Class ; rdfs:subClassOf :X3DInterpolatorNode .
+			:NormalInterpolator a owl:Class ; rdfs:subClassOf :X3DInterpolatorNode .
+			:OrientationInterpolator a owl:Class ; rdfs:subClassOf :X3DInterpolatorNode .
+			:PositionInterpolator a owl:Class ; rdfs:subClassOf :X3DInterpolatorNode .
+			:ScalarInterpolator a owl:Class ; rdfs:subClassOf :X3DInterpolatorNode .
+			:SplinePositionInterpolator a owl:Class ; rdfs:subClassOf :X3DInterpolatorNode .
+		:X3DLightNode a owl:Class ; rdfs:subClassOf :X3DChildNode ; owl:disjointUnionOf ( :DirectionalLight :PointLight :SpotLight ) .
+			:DirectionalLight a owl:Class ; rdfs:subClassOf :X3DLightNode .
+			:PointLight a owl:Class ; rdfs:subClassOf :X3DLightNode .
+			:SpotLight a owl:Class ; rdfs:subClassOf :X3DLightNode .
+		:X3DSensorNode a owl:Class ; rdfs:subClassOf :X3DChildNode .
+			:CollisionSensor a owl:Class ; rdfs:subClassOf :X3DSensorNode .
+			:TimeSensor a owl:Class ; rdfs:subClassOf :X3DSensorNode .
+			:X3DPointingDeviceSensorNode a owl:Class ; rdfs:subClassOf :X3DSensorNode .
+				:X3DDragSensorNode a owl:Class ; rdfs:subClassOf :X3DPointingDeviceSensorNode .
+					:CylinderSensor a owl:Class ; rdfs:subClassOf :X3DDragSensorNode .
+					:PlaneSensor a owl:Class ; rdfs:subClassOf :X3DDragSensorNode .
+					:SphereSensor a owl:Class ; rdfs:subClassOf :X3DDragSensorNode .
+					:TouchSensor a owl:Class ; rdfs:subClassOf :X3DDragSensorNode .
+				:X3DTouchSensorNode a owl:Class ; rdfs:subClassOf :X3DPointingDeviceSensorNode .
+		:X3DSoundNode a owl:Class ; rdfs:subClassOf :X3DChildNode .
+			:Sound a owl:Class ; rdfs:subClassOf :X3DSoundNode .
+		:X3DTimeDependentNode a owl:Class ; rdfs:subClassOf :X3DChildNode .
+			:X3DSoundSourceNode a owl:Class ; rdfs:subClassOf :X3DTimeDependentNode .
+				:AudioClip a owl:Class ; rdfs:subClassOf :X3DSoundSourceNode .
+    :X3DFontStyleNode a owl:Class ; rdfs:subClassOf :X3DNode .
+		:FontStyle a owl:Class ; rdfs:subClassOf :X3DFontStyleNode .
+    :X3DGeometricPropertyNode a owl:Class ; rdfs:subClassOf :X3DNode .
+		:HAnimDisplacer a owl:Class ; rdfs:subClassOf :X3DGeometricPropertyNode .
+		:Normal a owl:Class ; rdfs:subClassOf :X3DGeometricPropertyNode .
+		:PopGeometryLevel a owl:Class ; rdfs:subClassOf :X3DGeometricPropertyNode .
+		:X3DColorNode a owl:Class ; rdfs:subClassOf :X3DGeometricPropertyNode .
+			:Color a owl:Class ; rdfs:subClassOf :X3DColorNode .
+			:ColorRGBA a owl:Class ; rdfs:subClassOf :X3DColorNode .
+		:X3DCoordinateNode a owl:Class ; rdfs:subClassOf :X3DGeometricPropertyNode .
+			:Coordinate a owl:Class ; rdfs:subClassOf :X3DCoordinateNode .
+			:GeoCoordinate a owl:Class ; rdfs:subClassOf :X3DCoordinateNode .
+		:X3DTextureCoordinateNode a owl:Class ; rdfs:subClassOf :X3DGeometricPropertyNode .
+			:MultiTextureCoordinate a owl:Class ; rdfs:subClassOf :X3DTextureCoordinateNode .
+			:TextureCoordinate a owl:Class ; rdfs:subClassOf :X3DTextureCoordinateNode .
+			:TextureCoordinate3D a owl:Class ; rdfs:subClassOf :X3DTextureCoordinateNode .
+			:TextureCoordinateGenerator a owl:Class ; rdfs:subClassOf :X3DTextureCoordinateNode .
+		:X3DVertexAttributeNode a owl:Class ; rdfs:subClassOf :X3DGeometricPropertyNode .
+			:FloatVertexAttribute a owl:Class ; rdfs:subClassOf :X3DVertexAttributeNode .
+    :X3DGeometryNode a owl:Class ; rdfs:subClassOf :X3DNode .
+		:ElevationGrid a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+		:Extrusion a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+		:GeoElevationGrid a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+		:IndexedLineSet a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+		:LineSet a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+		:Mesh a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+		:PointSet a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+			:ParticleSet a owl:Class ; rdfs:subClassOf :PointSet .
+		:SolidOfRevolution a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+			:IndexedFaceSet a owl:Class ; rdfs:subClassOf :SolidOfRevolution .
+			:IndexedQuadSet a owl:Class ; rdfs:subClassOf :SolidOfRevolution .
+			:IndexedTriangleSet a owl:Class ; rdfs:subClassOf :SolidOfRevolution .
+			:IndexedTriangleStripSet a owl:Class ; rdfs:subClassOf :SolidOfRevolution .
+			:QuadSet a owl:Class ; rdfs:subClassOf :SolidOfRevolution .
+			:TriangleSet a owl:Class ; rdfs:subClassOf :SolidOfRevolution .
+		:Text a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+		:X3DComposedGeometryNode a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+		:X3DPlanarGeometryNode a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+			:Arc2D a owl:Class ; rdfs:subClassOf :X3DPlanarGeometryNode .
+			:ArcClose2D a owl:Class ; rdfs:subClassOf :X3DPlanarGeometryNode .
+			:Circle2D a owl:Class ; rdfs:subClassOf :X3DPlanarGeometryNode .
+			:Disk2D a owl:Class ; rdfs:subClassOf :X3DPlanarGeometryNode .
+			:Polyline2D a owl:Class ; rdfs:subClassOf :X3DPlanarGeometryNode .
+			:Polypoint2D a owl:Class ; rdfs:subClassOf :X3DPlanarGeometryNode .
+			:Rectangle2D a owl:Class ; rdfs:subClassOf :X3DPlanarGeometryNode .
+			:TriangleSet2D  a owl:Class ; rdfs:subClassOf :X3DPlanarGeometryNode .
+		:X3DSpatialGeometryNode  a owl:Class ; rdfs:subClassOf :X3DGeometryNode .
+			:Box a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode ; owl:disjointWith :Cone , :Cylinder , :Dish , :ExternalGeometry , :Nozzle , :Plane , :Pyramid , :RectangularTorus , :SlopedCylinder , :Snout , :Sphere , :SphereSegment , :Torus .
+			:Cone a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:Cylinder a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:Dish a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:ExternalGeometry a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:Nozzle a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:Plane a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:Pyramid a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:RectangularTorus a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:SlopedCylinder a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:Snout a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:Sphere a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:SphereSegment a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:Torus a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+			:X3DBinaryContainerGeometryNode a owl:Class ; rdfs:subClassOf :X3DSpatialGeometryNode .
+				:BinaryGeometry a owl:Class ; rdfs:subClassOf :X3DBinaryContainerGeometryNode .
+				:ImageGeometry a owl:Class ; rdfs:subClassOf :X3DBinaryContainerGeometryNode .
+				:PopGeometry a owl:Class ; rdfs:subClassOf :X3DBinaryContainerGeometryNode .
+    :X3DMetadataObject a owl:Class ; rdfs:subClassOf :X3DNode .
+		:MetadataBoolean a owl:Class ; rdfs:subClassOf :X3DMetadataObject .
+		:MetadataDouble a owl:Class ; rdfs:subClassOf :X3DMetadataObject .
+		:MetadataFloat a owl:Class ; rdfs:subClassOf :X3DMetadataObject .
+		:MetadataInteger a owl:Class ; rdfs:subClassOf :X3DMetadataObject .
+		:MetadataSet a owl:Class ; rdfs:subClassOf :X3DMetadataObject .
+		:MetadataString a owl:Class ; rdfs:subClassOf :X3DMetadataObject .
+    :X3DRigidJointNode a owl:Class ; rdfs:subClassOf :X3DNode .
+		:BallJoint a owl:Class ; rdfs:subClassOf :X3DRigidJointNode .
+		:DoubleAxisHingeJoint a owl:Class ; rdfs:subClassOf :X3DRigidJointNode .
+		:MotorJoint a owl:Class ; rdfs:subClassOf :X3DRigidJointNode .
+		:SingleAxisHingeJoint a owl:Class ; rdfs:subClassOf :X3DRigidJointNode .
+		:SliderJoint a owl:Class ; rdfs:subClassOf :X3DRigidJointNode .
+		:UniversalJoint a owl:Class ; rdfs:subClassOf :X3DRigidJointNode .
+    :X3DVolumeRenderStyleNode a owl:Class ; rdfs:subClassOf :X3DNode .
+		:MPRVolumeStyle a owl:Class ; rdfs:subClassOf :X3DVolumeRenderStyleNode .
+		:ProjectionVolumeStyle a owl:Class ; rdfs:subClassOf :X3DVolumeRenderStyleNode .
+		:RadarVolumeStyle a owl:Class ; rdfs:subClassOf :X3DVolumeRenderStyleNode .
+		:StippleVolumeStyle a owl:Class ; rdfs:subClassOf :X3DVolumeRenderStyleNode .
+		:X3DComposableVolumeRenderStyleNode a owl:Class ; rdfs:subClassOf :X3DVolumeRenderStyleNode .
+			:BlendedVolumeStyle a owl:Class ; rdfs:subClassOf :X3DComposableVolumeRenderStyleNode .
+			:BoundaryEnhancementVolumeStyle a owl:Class ; rdfs:subClassOf :X3DComposableVolumeRenderStyleNode .
+			:CartoonVolumeStyle a owl:Class ; rdfs:subClassOf :X3DComposableVolumeRenderStyleNode .
+			:ComposedVolumeStyle a owl:Class ; rdfs:subClassOf :X3DComposableVolumeRenderStyleNode .
+			:EdgeEnhancementVolumeStyle a owl:Class ; rdfs:subClassOf :X3DComposableVolumeRenderStyleNode .
+			:OpacityMapVolumeStyle a owl:Class ; rdfs:subClassOf :X3DComposableVolumeRenderStyleNode .
+			:ShadedVolumeStyle a owl:Class ; rdfs:subClassOf :X3DComposableVolumeRenderStyleNode .
+			:SilhouetteEnhancementVolumeStyle a owl:Class ; rdfs:subClassOf :X3DComposableVolumeRenderStyleNode .
+			:ToneMappedVolumeStyle a owl:Class ; rdfs:subClassOf :X3DComposableVolumeRenderStyleNode .
+
+### Additional Concepts ###
+
+:3DObject a owl:Class .
+	:Primitive3DObject a owl:Class ; rdfs:subClassOf :3DObject .
+		:Spheroid a owl:Class ; rdfs:subClassOf :Primitive3DObject .
+			:OblateSpheroid a owl:Class ; rdfs:subClassOf :Spheroid .
+			:ProlateSpheroid a owl:Class ; rdfs:subClassOf :Spheroid .
+	:Complex3DObject a owl:Class ; rdfs:subClassOf :3DObject .
+:Polytope a owl:Class .
+	:Polygon a owl:Class ; rdfs:subClassOf :Polytope .
+	:Polyhedron a owl:Class ; rdfs:subClassOf :Polytope .
+		:Tetrahedron a owl:Class ; rdfs:subClassOf :Polyhedron .
+		:Dodecahedron a owl:Class ; rdfs:subClassOf :Polyhedron .
+		:Icosidodecahedron a owl:Class ; rdfs:subClassOf :Polyhedron .
+		:Cubicuboctahedron a owl:Class ; rdfs:subClassOf :Polyhedron .
+		:Triacontahedron a owl:Class ; rdfs:subClassOf :Polyhedron .
+
+
+### AutoDesk 3ds Max ###
+
+:3dsMaxObject a owl:Class ; rdfs:subClassOf :3DObject ; rdfs:domain :3dsMaxModel .
+	:GeometryObject a owl:Class ; rdfs:subClassOf :3dsMaxObject .
+		:GeometricPrimitive a owl:Class ; rdfs:subClassOf :GeometryObject .
+			:StandardPrimitive a owl:Class ; rdfs:subClassOf :GeometricPrimitive .
+				:Box a owl:Class ; rdfs:subClassOf :StandardPrimitive .
+				:Cone a owl:Class ; rdfs:subClassOf :StandardPrimitive .
+				:Sphere a owl:Class ; rdfs:subClassOf :StandardPrimitive .
+				:GeoSphere a owl:Class ; rdfs:subClassOf :StandardPrimitive .
+				:Cylinder a owl:Class ; rdfs:subClassOf :StandardPrimitive .
+				:Tube a owl:Class ; rdfs:subClassOf :StandardPrimitive .
+				:Torus a owl:Class ; rdfs:subClassOf :StandardPrimitive .
+				:Pyramid a owl:Class ; rdfs:subClassOf :StandardPrimitive .
+				:TeaPot a owl:Class ; rdfs:subClassOf :StandardPrimitive .
+				:Plane a owl:Class ; rdfs:subClassOf :StandardPrimitive .		
+			:ExtendedPrimitive a owl:Class ; rdfs:subClassOf :GeometricPrimitive .
+				:Hedra a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:TorusKnot a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:ChamferBox a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:ChampherCylinder a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:OilTank a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:Capsule a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:Spindle a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:LExt a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:Gengon a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:CExt a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:RingWave a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:Hose a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .
+				:Prism a owl:Class ; rdfs:subClassOf :ExtendedPrimitive .		
+		:AECObject a owl:Class ; rdfs:subClassOf :GeometryObject .
+			:AECDesignElement a owl:Class ; rdfs:subClassOf :AECObject .
+				:Door a owl:Class ; rdfs:subClassOf :AECDesignElement .
+					:PivotDoor a owl:Class ; rdfs:subClassOf :Door .
+					:BiFoldDoor a owl:Class ; rdfs:subClassOf :Door .
+					:SlidingDoor a owl:Class ; rdfs:subClassOf :Door .
+				:Window a owl:Class ; rdfs:subClassOf :AECDesignElement .
+					:AwningWindow a owl:Class ; rdfs:subClassOf :Window .
+					:FixedWindow a owl:Class ; rdfs:subClassOf :Window .
+					:ProjectedWindow a owl:Class ; rdfs:subClassOf :Window .
+					:Casement a owl:Class ; rdfs:subClassOf :Window .
+					:PivotedWindow a owl:Class ; rdfs:subClassOf :Window .
+					:SlidingWindow a owl:Class ; rdfs:subClassOf :Window .
+				:Stairs a owl:Class ; rdfs:subClassOf :AECDesignElement .
+					:StraightStair a owl:Class ; rdfs:subClassOf :Stairs .
+					:UTypeStair a owl:Class ; rdfs:subClassOf :Stairs .
+					:LTypeStair a owl:Class ; rdfs:subClassOf :Stairs .
+					:SpiralStair a owl:Class ; rdfs:subClassOf :Stairs .
+			:AECExtendedObject a owl:Class ; rdfs:subClassOf :AECObject .
+				:Foliage a owl:Class ; rdfs:subClassOf :AECExtendedObject .
+				:Railing a owl:Class ; rdfs:subClassOf :AECExtendedObject .
+				:Wall a owl:Class ; rdfs:subClassOf :AECExtendedObject .
+		:CompoundObject a owl:Class ; rdfs:subClassOf :GeometryObject .
+			:Morph a owl:Class ; rdfs:domain :CompoundObject .
+			:Scatter a owl:Class ; rdfs:domain :CompoundObject .
+			:Conform a owl:Class ; rdfs:domain :CompoundObject .
+			:Connect a owl:Class ; rdfs:domain :CompoundObject .
+			:BlobMesh a owl:Class ; rdfs:domain :CompoundObject .
+			:ShapeMerge a owl:Class ; rdfs:domain :CompoundObject .
+			:Boolean a owl:Class ; rdfs:domain :CompoundObject .
+			:Terrain a owl:Class ; rdfs:domain :CompoundObject .
+			:Loft a owl:Class ; rdfs:domain :CompoundObject .
+			:Mesher a owl:Class ; rdfs:domain :CompoundObject .
+			:ProBoolean a owl:Class ; rdfs:domain :CompoundObject .
+			:ProCutter a owl:Class ; rdfs:domain :CompoundObject .
+		:ParticleSystem a owl:Class ; rdfs:subClassOf :GeometryObject .
+			:PFSource a owl:Class ; rdfs:subClassOf :ParticleSystem .
+			:Snow a owl:Class ; rdfs:subClassOf :ParticleSystem .
+			:Blizzard a owl:Class ; rdfs:subClassOf :ParticleSystem .
+			:PCloud a owl:Class ; rdfs:subClassOf :ParticleSystem .
+			:Spray a owl:Class ; rdfs:subClassOf :ParticleSystem .
+			:SuperSpray a owl:Class ; rdfs:subClassOf :ParticleSystem .
+			:PArrayt a owl:Class ; rdfs:subClassOf :ParticleSystem .
+		:PatchGrid a owl:Class ; rdfs:subClassOf :GeometryObject .
+			:TriPatch a owl:Class ; rdfs:subClassOf :PatchGrid .
+			:QuadPatch a owl:Class ; rdfs:subClassOf :PatchGrid .
+		:BodyObject a owl:Class ; rdfs:subClassOf :GeometryObject .
+			:BodyUtility a owl:Class ; rdfs:subClassOf :BodyObject .
+			:JoinBodies a owl:Class ; rdfs:subClassOf :BodyObject .
+			:BodyCutter a owl:Class ; rdfs:subClassOf :BodyObject .
+		:NURBSSurface a owl:Class ; rdfs:subClassOf :GeometryObject .
+			:PointSurf a owl:Class ; rdfs:subClassOf :NURBSSurface .
+			:CVSurf a owl:Class ; rdfs:subClassOf :NURBSSurface .
+		:MentalRayObject a owl:Class ; rdfs:subClassOf :GeometryObject .
+			:MRProxy a owl:Class ; rdfs:subClassOf :MentalRayObject .
+		:PointCloud a owl:Class ; rdfs:subClassOf :GeometryObject .
+		:DynamicsObject a owl:Class ; rdfs:subClassOf :GeometryObject .
+			:Spring a owl:Class ; rdfs:subClassOf :DynamicsObject .
+			:Damper a owl:Class ; rdfs:subClassOf :DynamicsObject .
+		:AlembicObject  a owl:Class ; rdfs:subClassOf :GeometryObject .
+:ShapeObject a owl:Class ; rdfs:subClassOf :3dsMaxObject .
+	:Spline a owl:Class ; rdfs:subClassOf :ShapeObject .
+		:Line a owl:Class ; rdfs:subClassOf :Spline .
+		:Circle a owl:Class ; rdfs:subClassOf :Spline .
+		:Arc a owl:Class ; rdfs:subClassOf :Spline .
+		:NGon a owl:Class ; rdfs:subClassOf :Spline .
+		:Text a owl:Class ; rdfs:subClassOf :Spline .
+		:Egg a owl:Class ; rdfs:subClassOf :Spline .
+		:Rectangle a owl:Class ; rdfs:subClassOf :Spline .
+		:Ellipse a owl:Class ; rdfs:subClassOf :Spline .
+		:Donut a owl:Class ; rdfs:subClassOf :Spline .
+		:Star a owl:Class ; rdfs:subClassOf :Spline .
+		:Helix a owl:Class ; rdfs:subClassOf :Spline .
+		:Section a owl:Class ; rdfs:subClassOf :Spline .
+	:NURBSCurve a owl:Class ; rdfs:subClassOf :ShapeObject ; dc:description "A non-uniform rational B-spline (NURBS) curve." .
+		:PointCurve a owl:Class ; rdfs:subClassOf :NURBSCurve .
+		:CVCurve a owl:Class ; rdfs:subClassOf :NURBSCurve .
+	:ExtendedSpline a owl:Class ; rdfs:subClassOf :ShapeObject .
+		:WRectangle a owl:Class ; rdfs:subClassOf :ExtendedSpline .
+		:Angle a owl:Class ; rdfs:subClassOf :ExtendedSpline .
+		:WideFlange a owl:Class ; rdfs:subClassOf :ExtendedSpline .
+		:Channel a owl:Class ; rdfs:subClassOf :ExtendedSpline .
+		:Tee a owl:Class ; rdfs:subClassOf :ExtendedSpline .
+:LightObject a owl:Class ; rdfs:subClassOf :3dsMaxObject .
+	:StandardLightObject a owl:Class ; rdfs:subClassOf :LightObject .
+		:TargetSpotlightObject a owl:Class ; rdfs:subClassOf :StandardLightObject .
+		:TargetDirectlightObject a owl:Class ; rdfs:subClassOf :StandardLightObject .
+		:OmnilightObject a owl:Class ; rdfs:subClassOf :StandardLightObject .
+		:MRAreaOmnilightObject a owl:Class ; rdfs:subClassOf :StandardLightObject .
+		:FreeSpotlightObject a owl:Class ; rdfs:subClassOf :StandardLightObject .
+		:FreeDirectlightObject a owl:Class ; rdfs:subClassOf :StandardLightObject .
+		:SkylighObject a owl:Class ; rdfs:subClassOf :StandardLightObject .
+		:MRAreaSpotlightObject a owl:Class ; rdfs:subClassOf :StandardLightObject .
+	:PhotometricLightObject a owl:Class ; rdfs:subClassOf :LightObject .
+		:TargetLightObject a owl:Class ; rdfs:subClassOf :PhotometricLightObject .
+		:MRSkyPortalLightObject a owl:Class ; rdfs:subClassOf :PhotometricLightObject .
+		:FreeLightObject a owl:Class ; rdfs:subClassOf :PhotometricLightObject .
+:CameraObject a owl:Class ; rdfs:subClassOf :3dsMaxObject .
+	:PhysicalCameraObject a owl:Class ; rdfs:subClassOf :CameraObject .
+	:TargetCameraObject a owl:Class ; rdfs:subClassOf :CameraObject .
+	:FreeCameraObject a owl:Class ; rdfs:subClassOf :CameraObject .
+:HelperObject a owl:Class ; rdfs:subClassOf :3dsMaxObject .
+	:StandardHelperObject a owl:Class ; rdfs:subClassOf :HelperObject .
+		:DummyObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+		:CrowdObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+		:ExposeTmObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+		:PointObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+		:IRaySectionObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+		:ProtractorObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+		:ContainerObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+		:DelegateObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+		:GridObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+		:LightMeterObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+		:TapeObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+		:CompassObject a owl:Class ; rdfs:subClassOf :StandardHelperObject .
+	:AtmosphericApparatus a owl:Class ; rdfs:subClassOf :HelperObject .
+		:BoxGizmo a owl:Class ; rdfs:subClassOf :AtmosphericApparatus .
+		:SphereGizmo a owl:Class ; rdfs:subClassOf :AtmosphericApparatus .
+		:CylGizmo a owl:Class ; rdfs:subClassOf :AtmosphericApparatus .
+	:CameraMatch a owl:Class ; rdfs:subClassOf :HelperObject .
+		:CamPointObject a owl:Class ; rdfs:subClassOf :CameraMatch .
+	:AssemblyHead a owl:Class ; rdfs:subClassOf :HelperObject .
+		:Luminaire a owl:Class ; rdfs:subClassOf :AssemblyHead .
+	:Manipulator a owl:Class ; rdfs:subClassOf :HelperObject .
+		:ConeAngleManipulator a owl:Class ; rdfs:subClassOf :Manipulator .
+		:PlaneAngleManipulator a owl:Class ; rdfs:subClassOf :Manipulator .
+		:Slider  a owl:Class ; rdfs:subClassOf :Manipulator .
+	:ParticleFlowObject a owl:Class ; rdfs:subClassOf :HelperObject .
+		:FindTarget a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:InitialState a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:ParticlePaint a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:MPSolvent a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:BirthGrid a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:MPWorld a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:DataIcon a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:TestIcon a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:SpeedByIcon a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:GroupSelect a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:BirthTexture a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:MPBuoyancy a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:BirthStream a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:BlurWind a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+		:RandomWalk a owl:Class ; rdfs:subClassOf :ParticleFlowObject .
+	:MassFXObject a owl:Class ; rdfs:subClassOf :HelperObject .
+		:UConstraintObject a owl:Class ; rdfs:subClassOf :MassFXObject .
+	:CATObject a owl:Class ; rdfs:subClassOf :HelperObject .
+		:CATMuscle a owl:Class ; rdfs:subClassOf :CATObject .
+		:MuscleStrand a owl:Class ; rdfs:subClassOf :CATObject .
+		:CATParent a owl:Class ; rdfs:subClassOf :CATObject .
+	:VRML97HelperObject a owl:Class ; rdfs:subClassOf :HelperObject .
+		:AnchorObject a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+		:ProxSensor a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+		:NavInfo a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+		:Fog a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+		:SoundObject a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+		:LODObject a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+		:TouchSensor a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+		:TimeSensor a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+		:BackgroundObject a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+		:AudioClip a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+		:Billboard a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+		:InlineObject a owl:Class ; rdfs:subClassOf :VRML97HelperObject .
+:SpaceWarpObject a owl:Class ; rdfs:subClassOf :3dsMaxObject .
+	:ForceObject a owl:Class ; rdfs:subClassOf :SpaceWarpObject .
+		:PushObject a owl:Class ; rdfs:subClassOf :ForceObject .
+		:Vortex a owl:Class ; rdfs:subClassOf :ForceObject .
+		:PBomb a owl:Class ; rdfs:subClassOf :ForceObject .
+		:Gravity a owl:Class ; rdfs:subClassOf :ForceObject .
+		:Displace a owl:Class ; rdfs:subClassOf :ForceObject .
+		:Motor a owl:Class ; rdfs:subClassOf :ForceObject .
+		:Drag a owl:Class ; rdfs:subClassOf :ForceObject .
+		:PathFollow a owl:Class ; rdfs:subClassOf :ForceObject .
+		:Wind a owl:Class ; rdfs:subClassOf :ForceObject .
+	:DeflectorObject a owl:Class ; rdfs:subClassOf :SpaceWarpObject .
+		:POmniFlect a owl:Class ; rdfs:subClassOf :DeflectorObject .
+		:UOmniFlect a owl:Class ; rdfs:subClassOf :DeflectorObject .
+		:SDeflector a owl:Class ; rdfs:subClassOf :DeflectorObject .
+		:SOmniFlect a owl:Class ; rdfs:subClassOf :DeflectorObject .
+		:UDeflector a owl:Class ; rdfs:subClassOf :DeflectorObject .
+	:DeformableObject a owl:Class ; rdfs:subClassOf :SpaceWarpObject .
+		:FFDBox a owl:Class ; rdfs:subClassOf :DeformableObject .
+		:FFDCyl a owl:Class ; rdfs:subClassOf :DeformableObject .
+		:Wave a owl:Class ; rdfs:subClassOf :DeformableObject .
+		:Ripple a owl:Class ; rdfs:subClassOf :DeformableObject .
+		:Displace a owl:Class ; rdfs:subClassOf :DeformableObject .
+		:ConformDeformableObject a owl:Class ; rdfs:subClassOf :DeformableObject .
+		:Bomb a owl:Class ; rdfs:subClassOf :DeformableObject .
+	:ModifierBasedObject a owl:Class ; rdfs:subClassOf :SpaceWarpObject .
+		:BendObject a owl:Class ; rdfs:subClassOf :ModifierBasedObject .
+		:Twist a owl:Class ; rdfs:subClassOf :ModifierBasedObject .
+		:Taper a owl:Class ; rdfs:subClassOf :ModifierBasedObject .
+		:Skew a owl:Class ; rdfs:subClassOf :ModifierBasedObject .
+		:Noise a owl:Class ; rdfs:subClassOf :ModifierBasedObject .
+		:Stretch a owl:Class ; rdfs:subClassOf :ModifierBasedObject .
+	:ParticleObject a owl:Class ; rdfs:subClassOf :SpaceWarpObject .
+		:VectorFieldObject a owl:Class ; rdfs:subClassOf :ParticleObject .
+:SystemObject a owl:Class ; rdfs:subClassOf :3dsMaxObject .
+	:BoneSystem a owl:Class ; rdfs:subClassOf :SystemObject .
+	:RingArray a owl:Class ; rdfs:subClassOf :SystemObject .
+	:BipedObject a owl:Class ; rdfs:subClassOf :SystemObject .
+	:SunlightObject a owl:Class ; rdfs:subClassOf :SystemObject .
+	:DaylightObject a owl:Class ; rdfs:subClassOf :SystemObject .
+
+### AutoDesk Maya ###
+
+:MayaObject a owl:Class ; rdfs:subClassOf :3DObject ; rdfs:domain :MayaModel .
+	:nHair a owl:Class ; rdfs:subClassOf :MayaObject .
+	:nCloth a owl:Class ; rdfs:subClassOf :MayaObject .
+	:nParticle a owl:Class ; rdfs:subClassOf :MayaObject .
+	:Fur a owl:Class ; rdfs:subClassOf :MayaObject .
+	:nCloth a owl:Class ; rdfs:subClassOf :MayaObject .
+	
+	:MayaSurface a owl:Class .
+		:PolygonGeometry a owl:Class ; rdfs:subClassOf :MayaSurface .
+		:Subdivison a owl:Class ; rdfs:subClassOf :MayaSurface .
+
+###  3ds Max/Maya ###
+
+:NonRiggedModel a owl:Class ; rdfs:domain :3DModel .
+:RiggedModel a owl:Class ; rdfs:domain :3DModel , :3DAnimation .
+	:JointChain a owl:Class ; rdfs:subClassOf :RiggedModel .
+		:Joint a owl:Class ; rdfs:subClassOf :JointChain .
+	:Skeleton a owl:Class ; rdfs:subClassOf :RiggedModel .
+:Node a owl:Class .
+:MayaMuscleSystem a owl:Class ; rdfs:domain :MayaModel .
+	:Capsule a owl:Class ; rdfs:subClassOf :MayaMuscleSystem .
+	:Bone a owl:Class ; rdfs:subClassOf :MayaMuscleSystem .
+	:Muscle a owl:Class ; rdfs:subClassOf :MayaMuscleSystem .
+:Map a owl:Class .
+	:NormalMap a owl:Class ; rdfs:subClassOf :Map .
+		:ObjectSpaceMap a owl:Class ; rdfs:subClassOf :NormalMap .
+		:TangentSpaceMap a owl:Class ; rdfs:subClassOf :NormalMap .
+	:BumpMap a owl:Class ; skos:broader :MultiTexture ; rdfs:subClassOf :Map .
+	:DisplacementMap a owl:Class ; skos:related :BumpMap ; rdfs:subClassOf :Map .
+	
+### AutoDesk AutoCAD ###
+
+:AutoCADObject a owl:Class ; rdfs:subClassOf :3DObject ; rdfs:domain :AutoCADModel .
+	:AutoCADMesh a owl:Class ; rdfs:subClassOf :AutoCADObject .
+		:SmoothObject a owl:Class ; rdfs:subClassOf :AutoCADMesh .
+	:AutoCADSolid a owl:Class ; rdfs:subClassOf :AutoCADObject .
+	:AutoCADSurface a owl:Class ; rdfs:subClassOf :AutoCADObject .
+	
+
+### Additional Concepts with Reused Concepts ###
+
+dc:Agent a owl:Class .
+	vidont:Avatar a owl:Class ; rdfs:subClassOf dc:Agent ; dc:description "An animated character in a simulated environment (CGI)." .
+	schema:copyrightHolder a owl:Class ; rdfs:subClassOf dc:Agent .
+		foaf:Organization a owl:Class ; rdfs:subClassOf schema:copyrightHolder .
+			:DesignStudio a owl:Class ; rdfs:subClassOf foaf:Organization .
+			:animationStudio a owl:Class ; rdfs:subClassOf foaf:Organization .
+			vidont:filmStudio a owl:Class ; rdfs:subClassOf foaf:Organization .
+			schema:productionCompany a owl:Class ; rdfs:subClassOf foaf:Organization .
+		foaf:Person a owl:Class ; rdfs:subClassOf schema:copyrightHolder .
+			:3DGraphicDesigner a owl:Class .			
+
+schema:CreativeWork a owl:Class .
+	:3DComputerGraphicsSoftware a owl:Class ; rdfs:subClassOf schema:CreativeWork .
+	:3DModel a owl:Class ; rdfs:subClassOf schema:CreativeWork .
+		:3dsMaxModel a owl:Class ; rdfs:subClassOf :3DModel .
+		:BlenderModel a owl:Class ; rdfs:subClassOf :3DModel .
+		:MayaModel a owl:Class ; rdfs:subClassOf :3DModel .
+		:AC3DModel a owl:Class ; rdfs:subClassOf :3DModel .
+		:ModoModel a owl:Class ; rdfs:subClassOf :3DModel .
+		:Seamless3dModel a owl:Class ; rdfs:subClassOf :3DModel .
+		:X3DModel a owl:Class ; rdfs:subClassOf :3DModel .
+	:AutoCADModel a owl:Class .
+	schema:Review a owl:Class ; rdfs:subClassOf schema:CreativeWork ; dc:description "A review of an item, e.g., of a movie."@en .
+	vidont:Video a owl:Class ; rdfs:subClassOf schema:CreativeWork .
+
+schema:Movie a owl:Class ; rdfs:subClassOf :Video ; owl:disjointWith schema:MusicVideoObject , schema:TVSeason , schema:trailer .
+	:animatedMovie a owl:Class ; rdfs:subClassOf schema:Movie ; dc:description "Differentiates films from their releases. An animated movie can be a cartoon, a cartoon with motion picture, a computer animaton, or live action." .
+		:computerAnimation a owl:Class ; rdfs:subClassOf :animatedMovie .
+			:3DAnimation a owl:Class ; rdfs:subClassOf :computerAnimation .
+	
+#############################
+### Properties/Predicates/Roles ###
+#############################
+
+:alphaTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture containing alpha component." .
+:ambientTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture containing ambient component." .
+:attrib a owl:ObjectProperty ; rdfs:domain :ElevationGrid , :X3DComposedGeometryNode , :IndexedTriangleStripSet , :LineSet , :QuadSet .
+:back a owl:ObjectProperty ; rdfs:domain :ComposedCubeMapTexture ; dc:description "Texture for the back of the cubemap." .
+:background a owl:ObjectProperty ; rdfs:domain :RenderedTexture .
+:bodies a owl:ObjectProperty ; rdfs:domain :RigidBodyCollection .
+:body1 a owl:ObjectProperty ; rdfs:domain :X3DRigidJointNode ; dc:description "The first body to be joint by the node." .
+:body2 a owl:ObjectProperty ; rdfs:domain :X3DRigidJointNode ; dc:description "The second rigid body to be joint by the node." .
+:bottomTexture a owl:ObjectProperty ; rdfs:domain :ComposedCubeMapTexture ; dc:description "Texture for the bottom of the cubemap." .
+:cappingColor a owl:ObjectProperty ; rdfs:domain :ClipPlane ; dc:description "Defines the color of the capping." .
+:children a owl:ObjectProperty , owl:TransitiveProperty ; rdfs:domain :X3DLODNode , :X3DTransformNode , :X3DGroupingNode , :Inline	; dc:description "Grouping nodes have a field that contains a list of children nodes" .
+:collidables a owl:ObjectProperty ; rdfs:domain :CollisionCollection ; dc:description "The collidables field can be managed as a single entity for resolution of inter-object collisions with other groups of collidable objects." .
+:collider a owl:ObjectProperty ; rdfs:domain :CollisionSensor ; dc:description "Specifies the nodes and spaces that are to be included in collision detection computations." .
+:colorMaskMode a owl:ObjectProperty ; dc:description "Holds a ColorMaskMode node." .
+:data a owl:ObjectProperty ; rdfs:domain :GeoMetadata ; dc:description "The data field is used to list all of the other nodes in a scene by DEF name that reference the data described in the GeoMetadata node. The nodes in the data field are not rendered, so DEF/USE can be used in order to first describe them and then to use them in the scene graph." .
+:depicts a owl:ObjectProperty ; rdfs:subPropertyOf owl:topObjectProperty .
+:depthMode a owl:ObjectProperty ; dc:description "Holds the depthMode node." .
+:depthTexture a owl:ObjectProperty ; rdfs:domain :RadarVolumeStyle .
+:diffuseDisplacementTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture containing diffuse displacement component." .
+:diffuseTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture containing diffuse component." .
+:displacementTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture containing displacement component." .
+:displacers a owl:ObjectProperty ; rdfs:domain :HAnimJoint , :HAnimSegment .
+:emissiveTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture containing emissive component." .
+:environmentTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Cube texture containing the environment for perfect specular reflection and transmission." .
+:excludeNodes a owl:ObjectProperty ; rdfs:domain :RenderedTexture .
+:fields a owl:ObjectProperty ; rdfs:domain :ComposedShader ; dc:description "Contains all fields of shader parts." .
+:fog a owl:ObjectProperty ; rdfs:domain :RenderedTexture .
+:FontStyle a owl:ObjectProperty , owl:TransitiveProperty ; rdfs:domain :Text ; dc:description "Sets the text style." .
+:front a owl:ObjectProperty ; rdfs:domain :ComposedCubeMapTexture ; dc:description "Texture for the front of the cubemap." .
+:geometry a owl:ObjectProperty ; rdfs:domain :X3DVolumeDataNode , :RigidBody , :X3DShapeNode ; dc:description "Holds the geometry node." .
+:gradients a owl:ObjectProperty ; rdfs:domain :IsoSurfaceVolumeData ; dc:description "Allows to provide the normals of the volume data." .
+:joints a owl:ObjectProperty ; rdfs:domain :HAnimHumanoid , :RigidBodyCollection .
+:left a owl:ObjectProperty ; rdfs:domain :ComposedCubeMapTexture ; dc:description "Texture for the left side of the cubemap." .
+:levels a owl:ObjectProperty ; rdfs:domain :PopGeometry .
+:massDensityModel a owl:ObjectProperty ; rdfs:domain :RigidBody .
+:material a owl:ObjectProperty ; rdfs:domain :ShadedVolumeStyle ; dc:description "Material." .
+:multiDiffuseAlphaTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Multi diffuse alpha texture." .
+:multiEmmisiveAmbientIntensityTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Multi emissive ambientIntensity texture." .
+:multiSpecularShininessTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Multi specular shininess texture." .
+:multiVisibilityTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Multi visibility texture." .
+:normalTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture containing normal component for normal mapping." .
+:parts a owl:ObjectProperty ; rdfs:domain :ComposedShader ; dc:description "List of shader parts." .
+:privateChild1Node a owl:ObjectProperty ; rdfs:domain :GeoLOD .
+:privateChild2Node a owl:ObjectProperty ; rdfs:domain :GeoLOD .
+:privateChild3Node a owl:ObjectProperty ; rdfs:domain :GeoLOD .
+:privateChild4Node a owl:ObjectProperty ; rdfs:domain :GeoLOD .
+:proxy a owl:ObjectProperty ; rdfs:domain :X3DGroupingNode ; dc:description "Alternate object to be checked for collision, in place of the children of the node." .
+:reflectionTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture containing reflection component." .
+:renderStyle a owl:ObjectProperty ; rdfs:domain :ComposedVolumeStyle , :IsoSurfaceVolumeData , :SegmentedVolumeData , :VolumeData .
+:right a owl:ObjectProperty ; rdfs:domain :ComposedCubeMapTexture ; dc:description "Texture for the right side of the cubemap." .
+:root a owl:ObjectProperty ; rdfs:domain :DynamicLOD .
+:rootNode a owl:ObjectProperty ; rdfs:domain :GeoLOD ; dc:description "The rootUrl and rootNode fields provide two different ways to specify the geometry of the root tile. The rootUrl field lets you specify a URL for a file that contains the geometry." .
+:segmentIdentifiers a owl:ObjectProperty ; rdfs:domain :SegmentedVolumeData .
+:segments a owl:ObjectProperty ; rdfs:domain :HAnimHumanoid .
+:shaders a owl:ObjectProperty ; dc:description "Shaders." .
+:shape a owl:ObjectProperty ; rdfs:domain :CADFace ; dc:description "The geometry and appearance for the face or an LOD node containing different detail levels of the shape." .
+:shininessTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture containing shininess component." .
+:sites a owl:ObjectProperty ; rdfs:domain :HAnimHumanoid .
+:skeleton a owl:ObjectProperty ; rdfs:domain :HAnimHumanoid .
+:skin a owl:ObjectProperty ; rdfs:domain :HAnimHumanoid .
+:skinCoord a owl:ObjectProperty ; rdfs:domain :HAnimHumanoid .
+:skinNormal a owl:ObjectProperty ; rdfs:domain :HAnimHumanoid .
+:source a owl:ObjectProperty ; rdfs:domain :Sound .
+:specularTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture containing specular component." .
+:surfaceNormals a owl:ObjectProperty ; rdfs:domain :X3DComposableVolumeRenderStyleNode , :OpacityMapVolumeStyle ; dc:description "Allows to provide the normals of the volume data." .
+:texture a owl:ObjectProperty ; dc:description "Texture." .
+:textureProp a owl:ObjectProperty ; rdfs:domain :X3DTexture3DNode ; dc:description "Sets a TextureProperty node." .
+:textureTransform a owl:ObjectProperty ; dc:description "Texture transform." .
+:top a owl:ObjectProperty ; rdfs:domain :ComposedCubeMapTexture , :Cone , :SlopedCylinder , :Snout ; dc:description "Texture for the top of the cubemap. For cones, it specifies whether the top cap of the cone is created." .
+:transferFunction a owl:ObjectProperty ; rdfs:domain :OpacityMapVolumeStyle , :RadarVolumeStyle ; dc:description "A texture that is going to be used to map each voxel value to a specific color output." .
+:transmissionTexture a owl:ObjectProperty ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture containing transmission component." .
+:viewpoints a owl:ObjectProperty ; rdfs:domain :HAnimHumanoid .
+:voxels a owl:ObjectProperty ; rdfs:domain :BlendedVolumeStyle , :IsoSurfaceVolumeData , :SegmentedVolumeData ; dc:description "An ImageTextureAtlas node containing the volume data to be blended." .
+:weightTransferFunction1 a owl:ObjectProperty ; rdfs:domain :BlendedVolumeStyle ; dc:description "A 2D texture that maps each opacity value to a weight value, that will be used on the parent volume data." .
+:weightTransferFunction2 a owl:ObjectProperty ; rdfs:domain :BlendedVolumeStyle ; dc:description "A 2D texture that maps each opacity value to a weight value, that will be used on the volume data to be blended." .
+
+
+:accumFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RadarVolumeStyle ; dc:description "Specifies a multiplier for the color and intensity accumulated as the ray traverses the volume data in case of alpha composting based volume rendering" .
+:allowViewpointInside a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DVolumeDataNode ; dc:description "Allow to locate the viewpoint inside the volume." .
+:alphaClipThreshold a owl:DatatypeProperty ; rdfs:range xsd:float ; dc:description "Specify the threshold for the alpha clipping." .
+:alphaFactor a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :CommonSurfaceShader ; dc:description "The value of alphaTexture is multiplied by this value. If no texture is set, the value is used directly." .
+:alphaFunc a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "none" ; rdf:rest [ a rdf:List ; rdf:first "never" ; rdf:rest [ a rdf:List ; rdf:first "less" ; rdf:rest [ a rdf:List ; rdf:first "equal" ; rdf:rest [ a rdf:List ; rdf:first "lequal" ; rdf:rest [ a rdf:List ; rdf:first "greater" ; rdf:rest [ a rdf:List ; rdf:first "notequal" ; rdf:rest [ a rdf:List ; rdf:first "gequal" ; rdf:rest [ a rdf:List ; rdf:rest [ a rdf:List ; rdf:first "always" ; rdf:rest rdf:nil ] ] ] ] ] ] ] ] ] ] ] ; rdfs:domain :BlendMode .
+:alphaFuncValue a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :BlendMode ; dc:description "Defines how fragments which do not fulfill a certain condition are handled." .
+:alphaTextureChannelMask a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "ChannelMask for alphaTexture in the form of a glsl swizzle (e.g., 'rgb', 'a')." .
+:alphaTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel to use for alphaTexture." .
+:alphaTextureId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The texture unit." .
+:ambientFactor a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The value of ambientTexture is multiplied by this value. If no texture is set, the value is used directly." .
+:ambientIntensity a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :X3DLightNode , :X3DMaterialNode ; dc:description "Specifies the intensity of the ambient emission from the light." .
+:ambientTextureChannelMask a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "ChannelMask for ambientTexture in the form of a glsl swizzle (e.g., 'rgb', 'a')." .
+:ambientTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel to use for ambientTexture." .
+:ambientTextureId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The texture unit." .
+:anchorPoint a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :SingleAxisHingeJoint , :DoubleAxisHingeJoint , :UniversalJoint ; dc:description "The common anchor point." .
+:angle a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RectangularTorus , :SolidOfRevolution , :Torus ; dc:description "Defines the length of the torus as angle. 2 * π is a full torus (RectangularTorus) or the subtended angle through which the 2D loop is swept around the x axis (SolidOfRevolution)." .
+:angularDampingFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RigidBody ; dc:description "Angular damping factor." .
+:angularVelocity a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :RigidBody ; dc:description "Provides a constant velocity value to the object every frame." .
+:anisotropicDegree a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :TextureProperties ; dc:description "Describes the minimum degree of anisotropy to account for in texture filtering." .
+:applied a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :LineProperties .
+:attenuation a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :PointLight , :SpotLight ; dc:description "PointLight/spotlight node's illumination falls off with distance as specified by three attenuation coefficients." .
+:attributeStride a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Stride of all (interleaved) attributes, given in bytes." .
+:autoDamp a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RigidBody ; dc:description "The application of damping is controlled through the use of the autoDamp field. When the value is FALSE, no damping is applied. When the value is TRUE, rotational and translational damping is calculated and applied." .
+:autoDisable a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RigidBody , :RigidBodyCollection ; dc:description "By default, this automatic disabling is turned off. It may be enabled by setting the autoDisable field to TRUE." .
+:autoOffset a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DDragSensorNode ; dc:description "Determines whether offset values from previous drag gestures are remembered / accumulated." .
+:autoRefinement a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RefinementTexture ; dc:description "Defines whether texture refinement should be managed by another component." .
+:avatarSize a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :NavigationInfo ; dc:description "avatarSize triplet values are: (a) collision distance between user and geometry (near culling plane of the view frustrum) (b) viewer height above terrain (c) tallest height viewer can WALK over. Hint: keep (avatarSize.CollisionDistance / visibilityLimit) less then; 10,000 to avoid aliasing artifacts (i.e. polygon 'tearing'). Interchange profile hint: this field may be ignored." .
+:axis a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :SingleAxisHingeJoint , :SliderJoint ; dc:description "The axis of the hinge is defined to be along the unit vector described in the axis field and centered on the anchorPoint described in world coordinates." .
+:axis1 a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :DoubleAxisHingeJoint , :UniversalJoint ; dc:description "Specified relative to the first body." .
+:axis1Angle a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :MotorJoint ; dc:description "The three axis angle fields provide angles (in angle base units) for this frame for the corresponding motor axis when in user-calculated mode." .
+:axis1Torque a owl:DatatypeProperty ; rdfs:range xsd:float; rdfs:domain :MotorJoint ; dc:description "Torque on axis 1." .
+:axis2 a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :DoubleAxisHingeJoint , :UniversalJoint ; dc:description "Specified relative to the second body." .
+:axis2Angle a owl:DatatypeProperty ; rdfs:range xsd:float; rdfs:domain :MotorJoint ; dc:description "The three axis angle fields provide angles (in angle base units) for this frame for the corresponding motor axis when in user-calculated mode." .
+:axis2Torque a owl:DatatypeProperty ; rdfs:range xsd:float; rdfs:domain :MotorJoint ; dc:description "Torque on axis 2." .
+:axis3Angle a owl:DatatypeProperty ; rdfs:range xsd:float; rdfs:domain :MotorJoint ; dc:description "The three axis angle fields provide angles (in angle base units) for this frame for the corresponding motor axis when in user-calculated mode." .
+:axis3Torque a owl:DatatypeProperty ; rdfs:range xsd:float; rdfs:domain :MotorJoint ; dc:description "Torque on axis 3." .
+:axisOfRotation a owl:DatatypeProperty ; rdfs:range xsd:complexType ; dc:description "The axis of rotation, whose direction is relative to local coordinate system. Axis 0 0 0 faces the viewer." .
+:axisRotation a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CylinderSensor , :PlaneSensor .
+:backAmbientIntensity a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :TwoSidedMaterial ; dc:description "Defines the ambient intensity for the back side." .
+:backDiffuseColor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :TwoSidedMaterial ; dc:description "Defines the diffuse color for the back side." .
+:backEmissiveColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :TwoSidedMaterial ; dc:description "Defines the emissive color for the back side." .
+:backShininess a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :TwoSidedMaterial ; dc:description "Defines the shininess for the back side." .
+:backSpecularColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :TwoSidedMaterial ; dc:description "Defines the specular color for the back side." .
+:backTransparency a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :TwoSidedMaterial ; dc:description "Defines the transparency for the back side." .
+:backUrl a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Background .
+:bbMaxModF a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :PopGeometry ; dc:description "The maximum coordinates of the bounding box, in a normalized range between [0,1], and given modulo maxBBSize." .
+:bbMin a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :PopGeometry ; dc:description "Minimum coordinates of the bounding box, in object coordinates." .
+:bbMinModF a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :PopGeometry ; dc:description "The minimum coordinates of the bounding box, in a normalized range between [0,1], and given modulo maxBBSize." .
+:bbShiftVec a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :PopGeometry ; dc:description "Field for internal use." .
+:bboxCenter a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DLODNode , :X3DTransformNode , :X3DGroupingNode , :X3DVolumeDataNode , :Inline , :X3DShapeNode ; dc:description "Center of the bounding box." .
+:bboxSize a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DLODNode , :X3DTransformNode , :X3DGroupingNode , :X3DVolumeDataNode , :X3DShapeNode , :Inline ; dc:description "Size of the bounding box." .
+:beamWidth a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SpotLight ; dc:description "Specifies an inner solid angle in which the light source emits light at uniform full intensity." .
+:beginCap a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Extrusion ; dc:description "Specifies whether the beginCap should exist." .
+:bind a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DBackgroundNode , :X3DEnvironmentNode , :Fog , :X3DViewpointNode , :X3DNavigationInfoNode ; dc:description "Pushes/pops the node on/from the top of the bindable stack." .
+:binormal a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :BinaryGeometry .
+:binormalTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel that contains the tangents in v." .
+:binormalType a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :BinaryGeometry ; dc:description "Specifies the byte format of the binormals." .
+:borderColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :TextureProperties ; dc:description "Describes the color to use for border pixels." .
+:borderWidth a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :TextureProperties ; dc:description "Describes the number of pixels to use for a texture border." .
+:bottom a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Cone , :Cylinder , :SlopedCylinder , :Dish , :Snout ; dc:description "For cones, the bottom field specifies whether the bottom cap of the cone is created. For cylinders, the bottom field specifies whether the bottom cap of the cylinder is created. For dishes, it specifies whether the bottom cap of the dish is created." .
+:bottomUrl a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Background .
+:bounce a owl:DatatypeProperty ; rdfs:range [ a rdfs:Datatype ; owl:onDatatype xsd:float; owl:withRestrictions ( [ xsd:minInclusive "0"^^xsd:float ] [ xsd:maxInclusive "1"^^xsd:float ] ) ] ; rdfs:domain :CollisionCollection ; dc:description "Indicates how bouncy the surface contact is. 0 indicates no bounce at all, while 1 indicates maximum bounce." .
+:boundaryModeR a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :TextureProperties ; dc:description "Describes the way R texture coordinate boundaries are handled." .
+:boundaryModeS a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :TextureProperties ; dc:description "Describes the way S texture coordinate boundaries are handled." .
+:boundaryModeT a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :TextureProperties ; dc:description "Describes the way T texture coordinate boundaries are handled." .
+:boundaryOpacity a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :BoundaryEnhancementVolumeStyle ; dc:description "The boundaryOpacity field specifies the amount of boundary enhancement to use." .
+:brightness a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RadarVolumeStyle ; dc:description "Specifies a multiplier for the RGB values of the output color." .
+:bvhType a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "'jsBIH" ; rdf:rest [ a rdf:List ; rdf:first "BIH" ; rdf:rest [ a rdf:List ; rdf:first "OCTREE" ;  rdf:rest rdf:nil ] ] ] ] ; rdfs:domain :StaticGroup ; dc:description "Defines the type of bvh to use." .
+:cappingStrength a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ClipPlane ; dc:description "Defines the strength of the capping." .
+:caps a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RectangularTorus , :SolidOfRevolution , :Torus ; dc:description "Specifies whether the side caps exist." .
+:ccw a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DPlanarGeometryNode , :X3DSpatialGeometryNode , :GeoElevationGrid , :X3DBinaryContainerGeometryNode , :X3DComposedGeometryNode , :X3DGeometryNode , :IndexedQuadSet , :LineSet , :Nozzle , :PointSet , :QuadSet ; dc:description "The ordering of the vertex coordinates of the geometry with respect to user-given or automatically generated normal vectors used in the lighting model equations." .
+:center a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Transform , :X3DLODNode , :Plane , :TextureTransform , :TextureTransform3D ; dc:description "Specifies a translation offset from the origin of the local coordinate system (0,0,0). For LOD nodes, the center field is a translation offset in the local coordinate system that specifies the centre of the LOD node for distance calculations." .
+:centerOfMass a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :HAnimSegment , :RigidBody .
+:centerOfRotation a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :GeoViewpoint , :OrthoViewpoint , :Viewpoint ; dc:description "Specifies a center about which to rotate the user's eyepoint when in EXAMINE mode." .
+:child1Url a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :GeoLOD ; dc:description "When the viewer enters the specified range, this geometry is replaced with the contents of the four children files defined by child1Url through child4Url. The four children files are loaded into memory only when the user is within the specified range. Similarly, these are unloaded from memory when the user leaves this range." .
+:child2Url a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :GeoLOD ; dc:description "When the viewer enters the specified range, this geometry is replaced with the contents of the four children files defined by child1Url through child4Url. The four children files are loaded into memory only when the user is within the specified range. Similarly, these are unloaded from memory when the user leaves this range." .
+:child3Url a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :GeoLOD ; dc:description "When the viewer enters the specified range, this geometry is replaced with the contents of the four children files defined by child1Url through child4Url. The four children files are loaded into memory only when the user is within the specified range. Similarly, these are unloaded from memory when the user leaves this range." .
+:child4Url a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :GeoLOD ; dc:description "When the viewer enters the specified range, this geometry is replaced with the contents of the four children files defined by child1Url through child4Url. The four children files are loaded into memory only when the user is within the specified range. Similarly, these are unloaded from memory when the user leaves this range." .
+:closed  a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :SplinePositionInterpolator ; dc:description "Specifies whether the interpolator should provide a closed loop, with continuous velocity vectors as the interpolator transitions from the last key to the first key." .
+:closureType a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "PIE" ; rdf:rest [ a rdf:List ; rdf:first "CHORD" ; rdf:rest rdf:nil ] ] ] ; rdfs:domain :ArcClose2D ; dc:description "The end points of the arc specified are connected as defined by the closureType field." .
+:collideTime a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Collision ; dc:description "The time of collision." .
+:colorIndex a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :IndexedFaceSet , :IndexedLineSet ; dc:description "The index data for the color data." .
+:colorOffset a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Offset, given in bytes, for the color attribute inside the interleaved attribute array." .
+:colorPerVertex a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ElevationGrid , :IndexedFaceSet , :IndexedLineSet , :X3DComposedGeometryNode ; dc:description "Determines whether colours specified in the color field are applied to each vertex or each quadrilateral of the ElevationGrid node. For IndexedFaceSet, if colorPerVertex is FALSE, colours are applied to each face. If colorPerVertex is true, colours are applied to each vertex." .
+:colorPrecision a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Precision, given in bytes, for the components of the color attribute." .
+:colorSteps a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CartoonVolumeStyle ; dc:description "Specifies how many distinct colors are taken from the interpolated colors and used to render the object." .
+:colorTransparency a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :BlendMode ; dc:description "The constant alpha used by blend modes constant." .
+:colorType a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :BinaryGeometry , :PopGeometry ; dc:description "Specifies the byte format of the colors." .
+:colorURL a owl:DatatypeProperty ; rdfs:range xsd:anyURI ; rdfs:domain :BinaryGeometry ; dc:description "The URL to the binary file that contains the colors." .
+:colorvector a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :BlendMode , :X3DLightNode , :ColorRGBA , :X3DFogNode .
+:compressed a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :BinaryGeometry ; dc:description "Flag that specifies whether the binary files are GZip compressed." .
+:constantForceMix a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RigidBodyCollection ; dc:description "Applies damping to the calculations by violating the normal constraints by applying a small, constant force to those calculations." .
+:contactSurfaceThickness a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RigidBodyCollection ; dc:description "Represents how far bodies may interpenetrate after a collision. This allows simulation of softer bodies that may deform somewhat during collision. The default value is zero." .
+:contourStepSize a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :IsoSurfaceVolumeData ; dc:description "Specifies an step size to render isosurfaces that are multiples of an initial isovalue." .
+:convex a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Extrusion , :IndexedFaceSet ; dc:description "Indicates whether all polygons in the shape are convex." .
+:coolColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; dc:description "Specifies the color to be used for surfaces facing away of the light direction." .
+:coord a owl:DatatypeProperty ; rdfs:range xsd:anyURI ; rdfs:domain :BinaryGeometry , :HAnimSegment , :ImageGeometry , :LineSet , :PointSet ; dc:description "The URL to the binary file that contains the mesh coordinates." .
+:coordIndex a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :HAnimDisplacer , :IndexedLineSet .
+:coordType a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :BinaryGeometry , :PopGeometry ; dc:description "Specifies the byte format of the coordinates." .
+:creaseAngle a owl:DatatypeProperty ; rdfs:range xsd:double ; rdfs:domain :ElevationGrid , :Extrusion , :GeoElevationGrid , :IndexedFaceSet , :SolidOfRevolution ; dc:description "Affects how default normals are generated." .
+:crossOrigin a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :X3DBackgroundNode , :X3DEnvironmentTextureNode , :X3DTexture3DNode , :GeneratedCubeMapTexture , :X3DTextureNode ; dc:description "Cross Origin Mode." .
+:crossSection a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Extrusion , :SolidOfRevolution ; dc:description "Describes the cross section as a 2D piecewise linear curve (series of connected vertices)." .
+:cutOffAngle a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SpotLight ; dc:description "Specifies the outer bound of the solid angle." .
+:cycleInterval a owl:DatatypeProperty ; rdfs:range xsd:time ; rdfs:domain :TimeSensor ; dc:description "The cycle of a TimeSensor node lasts for cycleInterval seconds." .
+:cycleTime a owl:DatatypeProperty ; rdfs:range xsd:time ; rdfs:domain :TimeSensor ; dc:description "Can be used for synchronization purposes such as sound with animation." .
+:dbottom a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Snout ; dc:description "Defines the diameter of the bottom surface." .
+:debug a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :StaticGroup ; dc:description "Enables debugging." .
+:depthFunc a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "NONE" ; rdf:rest [ a rdf:List ; rdf:first "NEVER" ; rdf:rest [ a rdf:List ; rdf:first "LESS" ; rdf:rest [ a rdf:List ; rdf:first "EQUAL" ; rdf:rest [ a rdf:List ; rdf:first "LEQUAL" ; rdf:rest [ a rdf:List ; rdf:first "GREATER" ; rdf:rest [ a rdf:List ; rdf:first "NOTEQUAL" ; rdf:rest [ a rdf:List ; rdf:first "GEQUAL" ; rdf:rest [ a rdf:List ; rdf:first "ALWAYS" ; rdf:rest rdf:nil ] ] ] ] ] ] ] ] ] ] ; rdfs:domain :DepthMode ; dc:description "The depth function to use." .
+:depthMap a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RenderedTexture ; dc:description "Determines if textures shall be treated as depth map." .
+:description a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :Anchor , :X3DFogNode , :GeoViewpoint .
+:desiredAngularVelocity1 a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DoubleAxisHingeJoint ; dc:description "Desired angular velocity for the first axis." .
+:desiredAngularVelocity2 a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DoubleAxisHingeJoint ; dc:description "Desired angular velocity for the second axis." .
+:destFactor a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "none" ; rdf:rest [ a rdf:List ; rdf:first "zero" ; rdf:rest [ a rdf:List ; rdf:first "one" ; rdf:rest [ a rdf:List ; rdf:first "dst_color" ; rdf:rest [ a rdf:List ; rdf:first "src_color" ; rdf:rest [ a rdf:List ; rdf:first "one_minus_dst_color" ; rdf:rest [ a rdf:List ; rdf:first "one_minus_src_color" ; rdf:rest [ a rdf:List ; rdf:first "src_alpha, one_minus_src_alpha" ; rdf:rest [ a rdf:List ; rdf:first "dst_alpha" ; rdf:rest [ a rdf:List ; rdf:first "one_minus_dst_alpha" ; rdf:rest [ a rdf:List ; rdf:first "src_alpha_saturate" ; rdf:rest [ a rdf:List ; rdf:first "constant_color" ; rdf:rest [ a rdf:List ; rdf:first "one_minus_constant_color" ; rdf:rest [ a rdf:List ; rdf:first "constant_alpha" ; rdf:rest [ a rdf:List ; rdf:first "one_minus_constant_alpha" ; rdf:rest rdf:nil ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ; rdfs:domain :BlendMode ; dc:description "The frame buffer pixel is scaled according to the method defined by the destination factor." .
+:destination a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :ColorChaser , :CoordinateDamper , :X3DEnvironmentNode , :OrientationChaser , :OrientationDamper , :PositionChaser , :PositionChaser2D , :PositionDamper , :PositionDamper2D , :ScalarChaser , :ScalarDamper , :TexCoordDamper2D ; dc:description "The target color/orientation value." .
+:diameter a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Dish ; dc:description "Specifies the diameter of the base." .
+:diffuseColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DMaterialNode ; dc:description "Reflects all X3D light sources depending on the angle of the surface with respect to the light source." .
+:diffuseFactor a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The value of diffuseTexture is multiplied by this value. If no texture is set, the value is used directly." .
+:diffuseTextureChannelMask a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "ChannelMask for diffuseTexture in the form of a glsl swizzle (e.g., 'rgb', 'a')." .
+:diffuseTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel to use for diffuseTexture." .
+:diffuseTextureId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The texture unit." .
+:dimensions a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DVolumeDataNode , :RenderedTexture ; dc:description "Specifies the size of of the bounding box for the volume data." .
+:direction a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :DirectionalLight , :SpotLight ; dc:description "Specifies the direction vector of the illumination emanating from the light source in the local coordinate system." .
+:disableAngularSpeed a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RigidBody , :RigidBodyCollection ; dc:description "Defines conditions for when the body ceases to considered as part of the rigid body calculations and should be considered as at rest." .
+:disableLinearSpeed a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RigidBody , :RigidBodyCollection ; dc:description "Defines conditions for when the body ceases to considered as part of the rigid body calculations and should be considered as at rest." .
+:disableTime a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RigidBody , :RigidBodyCollection ; dc:description "Defines conditions for when the body ceases to considered as part of the rigid body calculations and should be considered as at rest." .
+:displacementAxis a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "Axis along which the vertices are displacement" .
+:displacementFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :CommonSurfaceShader ; dc:description "Factor for the displacement." .
+:displacementTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel to use for displacementTexture." .
+:displacementTextureId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The texture unit." .
+:displacements a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :HAnimDisplacer .
+:doPickPass a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Scene ; dc:description "Flag to enable/disable pick pass." .
+:drawOrder a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "Any" ; rdf:rest [ a rdf:List ; rdf:first "BackToFront" ; rdf:rest [ a rdf:List ; rdf:first "FrontToBack" ; rdf:rest rdf:nil ] ] ] ] ; rdfs:domain :ParticleSet ; dc:description "Defines the drawing order for the particles." .
+:dtop a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Snout ; dc:description "Defines the diameter of the top surface." .
+:duration a owl:DatatypeProperty ; rdfs:range xsd:time ; rdfs:domain :X3DChaserNode , :ScalarChaser ; dc:description "Duration of the transition." .
+:edgeColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :EdgeEnhancementVolumeStyle ; dc:description "Specifies the color to be used for the edge enhacement." .
+:elapsedTime a owl:DatatypeProperty ; rdfs:range xsd:time ; rdfs:domain :TimeSensor ; dc:description "Delivers the current elapsed time since the TimeSensor was activated and running, cumulative in seconds and not counting any time while in a paused state." .
+:elevationScaling a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :GeoViewpoint ; dc:description "Enable/disable elevation scaled speed for automatic adjustment of user movement as recommended in spec." .
+:emissiveColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DMaterialNode ; dc:description "Models 'glowing' objects." .
+:emissiveFactor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CommonSurfaceShader ; dc:description "The value of emissiveTexture is multiplied by this value. If no texture is set, the value is used directly." .
+:emissiveTextureChannelMask a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "ChannelMask for emissiveTexture in the form of a glsl swizzle (e.g., 'rgb', 'a')." .
+:emissiveTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel to use for emissiveTexture." .
+:emissiveTextureId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The texture unit." .
+:enableARC a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ElevationGrid ; dc:description "Adjusts rendering parameters." .
+:enableCulling a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RemoteSelectionGroup ; dc:description "Defines whether culling is used. If culling is disabled the RemoteSelectionGroup works like a normal group." .
+:enableDepthTest a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :DepthMode ; dc:description "Whether the depth test should be enabled or not." .
+:enabled a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :AudioClip , :X3DComposableVolumeRenderStyleNode , :X3DVolumeRenderStyleNode , :X3DDragSensorNode , :ProjectionVolumeStyle , :RigidBody , :RigidBodyCollection ; dc:description "For audio clips, it specifies whether the clip is enabled. For EdgeEnhancementVolumeStyle, it specifies whether the render style is enabled or disabled." .
+:enabledAxes a owl:DatatypeProperty ; rdfs:range xsd:integer; rdfs:domain :MotorJoint ; dc:description "The currently enabled axis." .
+:endAngle a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Arc2D ; dc:description "The arc extends from the startAngle counterclockwise to the endAngle." .
+:endCap a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Extrusion ; dc:description "Specifies whether the endCap should exist." .
+:environmentFactor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CommonSurfaceShader ; dc:description "The value of environmentTexture is multiplied by this value. If no texture is set, the value is used directly." .
+:environmentTextureChannelMask a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "ChannelMask for environmentTexture in the form of a glsl swizzle (e.g., 'rgb', 'a')." .
+:environmentTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader .
+:environmentTextureId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The texture unit." .
+:equation a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "none" ; rdf:rest [ a rdf:List ; rdf:first "func_add" ; rdf:rest [ a rdf:List ; rdf:first "func_subtract" ; rdf:rest [ a rdf:List ; rdf:first "func_reverse_subtract" ; rdf:rest [ a rdf:List ; rdf:first "min" ; rdf:rest [ a rdf:List ; rdf:first "max" ; rdf:rest [ a rdf:List ; rdf:first "logic_op" ; rdf:rest rdf:nil ] ] ] ] ] ] ] ] ; rdfs:domain :BlendMode ; dc:description "An additional equation used to combine source, destination and the constant value." .
+:errorCorrection a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RigidBodyCollection ; dc:description "Describes how quickly the system should resolve intersection errors due to floating point inaccuracies." .
+:explorationMode a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "all" ; rdf:rest [ a rdf:List ; rdf:first "pan" ; rdf:rest [ a rdf:List ; rdf:first "zoom" ; rdf:rest [ a rdf:List ; rdf:first "rotate" ; rdf:rest [ a rdf:List ; rdf:first "none" ; rdf:rest rdf:nil ] ] ] ] ] ] ; rdfs:domain :NavigationInfo ; dc:description "Allows restricting examine and turntable navigation, overrides mouse buttons." .
+:family a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :FontStyle ; dc:description "Defines the text family." .
+:fieldOfView a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :GeoViewpoint , :OrthoViewpoint , :Viewpoint ; dc:description "Preferred minimum viewing angle from this viewpoint in radians." .
+:finalLine a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :MPRVolumeStyle ; dc:description "Specifies the second line to calculate the normal plane." .
+:finiteRotationAxis a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :RigidBody ; dc:description "Specifies a vector around which the object rotates." .
+:first a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :TimeSensor .
+:firstCycle a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :TimeSensor .
+:fixed a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RigidBody ; dc:description "Indicates that this body does not move." .
+:fogType a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "LINEAR" ; rdf:rest [ a rdf:List ; rdf:first "EXPONENTIAL" ; rdf:rest rdf:nil ] ] ] ; rdfs:domain :X3DFogNode ; dc:description "Controls how much of the fog colour is blended with the object as a function of distance." .
+:forceOutput a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :X3DRigidJointNode ; dc:description "Controls which output fields are to be generated for the next frame." .
+:forceTransitions a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DLODNode ; dc:description "Specifies whether browsers are allowed to disregard level distances in order to provide better performance." .
+:forces a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :RigidBody ; dc:description "The torques and forces fields define zero or more sets of torque and force values that are applied to the object every frame. These are continuously applied until reset to zero by the user." .
+:format a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :RefinementTexture ; dc:description "Specifies the image format of the dataset." .
+:fraction_changed a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :TimeSensor ; dc:description "Outputs a floating point value in the closed interval [0, 1]." .
+:fresnelBlend a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :CommonSurfaceShader ; dc:description "To what degree the Fresnel equation for dielectrics should be used to blend the perfect specular reflection and transmission." .
+:frictionCoefficients a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CollisionCollection ; dc:description "Friction coefficients." .
+:frontUrl a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Background .
+:frustumCulling a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ElevationGrid ; dc:description "If TRUE, objects outside the viewing frustum are ignored." .
+:gammaCorrectionDefault a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :ElevationGrid ; dc:description "The gamma correction to apply by default." .
+:generateMipMaps a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :TextureProperties ; dc:description "Describes whether mipmaps should be generated for the texture. " .
+:geoCoords a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :GeoLocation ; dc:description "The geometry of the nodes in children is to be specified in units of metres in X3D coordinates relative to the location specified by the geoCoords field. The geoCoords field can be used to dynamically update the geospatial location of the model." .
+:geoGridOrigin a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :GeoElevationGrid ; dc:description "Specifies the geographic coordinate for the south-west corner (bottom-left) of the dataset." .
+:geoSystem a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :GeoElevationGrid , :GeoLocation , :GeoOrigin , :GeoPositionInterpolator , :GeoViewpoint ; dc:description "Defines the spatial reference frame." .
+:global a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DLightNode ; dc:description "Specifies whether the light is global or scoped." .
+:globalGeoOrigin a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :GeoTransform ; dc:description "Specifies whether a GeoOrigin should be applied to child nodes." .
+:gradientThreshold a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :EdgeEnhancementVolumeStyle ; dc:description "The gradientThreshold field is used to adjust the edge detection." .
+:gravity a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :RigidBodyCollection ; dc:description "Indicates direction and strength (in acceleration base units) of the local gravity vector for this collection of bodies. The default gravity is standard earth gravity of 9.8 meters/second2 downwards." .
+:groundAngle a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DBackgroundNode ; dc:description "Angle of the ground." .
+:groundColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DBackgroundNode ; dc:description "Color of the ground." .
+:hasHelperColors a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Box ; dc:description "Specifies whether helper colors should be used, which will color each vertex with a different color." .
+:headlight a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :GeoViewpoint , :NavigationInfo ; dc:description "Enable/disable directional light that always points in the direction the user is looking." .
+:height a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Cone , :Dish , :Extrusion , :GeoElevationGrid , :Nozzle , :Pyramid , :RectangularTorus , :SlopedCylinder , :Snout ; dc:description "Specifies the height of the cone from the centre of the base to the apex, or defines the maximum height of the dished surface above the base. For a Nozzle, it defines the height of the pipe. For a pyramid, it defines the distance between the bottom and the top faces." .
+:hideChildren a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Texture ; dc:description "Specifies whether the children are shown or hidden outside the texture." .
+:horizontal a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :FontStyle ; dc:description "Specifies whether the text is shown horizontally or vertically." .
+:idsPerVertex a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :BinaryGeometry ; dc:description "Flag that specifies whether vertex IDs are given as texture coordinates." .
+:image a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :PixelTexture ; dc:description "The image that delivers the pixel data." .
+:implicitMeshSize a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :ImageGeometry .
+:index a owl:DatatypeProperty ; rdfs:range xsd:anyURI ; rdfs:domain :BinaryGeometry , :ImageGeometry , :ParticleSet ; dc:description "The URL to the binary file that contains the index data." .
+:indexType a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :BinaryGeometry ; dc:description "Specifies the byte format of the index data." .
+:indexedRendering a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :PopGeometry ; dc:description "Specifies whether this PopGeometry was encoded for indexed rendering." .
+:inertia a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :RigidBody ; dc:description "The inertia field represents a 3x2 inertia tensor matrix. If the set values are less than six items, the results are implementation dependent. If the value set is greater than six values, only the first six values of the array are used." .
+:info a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :HAnimHumanoid , :WorldInfo .
+:initialDestination a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :ColorChaser , :CoordinateDamper , :OrientationChaser , :OrientationDamper , :PositionChaser , :PositionChaser2D , :PositionDamper , :PositionDamper2D , :ScalarChaser , :ScalarDamper , :TexCoordDamper2D ; dc:description "The same value as initialValue unless a transition to a certain value is to be created right after the scene is loaded or right after the ColorChaser/CoordinateChaser node is created dynamically." .
+:initialValue a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :ColorChaser , :CoordinateDamper , :OrientationChaser , :OrientationDamper , :PositionChaser , :PositionChaser2D , :PositionDamper , :PositionDamper2D , :ScalarChaser , :ScalarDamper , :TexCoordDamper2D ; dc:description "Set the initial value." .
+:initialVisibility a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "auto" ; rdf:rest [ a rdf:List ; rdf:first "visible" ; rdf:rest [ a rdf:List ; rdf:first "invisible" ; rdf:rest rdf:nil ] ] ] ] ; rdfs:domain :MultiPart ; dc:description "Set the initial visibility." .
+:innerRadius a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Disk2D , :Nozzle , :RectangularTorus , :Torus ; dc:description "Specifies the inner dimension of the Disk2D/pipe/torus." .
+:insideOutsideRadius a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Torus ; dc:description "Use a different interpretation mode for the inside and outside radius." .
+:intensity a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :X3DLightNode ; dc:description "Specifies the brightness of the direct emission from the light." .
+:intensityLimits a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :RadarVolumeStyle ; dc:description "Scales voxel intensities lying in (intensityLimits[0] ~ intensityLimits[1]) to (0.0 ~ 1.0)." .
+:intensityThreshold a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ProjectionVolumeStyle ; dc:description "Defines a local maximum or minimum value along the ray traversal. It is ignored on the AVERAGE intensity projection." .
+:interpupillaryDistance a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RenderedTexture ; dc:description "Sets the eye distance for stereo rendering." .
+:invertAlphaTexture a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :CommonSurfaceShader ; dc:description "If true, (1-sampledValue) is used as alpha. If false the sampled value is used." .
+:invisibleNodes a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :RemoteSelectionGroup ; dc:description "Defines a set of labels to disable nodes. The label must include the prefix." .
+:isActive a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DBackgroundNode , :Collision , :X3DDamperNode , :X3DEnvironmentNode , :X3DFogNode , :X3DViewpointNode , :X3DNavigationInfoNode , :OrientationChaser , :X3DChaserNode , :X3DDamperNode , :ScalarChaser , :TimeSensor .
+:isPaused a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :TimeSensor ; dc:description "Outputs whether the timer is paused." .
+:isPickable a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DVolumeDataNode , :MultiPart , :X3DShapeNode ; dc:description "Defines whether the shape is pickable." .
+:isoSurfaceCutoffValue a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RadarVolumeStyle ; dc:description "Specifies a threshold such that data with intensity below this is ignored during ray casting." .
+:iterations a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :RefinementTexture , :RigidBodyCollection ; dc:description "Maximum level that should be loaded." .
+:justify a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :FontStyle ; dc:description "Specifies where the text is anchored." .
+:key a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DInterpolatorNode , :GeoPositionInterpolator , :NormalInterpolator ; dc:description "The list of key times." .
+:keyVelocity a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :SplinePositionInterpolator ; dc:description "Defines the set of velocity vectors, that are used for interpolation." .
+:keyvalue a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :ColorInterpolator , :CoordinateInterpolator , :GeoPositionInterpolator , :NormalInterpolator , :OrientationInterpolator , :PositionInterpolator , :ScalarInterpolator , :SplinePositionInterpolator ; dc:description "The set of data points used for interpolation." .
+:label a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :RemoteSelectionGroup ; dc:description "Defines a list of subsequent id/object pairs." .
+:language a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :X3DShaderNode , :FontStyle ; dc:description "Indicates to the browser which shading language is used for the source file(s). For FontStyle, it specifies the context of the language for the text string in the form of a language and a country in which that language is used." .
+:latitude a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :SphereSegment ; dc:description "Defines an array of latitude values." .
+:leftToRight a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :FontStyle ; dc:description "Specifies whether the text is shown from left to right or from right to left." .
+:leftUrl a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Background .
+:length a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Text ; dc:description "Specifies the length of each text string in the local coordinate system." .
+:lightFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :OpacityMapVolumeStyle ; dc:description "A factor to specify the amount of global light to be considered on each sampled point along the ray traversal." .
+:lighting a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ShadedVolumeStyle .
+:limitOrientation a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :HAnimJoint .
+:lineSegments a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Polyline2D ; dc:description "Specifies the vertices to be connected." .
+:linearDampingFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RigidBody ; dc:description "Linear damping factor." .
+:linearVelocity a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :RigidBody ; dc:description "Linear velocity." .
+:linetype a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :LineProperties ; dc:description "Selects a line pattern." .
+:linewidthScaleFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :LineProperties ; dc:description "A multiplicative value that scales a the linewidth." .
+:lit a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DPlanarGeometryNode , :X3DBinaryContainerGeometryNode , :Box , :X3DSpatialGeometryNode , :GeoElevationGrid , :IndexedFaceSet , :X3DGeometryNode , :X3DComposedGeometryNode , :PointSet , :X3DPlanarGeometryNode ; dc:description "Specifies whether this geometry should be rendered with or without lighting." .
+:llimit a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :HAnimJoint .
+:load a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Inline ; dc:description "Specifies whether the X3D file specified by the url field is loaded." .
+:location a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :PointLight , :SpotLight ; dc:description "The position of the Light." .
+:loop a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :AudioClip , :MovieTexture , :TimeSensor ; dc:description "Specifies whether the clip/timer cycle loops when finished." .
+:lowPriorityCulling a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ElevationGrid ; dc:description "If TRUE and occlusion culling supported, only threshold fraction of objects, sorted by their screen space coverage, are rendered." .
+:lowPriorityFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Factor of low priority culling for controlling speed-performance trade-off." .
+:lowPriorityThreshold a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Only threshold fraction of objects, sorted by their screen space coverage, are rendered" .
+:magnificationFilter a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :TextureProperties ; dc:description "Describes the way textures are filtered when the image is smaller than the screen space representation." .
+:mapDEFToID a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Inline ; dc:description "Specifies whether the DEF value is used as id when no other id is set." .
+:maskA a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ColorMaskMode ; dc:description "Masks a color channel." .
+:maskB a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ColorMaskMode ; dc:description "Masks b color channel." .
+:maskG a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ColorMaskMode ; dc:description "Masks g color channel." .
+:maskR a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ColorMaskMode ; dc:description "Masks r color channel." .
+:mass a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :HAnimSegment , :RigidBody .
+:matrix a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :MatrixTransform , :TextureTransformMatrix3D ; dc:description "Defines the transformation matrix." .
+:maxAngle a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SingleAxisHingeJoint ; dc:description "The minAngle and maxAngle fields are used to control the maximum angles through which the hinge is allowed to travel. A hinge may not travel more than π radians (or the equivalent angle base units) in either direction from its initial position." .
+:maxAngle1 a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DoubleAxisHingeJoint ; dc:description "The minAngle1 and maxAngle1 fields are used to control the maximum angles through which the hinge is allowed to travel. A hinge may not travel more than π radians (or the equivalent angle base units) in either direction from its initial position." .
+:maxBBSize a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :PopGeometry ; dc:description "The size of the bounding box used to quantize data in this geometry, which is usually the largest bounding box of all sub-meshes of a given mesh." .
+:maxCorrectionSpeed a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RigidBodyCollection ; dc:description "Maximal correction speed." .
+:maxDepth a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :StaticGroup .
+:maxExtent a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Text ; dc:description "Limits and compresses all of the text strings if the length of the maximum string is longer than the maximum extent, as measured in the local coordinate system. If the text string with the maximum length is shorter than the maxExtent, then there is no compressing." .
+:maxFrameRate a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Defines maximal target frame rate for dynamic moments and quality-speed trade-off." .
+:maxLevel a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :RefinementTexture ; dc:description "Maximum level that should be loaded." .
+:maxObjectsPerNode a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :StaticGroup .
+:maxPosition a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :PlaneSensor ; dc:description "The minPosition and maxPosition fields allow to constrain the 2D output of the plane sensor, along each 2D component. If the value of a component in maxPosition is smaller than the value of a component in minPosition, output is not constrained along the corresponding direction." .
+:maxPrecisionLevel a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Maximum precision level of this PopGeometry node. This can be used to clamp displayed precision - if the value is -1, no clamping takes place." .
+:maxRenderedIds a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :RemoteSelectionGroup ; dc:description "Sets the maximum number of items that are rendered." .
+:maxSeparation a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SliderJoint ; dc:description "If minSeparation is greater than maxSeparation, the stops become ineffective as if the object has no stops at all." .
+:maxTorque1 a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DoubleAxisHingeJoint ; dc:description "The maxTorque1 field defines the maximum amount of torque that the motor can apply on axis 1 in order to achieve the desired desiredAngularVelocity1 value." .
+:maxTorque2 a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DoubleAxisHingeJoint ; dc:description "The maxTorque2 field defines the maximum amount of torque that the motor can apply on axis 1 in order to achieve the desired desiredAngularVelocity2 value." .
+:metadata a owl:DatatypeProperty ; rdfs:domain :X3DNode ; dc:description "Metadata information" .
+:minAngle a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SingleAxisHingeJoint ; dc:description "The minAngle and maxAngle fields are used to control the maximum angles through which the hinge is allowed to travel. A hinge may not travel more than π radians (or the equivalent angle base units) in either direction from its initial position." .
+:minAngle1 a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DoubleAxisHingeJoint ; dc:description "The minAngle1 and maxAngle1 fields are used to control the maximum angles through which the hinge is allowed to travel. A hinge may not travel more than π radians (or the equivalent angle base units) in either direction from its initial position." .
+:minBounceSpeed a owl:DatatypeProperty ; rdfs:range[ a rdfs:Datatype ; owl:onDatatype xsd:float; owl:withRestrictions ( [ xsd:minInclusive "0"^^xsd:float ] [ xsd:maxExclusive "+INF"^^xsd:float ] ) ] ; rdfs:domain :CollisionCollection ; dc:description "Indicates the minimum speed, in speed base units, that an object shall have before an object will bounce." .
+:minFrameRate a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Defines minimal target frame rate for static moments and quality-speed trade-off." .
+:minPosition a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :PlaneSensor ; dc:description "The minPosition and maxPosition fields allow to constrain the 2D output of the plane sensor, along each 2D component. If the value of a component in maxPosition is smaller than the value of a component in minPosition, output is not constrained along the corresponding direction." .
+:minPrecisionLevel a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Minimum precision level of this PopGeometry node. This can be used to clamp displayed precision - if the value is -1, no clamping takes place." .
+:minRelativeBBoxSize a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :StaticGroup .
+:minSeparation a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SliderJoint ; dc:description "If minSeparation is greater than maxSeparation, the stops become ineffective as if the object has no stops at all." .
+:minificationFilter a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :TextureProperties ; dc:description "Describes the way textures are filtered when the image is larger than the screen space representation." .
+:mode a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "ViewDirQuads" ; rdf:rest [ a rdf:List ; rdf:first "Points" ; rdf:rest [ a rdf:List ; rdf:first "Lines" ; rdf:rest [ a rdf:List ; rdf:first "Arrows" ; rdf:rest [ a rdf:List ; rdf:first "ViewerArrows" ; rdf:rest [ a rdf:List ; rdf:first "ViewerQuads" ; rdf:rest [ a rdf:List ; rdf:first "Rectangles" ; rdf:rest rdf:nil ] ] ] ] ] ] ] ] ; rdfs:domain :ParticleSet ; dc:description "Drawing mode: ViewDirQuads - Draws quads directed to the viewpoint (default). Points - Draw points. Lines - Draw lines. These modes must not match the finally supported modes." .
+:modelview a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Viewfrustum ; dc:description "Camera modelview matrix." .
+:momentsOfInertia a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :HAnimSegment .
+:motor1Axis a owl:DatatypeProperty ; rdfs:range xsd:complexType; rdfs:domain :MotorJoint ; dc:description "Defines the axis vector of the corresponding axis." .
+:motor2Axis a owl:DatatypeProperty ; rdfs:range xsd:complexType; rdfs:domain :MotorJoint ; dc:description "Defines the axis vector of the corresponding axis." .
+:motor3Axis a owl:DatatypeProperty ; rdfs:range xsd:complexType; rdfs:domain :MotorJoint ; dc:description "Defines the axis vector of the corresponding axis." .
+:name a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CADAssembly , :X3DField , :HAnimDisplacer , :X3DMetadataObject .
+:nameSpaceName a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Block , :Inline .
+:navType a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :GeoViewpoint ; dc:description "Specifies the navigation type." .
+:normal a owl:DatatypeProperty ; rdfs:range xsd:anyURI ; rdfs:domain :BinaryGeometry , :X3DComposedGeometryNode , :ParticleSet ; dc:description "The URL to the binary file that contains the normals." .
+:normalAsSphericalCoordinates a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :BinaryGeometry ; dc:description "Specifies whether the normals are encoded as spherical coordinates." .
+:normalBias a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CommonSurfaceShader ; dc:description "Bias to apply to normal sampled from normalTexture" .
+:normalFormat a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "UNORM" ; rdf:rest rdf:nil ] ] ; rdfs:domain :CommonSurfaceShader ; dc:description "Determines how normals are stored in normalTexture." .
+:normalIndex a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :IndexedFaceSet ; dc:description "The index data for the normal data." .
+:normalOffset a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Offset, given in bytes, for the normal attribute inside the interleaved attribute array." .
+:normalPerVertex a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :BinaryGeometry , :ElevationGrid , :IndexedFaceSet , :X3DComposedGeometryNode ; dc:description "Specifies whether normals are stored per vertex or per face." .
+:normalPrecision a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Precision, given in bytes, for the components of the normal attribute." .
+:normalScale a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CommonSurfaceShader ; dc:description "Scale to apply to normal sampled from normalTexture" .
+:normalSpace a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "TANGENT" ; rdf:rest [ a rdf:List ; rdf:first "OBJECT" ; rdf:rest rdf:nil ] ] ] ; rdfs:domain :CommonSurfaceShader ; dc:description "Space in which normals in normalTexture are defined." .
+:normalTextureChannelMask a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "ChannelMask for normalTexture in the form of a glsl swizzle (e.g., 'rgb', 'a')." .
+:normalTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel to use for normalTexture." .
+:normalTextureId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The texture unit." .
+:normalType a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :BinaryGeometry , :PopGeometry ; dc:description "Specifies the byte format of the normals." .
+:normalUpdateMode a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :X3DComposedGeometryNode .
+:normalizeVelocity a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :SplinePositionInterpolator ; dc:description "Specifies whether the velocity vectors are to be transformed into normalized tangency vectors." .
+:nozzleHeight a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Nozzle ; dc:description "Defines the height of the nozzle." .
+:nozzleRadius a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Nozzle ; dc:description "Defines the radius of the nozzle." .
+:numAnchorVertices a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Number of anchor vertices (can be 0). Anchor vertices are used to keep some vertices on the bordes between sub-meshes fixed during refinement." .
+:numColorComponents a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :ImageGeometry ; dc:description "Specifies the number of color components." .
+:numComponents a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :FloatVertexAttribute ; dc:description "Specifies how many consecutive floating point values should be grouped together per vertex." .
+:numTexCoordComponents a owl:DatatypeProperty ; rdfs:range xsd:positiveInteger ; rdfs:domain :ImageGeometry ; dc:description "Specifies the number of texture coordinate components." .
+:numberOfMaxSegments a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SegmentedVolumeData ; dc:description "Specifies the number of segments on the volume data. It is used to correctly match each segment identifier to an index of the renderStyle list." .
+:numberOfSlices a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :ImageTextureAtlas ; dc:description "Specifies the number of slices in the texture atlas." .
+:occlusionCulling a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ElevationGrid ; dc:description "If TRUE and occlusion culling supported, objects occluding less than the threshold below are ignored." .
+:occlusionVisibilityFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Factor of occlusion culling for controlling speed-performance trade-off." .
+:occlusionVisibilityThreshold a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Objects occluding less than the threshold below are ignored." .
+:oculusRiftVersion a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RenderedTexture ; dc:description "Changes between DK1 and DK2." .
+:offset a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :CylinderSensor , :PlaneSensor , :SphereSensor .
+:on a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ClipPlane , :X3DLightNode .
+:onGreatCircle a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :GeoPositionInterpolator ; dc:description "Specifies whether coordinates will be interpolated along a great circle path." .
+:opacityFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :BoundaryEnhancementVolumeStyle , :OpacityMapVolumeStyle ; dc:description "An exponent factor that specifies the slope of the opacity curve to highlight the boundary." .
+:order a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :X3DDamperNode ; dc:description "Specifies the smoothness of the transition." .
+:orientation a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Extrusion , :GeoViewpoint , :OrthoViewpoint , :RigidBody , :Viewpoint ; dc:description "Defines an array of orientations for each extrusion step." .
+:origChannelCount a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :X3DEnvironmentTextureNode , :X3DTextureNode , :GeneratedCubeMapTexture , :X3DTexture3DNode ; dc:description "Specifies the channel count of the texture. 0 means the system should figure out the count automatically." . 	
+:originLine a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :MPRVolumeStyle ; dc:description "Specifies the base line of the slice plane." .
+:originalVertexCount a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Vertex count at the highest possible level of precision." .
+:orthogonalColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CartoonVolumeStyle ; dc:description "Specifies the color to be used when the surface normal is perpendicular to the view direction" .
+:outerRadius a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Disk2D , :RectangularTorus , :Nozzle ; dc:description "Specifies the radius of the outer dimension of the Disk2D/torus/pipe." .
+:parallelColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CartoonVolumeStyle ; dc:description "Specifies the color to be used when the surface normal is parallel to the view direction." .
+:parameter a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Anchor ; dc:description "Passed parameter that signals web browser how to redirect url loading" .
+:pauseTime a owl:DatatypeProperty ; rdfs:range xsd:time ; rdfs:domain :MovieTexture , :TimeSensor ; dc:description "Sets a time to pause the video/timer." .
+:phaseFunction a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :ShadedVolumeStyle .
+:pickMode a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :Scene ; dc:description "The picking mode for the scene." .
+:pitch a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :MovieTexture .
+:plane a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :ClipPlane ; dc:description "Specifies a single plane equation that will be used to clip the geometry." .
+:point a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Coordinate , :GeoCoordinate , :Polyline2D , :TextureCoordinate , :TextureCoordinate3D ; dc:description "Contains the 3D coordinates." .
+:position a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DBinaryContainerGeometryNode , :GeoViewpoint , :OrthoViewpoint , :RigidBody , :Viewpoint .
+:positionLine a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :MPRVolumeStyle ; dc:description "Specifies the position along the line where the slice plane is rendered." .
+:positionOffset a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Offset, given in bytes, for the position attribute inside the interleaved attribute array." .
+:positionPrecision a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Precision, given in bytes, for the components of the position attribute." .
+:precisionFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :PopGeometry ; dc:description "Additional precision multiplication factor, for tuning the displayed precision." .
+:preferAccuracy a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RigidBodyCollection ; dc:description "Provides a performance hint to the underlying evaluation about whether the user prefers to have very accurate models or fast models. Accuracy comes at a large penalty in both speed and memory usage, but may not be needed most of the time. The default setting is to optimize for speed rather than accuracy." .
+:primType a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DBinaryContainerGeometryNode , :Mesh , :Plane .
+:projection a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Viewfrustum ; dc:description "Camera projection matrix." .
+:quality a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :FontStyle ; dc:description "Sets the quality of the text rendering as an oversampling factor." .
+:radius a owl:DatatypeProperty ; rdfs:range [ a rdfs:Datatype ; owl:onDatatype xsd:float; owl:withRestrictions ( [xsd:minExclusive "0"^^xsd:float] [xsd:maxExclusive "+INF"^^xsd:float] ) ] ; rdfs:domain :Arc2D , :Dish , :PointLight , :SlopedCylinder , :SphereSegment , :SpotLight ; dc:description "The radius of the circle of which the arc is a portion, or defines the radius of the third semi-principal axes of the ellipsoid. For sphere segments, it defines the radius of the sphere." .
+:range a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :LOD , :GeoLOD ; dc:description "Camera-to-object distance transitions for each child level, where range values go from near to far (LOD), or the level of detail is switched depending upon whether the user is closer or farther than range length base units from the geospatial coordinate center (GeoLOD)." .
+:readOnly a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :DepthMode ; dc:description "Whether the depth buffer is enabled for writing or not." .
+:reconnect a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RemoteSelectionGroup ; dc:description "Sets whether a reconnect is attempted on a connection loss." .
+:reference a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :X3DMetadataObject ; dc:description "Identifies the metadata standard or other specification that defines the name field." .
+:referenceBindableDescription a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :GeoLOD .
+:reflectionFactor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CommonSurfaceShader ; dc:description "The value of reflectionTexture is multiplied by this value. If no texture is set, the value is used directly." .
+:reflectionTextureChannelMask a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "ChannelMask for reflectionTexture in the form of a glsl swizzle (e.g., 'rgb', 'a')." .
+:reflectionTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel to use for reflectionTexture." .
+:reflectionTextureId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The texture unit." .
+:relativeIndexOfRefraction a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :CommonSurfaceShader ; dc:description "Relative IOR for perfect specular component." .
+:render a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DGroupingNode ; dc:description "Flag to enable/disable rendering." .
+:render a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DLODNode , :X3DTransformNode , :X3DGroupingNode , :X3DVolumeDataNode , :X3DTransformNode , :X3DShapeNode ; dc:description "Flag to enable/disable rendering" .
+:renderStyleEnabled a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DComposableVolumeRenderStyleNode ; dc:description "Specifies whether the render style is enabled or disabled." .
+:repeatS a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DEnvironmentTextureNode , :X3DTextureNode , :X3DTexture3DNode ; dc:description "Specifies whether the texture is repeated in s direction." .
+:repeatT a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DEnvironmentTextureNode , :X3DTextureNode , :X3DTexture3DNode ; dc:description "Specifies whether the texture is repeated in t direction." .
+:resumeTime a owl:DatatypeProperty ; rdfs:range xsd:time ; rdfs:domain :MovieTexture , :TimeSensor ; dc:description "Sets a time to resume from pause." .
+:retainedOpacity a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :BoundaryEnhancementVolumeStyle ; dc:description "Specifies the amount of original opacity to retain." .
+:rgbaColors a owl:DatatypeProperty ; rdfs:range xsd:boolean ; dc:description "Enables RGBA colors." .
+:rightUrl a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Background .
+:rootUrl a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :GeoLOD ; dc:description "The rootUrl and rootNode fields provide two different ways to specify the geometry of the root tile. You may use one or the other. The rootNode field lets you include the geometry for the root tile directly within the X3D file." .
+:rotateYUp a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :GeoOrigin ; dc:description "Specify whether coordinates of nodes that use this GeoOrigin are to be rotated such that their up direction is aligned with the X3D Y axis." .
+:rotation a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Transform , :TextureTransform , :TextureTransform3D ; dc:description "Specifies a rotation of the coordinate system." .
+:scale a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Transform , :X3DEnvironmentTextureNode , :X3DTexture3DNode , :Extrusion , :HAnimHumanoid , :X3DTextureNode , :TextureTransform , :TextureTransform3D ; dc:description "Specifies a non-uniform scale of the coordinate system." .
+:scaleOrientation a owl:DatatypeProperty ; rdfs:domain :Transform , :GeoTransform , :HAnimHumanoid , :HAnimSite , :TextureTransform3D ; dc:description "Specifies a rotation of the coordinate system before the scale (to specify scales in arbitrary orientations)." .
+:scaleRenderedIdsOnMove a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RemoteSelectionGroup ; dc:description "Sets the scaling factor to reduce the number of render calls during navigation." .
+:scaleTexture a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Texture ; dc:description "Specifies whether the texture is scaled to the next highest power of two." .
+:set_fraction a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :X3DInterpolatorNode , :GeoPositionInterpolator ; dc:description "The set_fraction inputOnly field receives an SFFloat event and causes the interpolator node function to evaluate, resulting in a value_changed output event of the specified type with the same timestamp as the set_fraction event." .
+:shadowCascades a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :DirectionalLight , :SpotLight .
+:shadowExcludeTransparentObjects a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ElevationGrid ; dc:description "Transparent objects like glass do not throw much shadow, enable this IR convenience flag with TRUE." .
+:shadowFilterSize a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :DirectionalLight , :X3DLightNode ; dc:description "Sets the smoothness of the shadow umbra." .
+:shadowIntensity a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :X3DLightNode ; dc:description "Defines the attenuation of the shadows." .
+:shadowMapSize a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :X3DLightNode ; dc:description "Specifies the resolution of the used shadow map." .
+:shadowObjectIdMapping a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :Scene ; dc:description "The url of the shadow object id mapping." .
+:shadowOffset a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :X3DLightNode ; dc:description "Defines the shadow offset for the back projection of the shadow map." .
+:shadowSplitFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DirectionalLight , :SpotLight .
+:shadowSplitOffset a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DirectionalLight , :SpotLight .
+:shadows a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ShadedVolumeStyle .
+:shininess a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :X3DMaterialNode ; dc:description "Determines the specular highlights." .
+:shininessFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :CommonSurfaceShader ; dc:description "The value of shininessTexture is multiplied by this value. If no texture is set, the value is used directly." .
+:shininessTextureChannelMask a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "ChannelMask for shininessTexture in the form of a glsl swizzle (e.g., 'rgb', 'a')." .
+:shininessTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel to use for shininessTexture." .
+:shininessTextureId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The texture unit." .
+:showDebugBoxVolumes a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :StaticGroup .
+:showNormals a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RenderedTexture ; dc:description "Specifies whether normals are shown." .
+:side a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Cone ; dc:description "Specifies whether sides of the cone are created." .
+:silhouetteBoundaryOpacity a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SilhouetteEnhancementVolumeStyle ; dc:description "A factor to specify the amount of silhouette enhancement to use." .
+:silhouetteRetainedOpacity a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SilhouetteEnhancementVolumeStyle ; dc:description "A factor to specify the amount of original opacity to retain." .
+:silhouetteSharpness a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SilhouetteEnhancementVolumeStyle ; dc:description "An exponent factor to specify the silhouette sharpness." .
+:size a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DBinaryContainerGeometryNode , :DynamicLOD , :Box , :FontStyle , :ParticleSet , :Plane , :X3DPlanarGeometryNode .
+:skinCoordIndex a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :HAnimJoint .
+:skinCoordWeight a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :HAnimJoint .
+:skyAngle a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DBackgroundNode ; dc:description "Angle of the sky" .
+:skyColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DBackgroundNode ; dc:description "Color of the sky." .
+:slicesOverX a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :ImageTextureAtlas ; dc:description "Specifies the slices in x." .
+:slicesOverY a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :ImageTextureAtlas ; dc:description "Specifies the slices in y." .
+:slipFactors a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CollisionCollection ; dc:description "Slip factors." .
+:smallFeatureCulling a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ElevationGrid ; dc:description "If TRUE, objects smaller than the threshold below are ignored." .
+:smallFeatureFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Factor of small feature culling for controlling speed-performance trade-off." .
+:smallFeatureThreshold a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Objects smaller than the threshold below are ignored." .
+:SSAO a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ElevationGrid ; dc:description "Flag to enable Screen Space Ambient Occlusion." .
+:SSAOamount a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Value that determines the amount of contribution of SSAO (from 0 to 1)." .
+:SSAOblurDepthTreshold a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Determines the maximum depth difference for the SSAO blurring pass." .
+:SSAOradius a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Determines the radius in which the SSAO is sampled in world space." .
+:SSAOrandomTextureSize a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Determines the size of the random texture used for sparse sampling of SSAO." .
+:softnessConstantForceMix a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :CollisionCollection ; dc:description "A constant force value to make the colliding surfaces appear to be soft." .
+:softnessErrorCorrection a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :CollisionCollection ; dc:description "Determines how much of the collision error should be fixed in a set of evaluations." .
+:solid a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :Arc2D , :X3DBinaryContainerGeometryNode , :X3DSpatialGeometryNode , :Dish , :X3DComposedGeometryNode , :X3DGeometryNode , :X3DComposedGeometryNode , :PointSet , :X3DPlanarGeometryNode , :Plane ; dc:description "Specifies whether backface-culling is used. If solid is TRUE, only front-faces are drawn." .
+:sortKey a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :MultiPart ; dc:description "Change render order manually." .
+:sortTrans a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ElevationGrid ; dc:description "If TRUE, transparent objects are sorted from back to front (allows explicitly disabling sorting)." .
+:sortType a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "auto" ; rdf:rest [ a rdf:List ; rdf:first "transparent" ; rdf:rest [ a rdf:List ; rdf:first "opaque" ; rdf:rest rdf:nil ] ] ] ] ; rdfs:domain :Appearance , :MultiPart ; dc:description "Defines the shape type for sorting." .
+:spacing a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :FontStyle ; dc:description "Sets the spacing between lines of text, relative to the text size." .
+:specularColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DMaterialNode ; dc:description "Determine the specular highlights." .
+:specularFactor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CommonSurfaceShader ; dc:description "The value of specularTexture is multiplied by this value. If no texture is set, the value is used directly." .
+:specularTextureChannelMask a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "ChannelMask for specularTexture in the form of a glsl swizzle (e.g., 'rgb', 'a')." .
+:specularTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel to use for specularTexture." .
+:specularTextureId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The texture unit." .
+:speed a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :MovieTexture , :NavigationInfo ; dc:description "Specifies the plaback speed." .
+:speedFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :GeoViewpoint ; dc:description "The speedFactor field of the GeoViewpoint node is used as a multiplier to the elevation-based velocity that the node sets internally; i.e., this is a relative value and not an absolute speed as is the case for the NavigationInfo node." .
+:sphericalNormals a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :PopGeometry ; dc:description "Specifies whether this PopGeometry was encoded for rendering with spherical normals." .
+:spine a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Extrusion ; dc:description "Describes the spine as a 3D piecewise linear curve (series of conntected vertices)." .
+:srcFactor a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "none" ; rdf:rest [ a rdf:List ; rdf:first "zero" ; rdf:rest [ a rdf:List ; rdf:first "one" ; rdf:rest [ a rdf:List ; rdf:first "dst_color" ; rdf:rest [ a rdf:List ; rdf:first "src_color" ; rdf:rest [ a rdf:List ; rdf:first "one_minus_dst_color" ; rdf:rest [ a rdf:List ; rdf:first "one_minus_src_color" ; rdf:rest [ a rdf:List ; rdf:first "src_alpha, one_minus_src_alpha" ; rdf:rest [ a rdf:List ; rdf:first "dst_alpha" ; rdf:rest [ a rdf:List ; rdf:first "one_minus_dst_alpha" ; rdf:rest [ a rdf:List ; rdf:first "src_alpha_saturate" ; rdf:rest [ a rdf:List ; rdf:first "constant_color" ; rdf:rest [ a rdf:List ; rdf:first "one_minus_constant_color" ; rdf:rest [ a rdf:List ; rdf:first "constant_alpha" ; rdf:rest [ a rdf:List ; rdf:first "one_minus_constant_alpha" ; rdf:rest rdf:nil ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ] ; rdfs:domain :BlendMode ; dc:description "The incoming pixel is scaled according to the method defined by the source factor." .
+:stamp0 a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :RefinementTexture ; dc:description "Specifies the first stamp texture." .
+:stamp1 a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :RefinementTexture ; dc:description "Specifies the second stamp texture." .
+:startAngle a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Arc2D ; dc:description "The arc extends from the startAngle counterclockwise to the endAngle." .
+:startTime a owl:DatatypeProperty ; rdfs:range xsd:time ; rdfs:domain :MovieTexture , :TimeSensor ; dc:description "Sets a start time for the video/timer." .
+:stepSize a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :SphereSegment ; dc:description "Defines an array of stepSizes." .
+:stereoMode a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "NONE" ; rdf:rest [ a rdf:List ; rdf:first "LEFT_EYE" ; rdf:rest [ a rdf:List ; rdf:first "RIGHT_EYE" ; rdf:rest rdf:nil ] ] ] ] ; rdfs:domain :RenderedTexture ; dc:description "Sets render information for stereo rendering." .
+:stop1Bounce a owl:DatatypeProperty ; rdfs:range xsd:float; rdfs:domain :MotorJoint ; dc:description "Describes how much the joint should bounce the body back on the corresponding axis if the joint limit has been reached or exceeded." .
+:stop1ErrorCorrection a owl:DatatypeProperty ; rdfs:range xsd:float; rdfs:domain :MotorJoint , :UniversalJoint ; dc:description "Describes the amount of error correction to be performed in a time step when the joint reaches the limit on the corresponding axis." .
+:stop2Bounce a owl:DatatypeProperty ; rdfs:range xsd:float; rdfs:domain :MotorJoint , :UniversalJoint ; dc:description "Describes how much the joint should bounce the body back on the corresponding axis if the joint limit has been reached or exceeded." .
+:stop2ErrorCorrection a owl:DatatypeProperty ; rdfs:range xsd:float; rdfs:domain :MotorJoint , :UniversalJoint ; dc:description "Describes the amount of error correction to be performed in a time step when the joint reaches the limit on the corresponding axis." .
+:stop3Bounce a owl:DatatypeProperty ; rdfs:range xsd:float; rdfs:domain :MotorJoint ; dc:description "Describes how much the joint should bounce the body back on the corresponding axis if the joint limit has been reached or exceeded." .
+:stop3ErrorCorrection a owl:DatatypeProperty ; rdfs:range xsd:float; rdfs:domain :MotorJoint ; dc:description "Describes the amount of error correction to be performed in a time step when the joint reaches the limit on the corresponding axis." .
+:stopBounce a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SingleAxisHingeJoint , :SliderJoint ; dc:description "Describes how much the joint should bounce the body back if the joint limit has been reached or exceeded." .
+:stopBounce1 a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DoubleAxisHingeJoint ; dc:description "The stopBounce1 field is used to set how bouncy the minimum and maximum angle stops are for axis 1. A value of zero means they are not bouncy while a value of 1 means maximum bounciness (full reflection of force arriving at the stop)." .
+:stopConstantForceMix1 a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DoubleAxisHingeJoint ; dc:description "The stopConstantForceMix1 and suspensionForce fields can be used to apply damping to the calculations by violating the normal constraints by applying a small, constant force to those calculations." .
+:stopErrorCorrection a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SingleAxisHingeJoint , :SliderJoint ; dc:description "Describes the amount of error correction to be performed in a time step when the joint reaches the limit." .
+:stopErrorCorrection1 a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DoubleAxisHingeJoint ; dc:description "The stopErrorCorrection1 and suspensionErrorCorrection fields describe how quickly the system should resolve intersection errors due to floating point inaccuracies." .
+:stopTime a owl:DatatypeProperty ; rdfs:range xsd:time ; rdfs:domain :MovieTexture , :TimeSensor ; dc:description "Sets a stop time for the video/timer." .
+:string a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Text ; dc:description "The text strings are contained in the string field." .
+:style a owl:DatatypeProperty ; rdfs:range [ a xsd:string ; owl:oneOf [ a rdf:List ; rdf:first "PLAIN" ; rdf:rest [ a rdf:List ; rdf:first "BOLD" ; rdf:rest [ a rdf:List ; rdf:first "ITALIC" ; rdf:rest [ a rdf:List ; rdf:first "BOLDITALIC" ; rdf:rest rdf:nil ] ] ] ] ] . 
+:subScale a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DynamicLOD .
+:subdivision a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Arc2D , :Cone , :Dish , :DynamicLOD , :Nozzle , :Plane , :X3DPlanarGeometryNode , :RectangularTorus , :Torus , :SlopedCylinder , :Snout , :SolidOfRevolution , :Sphere ; dc:description "Number of lines into which the arc is subdivided or number of segments the circle is composed of or number of segments of a disc. For cones, subdivison specifies the number of faces that are generated to approximate the sides of the cone. For dishes, it specifies the number of faces that are generated to approximate the sides of the dish. For nozzles, it specifies the number of faces that are generated to approximate the sides of the pipe and nozzle." .
+:summary a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :GeoMetadata ; dc:description "The summary string array contains a set of keyword/value pairs, with each keyword and its subsequent value contained in a separate string; i.e., there should always be an even (or zero) number of strings." .
+:surfaceSpeed a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CollisionCollection ; dc:description "Defines the speed in the two friction directions in speed base units." .
+:surfaceTolerance a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :IsoSurfaceVolumeData ; dc:description "A threshold to adjust the boundary of the isosurface." .
+:surfaceValues a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :IsoSurfaceVolumeData ; dc:description "A list containing the surface values to be extracted." .
+:suspensionErrorCorrection a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DoubleAxisHingeJoint ; dc:description "The stopErrorCorrection1 and suspensionErrorCorrection fields describe how quickly the system should resolve intersection errors due to floating point inaccuracies." .
+:suspensionForce a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :DoubleAxisHingeJoint ; dc:description "The stopConstantForceMix1 and suspensionForce fields can be used to apply damping to the calculations by violating the normal constraints by applying a small, constant force to those calculations." .
+:tangent a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :X3DBinaryContainerGeometryNode .
+:tangentTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel that contains the tangents in u." .
+:tangentType a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :X3DBinaryContainerGeometryNode ; dc:description "Specifies the byte format of the tangents." .
+:tau a owl:DatatypeProperty ; rdfs:range xsd:time ; rdfs:domain :X3DDamperNode ; dc:description "Specifies the time-constant of the internal filters and thus the speed that the output of an X3DDamperNode responds to the input." .
+:tessellationDetailCulling a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :ElevationGrid ; dc:description "If TRUE, shape tesselation is lowered as long as resulting error is lower than threshold." .
+:tessellationErrorFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Factor of tesselation error for controlling speed-performance trade-off." .
+:tessellationErrorThreshold a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Shape tesselation is lowered as long as resulting error is lower than threshold." .
+:texCoord a owl:DatatypeProperty ; rdfs:range xsd:anyURI ; rdfs:domain :X3DBinaryContainerGeometryNode , :X3DComposedGeometryNode , :ElevationGrid ; dc:description "The URL to the binary file that contains the texture coordinates. For ElevationGrid, it specifies per-vertex texture coordinates." .
+:texCoordIndex a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :IndexedFaceSet ; dc:description "The index data for the texcoord data." .
+:texCoordType a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :X3DBinaryContainerGeometryNode , :PopGeometry ; dc:description "Specifies the byte format of the texture coordinates." .
+:texcoordOffset a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Offset, given in bytes, for the texture coordinate attribute inside the interleaved attribute array." .
+:texcoordPrecision a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Precision, given in bytes, for the components of the texture coordinate attribute." .
+:textureCompression a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :TextureProperties ; dc:description "Specifies the preferred image compression method to be used during rendering." .
+:texturePriority a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :TextureProperties ; dc:description "Describes the texture residence priority for allocating texture memory. Zero indicates the lowest priority and 1 indicates the highest priority." .
+:textureZ a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :ParticleSet ; dc:description "Contains z-values for the texture of a particle (used with 3D textures)." .
+:tightSize a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :PopGeometry ; dc:description "The size of the bounding box of this geometry, as it is used for culling." .
+:time a owl:DatatypeProperty ; rdfs:range xsd:time ; dc:description "Sends the absolute time for a given tick of the TimeSensor." .
+:tolerance a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :X3DDamperNode ; dc:description "If tolerance is set to its default value -1, the browser implementation is allowed to find a good way for detecting the end of a transition. Browsers that do not have an elaborate algorithm can just use .001 as the tolerance value instead. If a value larger than zero is specified for tolerance, the browser shall calculate the difference between output and input for each internal filter being used and stop the animation only when all filters fall below that limit or are equal to it. If zero is specified for tolerance, a transition should be stopped only if input and output match exactly for all internal filters." .
+:topRadius a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Cone ; dc:description "Specifies the radius of the cone at the apex." .
+:topToBottom a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :FontStyle ; dc:description "Specifies whether the text flows from top to bottom or from bottom to top." .
+:topUrl a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Background .
+:torques a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :RigidBody ; dc:description "The torques and forces fields define zero or more sets of torque and force values that are applied to the object every frame. These are continuously applied until reset to zero by the user." .
+:transitionTime a owl:DatatypeProperty ; rdfs:range xsd:time ; rdfs:domain :NavigationInfo ; dc:description "Specifies the duration of any viewpoint transition." .
+:transitionType a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :NavigationInfo ; dc:description "Specifies the transition mode." .
+:translation a owl:DatatypeProperty ; rdfs:domain :Transform , :GeoTransform , :HAnimHumanoid , :TextureTransform , :TextureTransform3D ; dc:description "Specifies a translation to the coordinate system." .
+:transmissionFactor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :CommonSurfaceShader ; dc:description "The value of transmissionTexture is multiplied by this value. If no texture is set, the value is used directly." .
+:transmissionTextureChannelMask a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :CommonSurfaceShader ; dc:description "ChannelMask for transmissionTexture in the form of a glsl swizzle (e.g., 'rgb', 'a')." .
+:transmissionTextureCoordinatesId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "Texture coordinate channel to use for transmissionTexture." .
+:transmissionTextureId a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :CommonSurfaceShader ; dc:description "The texture unit." .
+:transparency a owl:DatatypeProperty ; rdfs:range [ a rdfs:Datatype ; owl:onDatatype xsd:float; owl:withRestrictions ( [ xsd:minInclusive "0"^^xsd:float ] [ xsd:maxInclusive "1"^^xsd:float ] ) ] ; rdfs:domain :X3DBackgroundNode , :Material , :RadarVolumeStyle ; dc:description "Transparency of the background." .
+:type a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DField , :NavigationInfo , :ShaderPart , :OpacityMapVolumeStyle , :ProjectionVolumeStyle .
+:typeParams a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :NavigationInfo ; dc:description "Specifies the view angle and height for helicopter mode and min/max rotation angle for turntable in ]0, π[, starting from +y (0) down to -y (π)." .
+:ulimit a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :HAnimJoint .
+:update a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :GeneratedCubeMapTexture , :RenderedTexture .
+:url a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DEnvironmentTextureNode , :GeoMetadata , :Texture , :X3DTexture3DNode , :X3DGroupingNode , :Inline , :RenderedTexture , :RemoteSelectionGroup ; dc:description "URL." .
+:urlCenter a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :DynamicLOD .
+:urlHead a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :DynamicLOD .
+:urlIDMap a owl:DatatypeProperty ; rdfs:range xsd:anyURI ; rdfs:domain :MultiPart ; dc:description "Specifies the url to the IDMap." .
+:urlTail a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :DynamicLOD .
+:useFiniteRotation a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RigidBody ; dc:description "Influences the way the body's rotation is calculated." .
+:useGeoCache a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :X3DBinaryContainerGeometryNode , :X3DPlanarGeometryNode , :Box , :X3DSpatialGeometryNode , :X3DSpatialGeometryNode , :X3DGeometryNode , :X3DComposedGeometryNode , :Nozzle , :PointSet , :Plane , :X3DPlanarGeometryNode , :Snout ; dc:description "Enable or disable geocache." .
+:useGlobalGravity a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :RigidBody ; dc:description "Indicates whether this particular body should be influenced by the containing RigidBodyCollection's gravity setting." .
+:userDataFactor a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :ElevationGrid ; dc:description "Factor of user data for controlling speed-performance trade-off." .
+:value a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :ColorDamper , :CoordinateDamper , :X3DField , :FloatVertexAttribute , :MetadataBoolean , :OrientationChaser , :PositionChaser , :PositionDamper , :PositionDamper2D , :ScalarChaser , :ScalarDamper , :TexCoordDamper2D ; dc:description "The current color value." .
+:vector a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :Normal ; dc:description "Set of unit-length normal vectors, corresponding to indexed polygons or vertices." .
+:version a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :HAnimHumanoid .
+:vertexBufferSize a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :PopGeometry ; dc:description "Size of the vertex buffer, used to pre-allocate the buffer before downloading data." .
+:vertexCount a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :X3DBinaryContainerGeometryNode , :LineSet , :PopGeometry .
+:vertices a owl:DatatypeProperty ; rdfs:range xsd:complexType ; xsd:domain :TriangleSet2D ; dc:description "Specifies the triangles to be displayed." .
+:visibilityLimit a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :NavigationInfo ; dc:description "Geometry beyond the visibilityLimit may not be rendered (far culling plane of the view frustrum). visibilityLimit=0.0 indicates an infinite visibility limit." .
+:visibilityRange a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Fog ; dc:description "Specifies the distance in length base units (in the local coordinate system) at which objects are totally obscured by the fog." .
+:warmColor a owl:DatatypeProperty ; rdfs:range xsd:complexType ; dc:description "Specifies the color to be used for surfaces facing towards the light direction." .
+:weight a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :HAnimDisplacer .
+:weightConstant1 a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :BlendedVolumeStyle ; dc:description "Specifies a constant weight value to be use on the parent volume data." .
+:weightConstant2 a owl:DatatypeProperty ; rdfs:range xsd:string ; rdfs:domain :BlendedVolumeStyle ; dc:description "A constant weight value to be use on the volume data to be blended." .
+:whichChoice a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :Switch ; dc:description "Specifies the index of the child to traverse, with the first child having index 0." .
+:xDimension a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :GeoElevationGrid ; dc:description "Defines the grid size in x." .
+:xSectionOrientation a owl:DatatypeProperty ; rdfs:range xsd:complexType ; rdfs:domain :RadarVolumeStyle ; dc:description "Defines the rotation for plane used for cutting data." .
+:xSectionPosition a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :RadarVolumeStyle ; dc:description "Defines the position of the cutting plane along an axis passing through (0,0,0) and perpendicular to the plane." .
+:xSpacing a owl:DatatypeProperty ; rdfs:range xsd:double ; rdfs:domain :ElevationGrid , :GeoElevationGrid ; dc:description "When the geoSystem is 'GD', xSpacing refers to the number of units of longitude in angle base units between adjacent height values. When the geoSystem is 'UTM', xSpacing refers to the number of eastings (length base units) between adjacent height values." .
+:xbottom a owl:DatatypeProperty ; rdfs:range [ a rdfs:Datatype ; owl:onDatatype xsd:float; owl:withRestrictions ( [ xsd:minInclusive "0"^^xsd:float ] [ xsd:maxInclusive "+INF"^^xsd:float ] ) ] ; rdfs:domain :Pyramid ; dc:description "Defines the bottom length in x direction." .
+:xbshear a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SlopedCylinder ; dc:description "Defines the shear for the bottom in x direction." .
+:xoff a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Pyramid , :Snout ; dc:description "Defines the displacement along the x axis." .
+:xtop a owl:DatatypeProperty ;rdfs:range [ a rdfs:Datatype ; owl:onDatatype xsd:float; owl:withRestrictions ( [ xsd:minInclusive "0"^^xsd:float ] [ xsd:maxInclusive "+INF"^^xsd:float ] ) ] ; rdfs:domain :Pyramid ; dc:description "Defines the top length in x direction." .
+:xtshear a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SlopedCylinder ; dc:description "Defines the shear for the top in x direction." .
+:yScale a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :GeoElevationGrid ; dc:description "The yScale value can be used to produce a vertical exaggeration of the data when it is displayed. If this value is set greater than 1.0, all heights will appear larger than actual." .
+:ybottom a owl:DatatypeProperty ; rdfs:range [ a rdfs:Datatype ; owl:onDatatype xsd:float; owl:withRestrictions ( [ xsd:minInclusive "0"^^xsd:float ] [ xsd:maxInclusive "+INF"^^xsd:float ] ) ] ; rdfs:domain :Pyramid ; dc:description "Defines the bottom length in y direction." .
+:ybshear a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SlopedCylinder ; dc:description "Defines the shear for the bottom in y direction." .
+:yoff a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :Pyramid , :Snout ; dc:description "Defines the displacement along the y axis." .
+:ytop a owl:DatatypeProperty ; rdfs:range [ a rdfs:Datatype ; owl:onDatatype xsd:float; owl:withRestrictions ( [ xsd:minInclusive "0"^^xsd:float ] [ xsd:maxInclusive "+INF"^^xsd:float ] ) ] ; rdfs:domain :Pyramid ; dc:description "Defines the top length in y direction." .
+:ytshear a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :SlopedCylinder ; dc:description "Defines the shear for the top in y direction." .
+:zDimension a owl:DatatypeProperty ; rdfs:range xsd:integer ; rdfs:domain :ElevationGrid , :GeoElevationGrid ; dc:description "Defines the grid size in z." .
+:zFar a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :X3DLightNode , :OrthoViewpoint , :Viewpoint ; dc:description "Specifies the placement of the far plane of the light projection." .
+:zFarRange a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :DepthMode ; dc:description "The far value for the depth range." .
+:zNear a owl:DatatypeProperty ; rdfs:range xsd:float ; rdfs:domain :X3DLightNode , :OrthoViewpoint , :Viewpoint ; dc:description "Specifies the placement of the near plane of the light projection." .
+:zNearRange a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :DepthMode ; dc:description "The near value for the depth range." .
+:zSpacing a owl:DatatypeProperty ; rdfs:range xsd:double ; rdfs:domain :ElevationGrid , :GeoElevationGrid ; dc:description "When the geoSystem is 'GD', zSpacing refers to the number of units of latitude in angle base units between vertical height values. When the geoSystem is 'UTM', zSpacing refers to the number of northings (length base units) between vertical height values." .
+
+:x a owl:AllDisjointProperties ; owl:members (:zFar :zNear) .
+
+:hatched rdfs:subPropertyOf :filled .
+
+### Additional Roles ###
+
+:baseForm a owl:ObjectProperty .
+:createdBy a owl:ObjectProperty ; owl:inverseOf :creatorOf .
+:createdIn a owl:ObjectProperty .
+:creatorOf a owl:ObjectProperty ; owl:inverseOf :createdBy .
+:designedBy a owl:ObjectProperty .
+:designedFor a owl:ObjectProperty .
+:formedFrom a owl:ObjectProperty .
+:hasCompound a owl:ObjectProperty .
+
+:animated a owl:DatatypeProperty ; rdfs:range xsd:boolean ; rdfs:domain :3DModel .
+:hasEdges a owl:DatatypeProperty ; rdfs:range xsd:nonNegativeInteger ; rdfs:domain :3DObject .
+:hasFaces a owl:DatatypeProperty ; rdfs:range xsd:nonNegativeInteger ; rdfs:domain :3DObject .
+:hasVertices a owl:DatatypeProperty ; rdfs:range xsd:nonNegativeInteger ; rdfs:domain :3DObject .
+
+
+###  3ds Max/Maya ###
+:curvePoint a owl:ObjectProperty ; rdfs:domain :NURBSCurve .
+:editPoint a owl:ObjectProperty ; rdfs:domain :NURBSCurve .
+:span a owl:ObjectProperty ; rdfs:domain :NURBSCurve .
+:controlVertex a owl:ObjectProperty ; rdfs:domain :NURBSCurve .
+:hull a owl:ObjectProperty ; rdfs:domain :NURBSCurve .
+
+:XYZCoordinates a owl:DatatypeProperty ; rdfs:range xsd:complexType .
+
+
+### Reused Roles ###
+
+foaf:currentProject a owl:ObjectProperty ; rdfs:subPropertyOf owl:topObjectProperty .
+cc:permits a owl:ObjectProperty ; rdfs:subPropertyOf owl:topObjectProperty .
+cc:prohibits a owl:ObjectProperty ; rdfs:subPropertyOf owl:topObjectProperty .
+dc:rightsHolder rdfs:subPropertyOf owl:topObjectProperty .
+foaf:surname a owl:ObjectProperty ; rdfs:subPropertyOf owl:topObjectProperty ; rdfs:domain foaf:Person .
+foaf:givenName a owl:ObjectProperty ; rdfs:subPropertyOf owl:topObjectProperty ; rdfs:domain foaf:Person .
+
+dc:created a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
+dc:modified a owl:DatatypeProperty ; rdfs:range xsd:dateTime .
+
+
+#####################
+### Objects/Individuals ###
+#####################
+
+:aqua a :Color .
+:black a :Color .
+:blue a :Color .
+:fuchsia a :Color .
+:gray a :Color .
+:green a :Color .
+:lime a :Color .
+:maroon a :Color .
+:navy a :Color .
+:olive a :Color .
+:purple a :Color .
+:red a :Color .
+:silver a :Color .
+:teal a :Color .
+:white a :Color .
+:yellow a :Color .
+
+:carbonFiber a :Material .
+:fiberglass a :Material .
+:nickel a :Material .
+:aluminium a :Material .
+:brass a :Material .
+:bronze a :Material .
+:cement a :Material .
+:ceramic a :Material .
+:concrete a :Material .
+:copper a :Material .
+:glass a :Material .
+:gold a :Material .
+:granite a :Material .
+:iron a :Material .
+:limestone a :Material .
+:magnesium a :Material .
+:manganese a :Material .
+:marble a :Material .
+:metal a :Material .
+:paper a :Material .
+:polycarbonate a :Material .
+:polyvinylChloride a :Material .
+:quartz a :Material .
+:silver a :Material .
+:soil a :Material .
+:steel a :Material .
+:textile a :Material .
+:titanium a :Material .
+:tungsten a :Material .
+:wood a :Material .
+:zinc a :Material .
+
+:AC3D a :3DComputerGraphicsSoftware .
+:Aladdin4D a :3DComputerGraphicsSoftware .
+:Anim8or a :3DComputerGraphicsSoftware .
+:AutoDesk3dsMax a :3DComputerGraphicsSoftware .
+:AutoDeskMaya a :3DComputerGraphicsSoftware .
+:AutodeskMotionBuilder a :3DComputerGraphicsSoftware .
+:Blender a :3DComputerGraphicsSoftware .
+:Carrara a :3DComputerGraphicsSoftware .
+:Cinema4D a :3DComputerGraphicsSoftware .
+:Claraio a :3DComputerGraphicsSoftware .
+:DAZStudio a :3DComputerGraphicsSoftware .
+:ElectricImageAnimationSystem a :3DComputerGraphicsSoftware .
+:Houdini a :3DComputerGraphicsSoftware .
+:iClone a :3DComputerGraphicsSoftware .
+:K3D a :3DComputerGraphicsSoftware .
+:LightWave3D a :3DComputerGraphicsSoftware .
+:Messiah a :3DComputerGraphicsSoftware .
+:MikuMikuDance a :3DComputerGraphicsSoftware .
+:Modo a :3DComputerGraphicsSoftware .
+:Moviestorm a :3DComputerGraphicsSoftware .
+:Poser a :3DComputerGraphicsSoftware .
+:Seamless3d a :3DComputerGraphicsSoftware .
+:Shade3D a :3DComputerGraphicsSoftware .
+:SketchUp a :3DComputerGraphicsSoftware .
+:ZBrush a :3DComputerGraphicsSoftware .
+
+:Pixar a :animationStudio .
+:WaltDisneyAnimationStudios a :animationStudio .
+:DreamWorksAnimation a :animationStudio .
+:BlueSkyStudios a :animationStudio .
+:IlluminationEntertainment a :animationStudio .
+:SonyPicturesAnimation a :animationStudio .
+:WarnerBrosAnimation a :animationStudio .
+
+
+:inf a owl:DatatypeProperty ; rdfs:range [ a rdfs:Datatype ; owl:onDatatype xsd:float; owl:withRestrictions ( [ xsd:minInclusive "-INF"^^xsd:float ] [ xsd:maxInclusive "+INF"^^xsd:float ] ) ] .
+:zeroone a owl:DatatypeProperty ; rdfs:range [ a rdfs:Datatype ; owl:onDatatype xsd:float; owl:withRestrictions ( [ xsd:minInclusive "0"^^xsd:float ] [ xsd:maxInclusive "1"^^xsd:float ] ) ] .

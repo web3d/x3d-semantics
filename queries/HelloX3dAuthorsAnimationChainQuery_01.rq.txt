@@ -1,0 +1,55 @@
+Perform X3D Ontology query HelloX3dAuthorsAnimationChainQuery_01.rq using examples/HelloX3dAuthorsAnimationChain.ttl to produce output file HelloX3dAuthorsAnimationChainQuery_01.rq.txt:
+===========================
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# HelloX3dAuthorsAnimationChainQuery_01.rq    Query HelloX3dAuthorsAnimationChain.ttl to perform ROUTE diagnostics.
+
+# TODO Node types, field types, accessTypes, diagnostics for matches
+
+###############################################
+
+SELECT ?parentNode ?RouteFound ?fromNodeDEF ?fromNodeTypeFound ?fromField ?toNodeDEF ?toField
+
+WHERE
+{ 
+    ?route  a x3do:ROUTE ;     # Shorthand expression: a = rdf:type
+            x3do:hasParent     ?parent ;
+            x3do:fromNode      ?fromNodeDEF ;
+            x3do:fromField     ?fromField ;
+            x3do:toNode        ?toNodeDEF ;
+            x3do:toField       ?toField .
+    OPTIONAL
+    {
+        ?from   x3do:DEF   ?fromNodeDEF ;                     # ?from is node with DEF
+                a          ?fromNodeTypeFound.                # get the node type
+
+#       FILTER (CONTAINS ( str(?fromNodeTypeFound), "x3do:")) # filter out rdf:type owl:NamedIndividual, it effectively filters
+#       FILTER (regex(?fromNodeTypeFound,"(x3do:).*","i"))    # filter out rdf:type owl:NamedIndividual, it effectively filters
+                                                              # https://regex101.com
+    }
+    # https://stackoverflow.com/questions/11234371/sparql-query-results-without-namespace
+    BIND (strafter(xsd:string(?route),"#")              AS ?RouteFound)
+    BIND (strafter(xsd:string(?parent),"#")             AS ?parentNode)
+
+#   TODO debug output of ?fromNodeTypeFound which is not occurring in output after either FILTER is applied:
+
+    BIND (strafter(str(?fromNodeTypeFound),"x3do:")     AS ?fromNodeType) # TODO fix, trying to get results of filter output
+}
+ORDER BY (?RouteFound) # alphabetic order results in scene-graph order given by each name
+
+###############################################
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| parentNode              | RouteFound    | fromNodeDEF               | fromNodeTypeFound            | fromField          | toNodeDEF               | toField        |
+======================================================================================================================================================================
+| "Scene"                 | "ROUTE_2_5"   | "OrbitalTimeInterval"     | owl:NamedIndividual          | "fraction_changed" | "SpinThoseThings"       | "set_fraction" |
+| "Scene"                 | "ROUTE_2_5"   | "OrbitalTimeInterval"     | x3do:TimeSensor              | "fraction_changed" | "SpinThoseThings"       | "set_fraction" |
+| "EarthCoordinateSystem" | "ROUTE_2_6_1" | "SpinThoseThings"         | owl:NamedIndividual          | "value_changed"    | "EarthCoordinateSystem" | "set_rotation" |
+| "EarthCoordinateSystem" | "ROUTE_2_6_1" | "SpinThoseThings"         | x3do:OrientationInterpolator | "value_changed"    | "EarthCoordinateSystem" | "set_rotation" |
+| "EarthCoordinateSystem" | "ROUTE_2_6_5" | "ClickTriggerTouchSensor" | owl:NamedIndividual          | "touchTime"        | "OrbitalTimeInterval"   | "startTime"    |
+| "EarthCoordinateSystem" | "ROUTE_2_6_5" | "ClickTriggerTouchSensor" | x3do:TouchSensor             | "touchTime"        | "OrbitalTimeInterval"   | "startTime"    |
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------

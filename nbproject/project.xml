@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.ant.freeform</type>
+    <configuration>
+        <general-data xmlns="http://www.netbeans.org/ns/freeform-project/1">
+            <!-- Do not use Project Properties customizer when editing this file manually. 
+ To prevent the customizer from showing, create nbproject/project.properties file and enter 
+auxiliary.show.customizer=false 
+property there. Adding 
+auxiliary.show.customizer.message=<message>
+ will show your customized message when someone attempts to open the customizer.  -->
+            <name>X3D Semantic Web</name>
+            <properties/>
+            <folders/>
+            <ide-actions/>
+            <view>
+                <items>
+                    <source-file>
+                        <location>build.xml</location>
+                    </source-file>
+                    <source-file>
+                        <label>License</label>
+                        <location>license.txt</location>
+                    </source-file>
+                </items>
+                <context-menu/>
+            </view>
+            <subprojects/>
+        </general-data>
+        <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1"/>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>accessType</word>
+            <word>accessTypeInitializeOnly</word>
+            <word>accessTypeInputOutput</word>
+            <word>accessTypeOutputOnly</word>
+            <word>baseType</word>
+            <word>Brutzman</word>
+            <word>DatatypeProperty</word>
+            <word>dcterms</word>
+            <word>DOCTYPE</word>
+            <word>Flotyński</word>
+            <word>hasIS</word>
+            <word>hasMetadata</word>
+            <word>https</word>
+            <word>IDREF</word>
+            <word>inheritedFrom</word>
+            <word>inputOutput</word>
+            <word>isActive</word>
+            <word>Jakub</word>
+            <word>Metaquery</word>
+            <word>MFBool</word>
+            <word>MFColor</word>
+            <word>MFColorRGBA</word>
+            <word>MFDouble</word>
+            <word>MFFloat</word>
+            <word>MFImage</word>
+            <word>MFInt</word>
+            <word>MFMatrix</word>
+            <word>MFRotation</word>
+            <word>MFString</word>
+            <word>MFTime</word>
+            <word>MFVec</word>
+            <word>NMTOKEN</word>
+            <word>NMTOKENS</word>
+            <word>rdf</word>
+            <word>rdfs</word>
+            <word>redistributions</word>
+            <word>RGB</word>
+            <word>RGBA</word>
+            <word>SFBool</word>
+            <word>SFColor</word>
+            <word>SFColorRGBA</word>
+            <word>SFDouble</word>
+            <word>SFFloat</word>
+            <word>SFImage</word>
+            <word>SFInt</word>
+            <word>SFMatrix</word>
+            <word>SFNode</word>
+            <word>SFRotation</word>
+            <word>SFString</word>
+            <word>SFTime</word>
+            <word>SFVec</word>
+            <word>SPARQL</word>
+            <word>subClassOf</word>
+            <word>subPropertyOf</word>
+            <word>TODO</word>
+            <word>ttl</word>
+            <word>txt</word>
+            <word>XML</word>
+            <word>xsd</word>
+        </spellchecker-wordlist>
+    </configuration>
+</project>

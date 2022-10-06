@@ -1,0 +1,20 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dOntologyQuery_01.rq    Metaquery to list all properties with corresponding domains and ranges in X3D Ontology.
+
+###############################################
+
+SELECT distinct ?property ?domain ?range
+WHERE
+{
+    ?property rdfs:range  ?range ;
+              rdfs:domain ?domain .
+}
+ORDER BY ASC(?property) # alphabetize
+
+###############################################

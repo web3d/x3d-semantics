@@ -1,0 +1,32 @@
+Perform X3D Ontology query X3dHelloWorldQuery_02.rq using examples/HelloWorld.ttl to produce output file X3dHelloWorldQuery_02.rq.txt:
+===========================
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dHelloWorldQuery_02.rq    Query HelloWorld.ttl to show url values within an ImageTexture node.
+
+# TODO fix textureUrlSplit for readability
+
+###############################################
+
+SELECT ?textureNode ?textureUrl # ?texture textureUrlSplit
+WHERE
+{
+    ?texture rdf:type x3do:ImageTexture ;
+             x3do:url ?textureUrl .
+
+    BIND (strafter(xsd:string(?texture),"#")  AS ?textureNode)
+    BIND (REPLACE(STR(?textureUrl), " ", " ") AS ?textureUrlSplit) . # not working: \n &#10; \u000A
+}
+ORDER BY ASC(?textureUrl)
+
+###############################################
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| textureNode           | textureUrl                                                                                                                                                                                                                                                                         |
+==============================================================================================================================================================================================================================================================================================================
+| "ImageCloudlessEarth" | "\"earth-topo.png\" \"earth-topo.jpg\" \"earth-topo-small.gif\" \"https://www.web3d.org/x3d/content/examples/Basic/earth-topo.png\" \"https://www.web3d.org/x3d/content/examples/Basic/earth-topo.jpg\" \"https://www.web3d.org/x3d/content/examples/Basic/earth-topo-small.gif\"" |
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

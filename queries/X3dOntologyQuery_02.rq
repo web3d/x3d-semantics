@@ -1,0 +1,26 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+# X3dOntologyQuery_02.rq
+#   Metaquery to list nodes and statements (concrete owl:Class) that have
+#   inherited node types and object types, as defined in X3D Ontology.
+
+# TODO combine all subClassOf values as a single value, also omitting self from list.
+
+###############################################
+
+SELECT distinct (?classes AS ?NodesAndStatements) ?nodeTypes # (str(?lab) AS ?label)
+WHERE {
+	?classes
+        rdf:type         owl:Class ;
+        rdfs:subClassOf* ?nodeTypes ;
+	    rdfs:label       ?lab .
+    FILTER ( !CONTAINS(str(?classes),"X3D") || STRENDS(str(?classes),"X3D") ) # no X3D node types
+}
+ORDER BY ASC(?classes) # alphabetize
+
+###############################################

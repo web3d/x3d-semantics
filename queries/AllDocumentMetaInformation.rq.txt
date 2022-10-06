@@ -1,0 +1,40 @@
+Perform X3D Ontology query AllDocumentMetaInformation.rq using examples/HelloX3dAuthorsAnimationChain.ttl to produce output file AllDocumentMetaInformation.rq.txt:
+===========================
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX x3d:  <https://www.web3d.org/specifications/x3d-4.0.xsd#>
+PREFIX x3do: <https://www.web3d.org/specifications/X3dOntology4.0#>
+
+###############################################
+
+# AllDocumentMetaInformation.rq    Query to identify all document meta information.
+
+SELECT ?metaName ?metaContent
+
+WHERE
+{ 
+    ?meta  a x3do:meta ;     # Shorthand expression: a = rdf:type
+           x3do:name         ?metaName ;
+           x3do:content      ?metaContent .
+}
+
+# TODO can we create an equivalent query using :head :hasMeta?
+
+# Note :meta has a :fieldMetaHasParenthead property
+
+###############################################
+----------------------------------------------------------------------------------------------------------------------------------------------
+| metaName      | metaContent                                                                                                                |
+==============================================================================================================================================
+| "license"     | "../license.html"                                                                                                          |
+| "created"     | "5 October 2000"                                                                                                           |
+| "reference"   | "https://www.web3d.org/x3d/content/examples/Basic/course/HelloX3dAuthorsAnimationChain.x3d"                                |
+| "generator"   | "X3D-Edit 3.3, https://savage.nps.edu/X3D-Edit"                                                                            |
+| "modified"    | "20 October 2019"                                                                                                          |
+| "creator"     | "Don Brutzman"                                                                                                             |
+| "title"       | "HelloX3dAuthorsAnimationChain.x3d"                                                                                        |
+| "description" | "Fully developed animation-chain example showing spinning globe and text: Hello!"                                          |
+| "identifier"  | "https://X3dGraphics.com/examples/X3dForWebAuthors/Chapter07EventAnimationInterpolation/HelloX3dAuthorsAnimationChain.x3d" |
+----------------------------------------------------------------------------------------------------------------------------------------------
